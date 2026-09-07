@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Upgradeable Proxy Security — Storage Collisions &amp; Initializer Bugs | SENTRYX</title>
+  <meta name="description" content="Transparent, UUPS and diamond proxy patterns compared by failure mode: storage layout rules, initializer safety, delegatecall risk and admin key exposure.">
+  <link rel="canonical" href="https://sentryx.example/blog/upgradeable-proxy-security.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Upgradeable Proxy Security — Storage Collisions &amp; Initializer Bugs | SENTRYX">
+  <meta property="og:description" content="Transparent, UUPS and diamond proxy patterns compared by failure mode: storage layout rules, initializer safety, delegatecall risk and admin key exposure.">
+  <meta property="og:url" content="https://sentryx.example/blog/upgradeable-proxy-security.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/upgradeable-proxy-security.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Upgradeable Proxy Security — Storage Collisions &amp; Initializer Bugs | SENTRYX">
+  <meta name="twitter:description" content="Transparent, UUPS and diamond proxy patterns compared by failure mode: storage layout rules, initializer safety, delegatecall risk and admin key exposure.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/upgradeable-proxy-security.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research",
+          "item": "https://sentryx.example/blog/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Upgradeable contracts: storage collisions, uninitialised proxies and admin risk",
+          "item": "https://sentryx.example/blog/upgradeable-proxy-security.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Upgradeable contracts: storage collisions, uninitialised proxies and admin risk",
+      "description": "Transparent, UUPS and diamond proxy patterns compared by failure mode: storage layout rules, initializer safety, delegatecall risk and admin key exposure.",
+      "url": "https://sentryx.example/blog/upgradeable-proxy-security.html",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sentryx.example/blog/upgradeable-proxy-security.html"
+      },
+      "datePublished": "2026-03-11",
+      "dateModified": "2026-03-11",
+      "author": {
+        "@type": "Person",
+        "name": "Imran Khadri",
+        "url": "https://sentryx.example/team.html#imran-khadri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "image": "https://sentryx.example/assets/og/upgradeable-proxy-security.png",
+      "keywords": "Vulnerability classes, Solidity, Upgrades",
+      "articleSection": "Smart contract security research",
+      "wordCount": 1310
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="section" style="padding-top:calc(var(--header-h) + 3rem)">
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../blog/index.html">Research</a></li><li aria-current="page">Vulnerability class · VC-06</li></ol>
+        <div class="article-layout">
+          <div>
+            <header class="article-head">
+              <p class="eyebrow">Vulnerability class · VC-06</p>
+              <h1>Upgradeable contracts: storage collisions, uninitialised proxies and admin risk</h1>
+              <p class="lede" style="margin-top:var(--s-4)">Transparent, UUPS and diamond patterns compared by failure mode — storage layout rules, initializer safety, and why your upgrade path is part of your attack surface.</p>
+              <div class="article-meta">
+                <span>11 March 2026</span><span>13 min read</span><span>By Imran Khadri</span>
+                <span>Vulnerability classes · Solidity · Upgrades</span>
+              </div>
+            </header>
+            <div class="prose">
+<h2 id="upgradeability-is-surface">Upgradeability is attack surface, not a safety net</h2>
+
+<p>Teams add upgradeability to be able to fix bugs. The trade is rarely stated plainly: you gain the ability to fix problems, and you take on a delegatecall relationship, a storage-layout contract that the compiler will not check for you, and an admin key that can replace your entire codebase.</p>
+<p>That trade is often correct. But it means the upgrade mechanism is itself part of what needs reviewing &mdash; and in our experience, the proxy is the least-tested part of most upgradeable systems, because it is boilerplate everyone assumes is safe.</p>
+<p>The three patterns in common use fail differently, so it is worth being precise about which one you are reviewing.</p>
+
+<h2 id="patterns">Transparent, UUPS and Diamond, by failure mode</h2>
+
+<p><strong>Transparent proxy.</strong> The proxy itself decides: calls from the admin go to admin functions, everything else is delegated. Upgrade logic lives in the proxy, which makes the proxy larger and every user call slightly more expensive. Its characteristic failure is <em>function-selector shadowing</em> &mdash; if the implementation has a function whose selector collides with an admin function, the admin can never call it through the proxy.</p>
+<p><strong>UUPS.</strong> The upgrade function lives in the <em>implementation</em>, which makes the proxy minimal and cheap. Its characteristic failure is catastrophic: if a new implementation omits <code>_authorizeUpgrade</code>, or omits the upgrade mechanism entirely, the proxy becomes permanently unupgradeable. And if the implementation contract is left initialisable, an attacker can initialise it directly, become its owner, and call <code>upgradeToAndCall</code> to <code>selfdestruct</code> it &mdash; bricking every proxy that points at it.</p>
+<p><strong>Diamond (EIP-2535).</strong> Many implementation contracts ("facets") behind one proxy, with a selector-to-facet routing table. Its characteristic failures are selector collisions between facets and a storage model that must be managed by hand across every facet. Powerful, and the hardest of the three to review &mdash; the effective attack surface is the union of every facet plus the routing table itself.</p>
+<div class="callout" data-sev="medium"><span class="mono-label">Selection guidance</span>Unless you have a specific reason for a diamond, use UUPS with OpenZeppelin's audited base and be rigorous about the initializer rules below. Most teams that reach for a diamond do so for a contract-size limit they could have solved with a library.</div>
+
+<h2 id="storage">Storage layout: the contract the compiler will not check</h2>
+
+<p>The proxy holds the storage; the implementation defines its layout. Change the layout between versions and the new code reads old data at the wrong slots &mdash; silently, with no revert.</p>
+<pre class="code"><code>// V1
+contract VaultV1 {
+    address public owner;      // slot 0
+    uint256 public totalShares; // slot 1
+    mapping(address =&gt; uint256) public balanceOf;  // slot 2
+}
+
+// V2 — BROKEN: inserting a variable shifts everything after it
+contract VaultV2 {
+    address public owner;       // slot 0
+    address public treasury;    // slot 1  &lt;-- now reads old totalShares
+    uint256 public totalShares; // slot 2  &lt;-- now reads the mapping's base slot
+    mapping(address =&gt; uint256) public balanceOf;  // slot 3
+}
+
+// V2 — CORRECT: append only
+contract VaultV2 {
+    address public owner;
+    uint256 public totalShares;
+    mapping(address =&gt; uint256) public balanceOf;
+    address public treasury;    // new variables go at the end
+}</code></pre>
+<p>The rules, in full:</p>
+<ul>
+<li><strong>Append only.</strong> Never insert, reorder or remove a state variable. To retire one, leave it in place and rename it <code>__deprecated_x</code>.</li>
+<li><strong>Never change a type's size or packing.</strong> Changing <code>uint128</code> to <code>uint256</code> unpacks a slot and shifts everything after it.</li>
+<li><strong>Inheritance order is layout order.</strong> Adding or reordering base contracts changes slots even if your own declarations are untouched.</li>
+<li><strong>Use storage gaps</strong> in upgradeable base contracts: <code>uint256[50] private __gap;</code> so children can grow without collision.</li>
+<li><strong>Prefer namespaced storage</strong> (ERC-7201) for new work &mdash; each module gets a pseudorandom base slot and layout collisions become structurally impossible.</li>
+<li><strong>Verify mechanically.</strong> <code>forge inspect Contract storageLayout</code> before and after, diffed in CI. OpenZeppelin's upgrades plugin does this automatically; do not rely on a human reading two files side by side.</li>
+</ul>
+
+<h2 id="initializers">Initializers, implementations and the front-running window</h2>
+
+<p>Constructors do not run in the proxy's context, so initialisation is a regular function. Three things must be true, and audits find at least one missing more often than not:</p>
+<pre class="code"><code>contract Vault is UUPSUpgradeable, OwnableUpgradeable {
+
+    /// 1. The implementation itself must never be initialisable.
+    constructor() {
+        _disableInitializers();
+    }
+
+    /// 2. The initializer must be guarded and callable exactly once.
+    function initialize(address owner_) external initializer {
+        require(owner_ != address(0), "zero owner");
+        __Ownable_init(owner_);
+        __UUPSUpgradeable_init();
+    }
+
+    /// 3. Upgrade authority must be explicit, and must exist in every
+    ///    future implementation — omit it and the proxy is frozen forever.
+    function _authorizeUpgrade(address) internal override onlyOwner {}
+
+    /// 4. New state introduced in V2 needs a reinitializer, not a re-run.
+    function initializeV2(address treasury_) external reinitializer(2) {
+        treasury = treasury_;
+    }
+}</code></pre>
+<p>The fourth item on the deployment side: <strong>deploy and initialise atomically</strong>. A proxy deployed in one transaction and initialised in the next has a window in which anyone can call <code>initialize</code> and take ownership. Use a factory, or pass the initialisation calldata to the proxy constructor.</p>
+
+<h2 id="delegatecall">delegatecall, and what it lets someone else do to you</h2>
+
+<p><code>delegatecall</code> runs foreign code against <em>your</em> storage, <em>your</em> balance and <em>your</em> address. In a proxy that is the point. Everywhere else it is a question worth asking twice.</p>
+<pre class="code"><code>// CRITICAL — a user-supplied target can rewrite any storage slot,
+// including the implementation pointer and the owner.
+function execute(address target, bytes calldata data) external {
+    (bool ok, ) = target.delegatecall(data);
+    require(ok);
+}</code></pre>
+<p>Multicall implementations that delegatecall into themselves deserve a second look too: combined with a payable function that reads <code>msg.value</code>, the same value can be counted once per sub-call in a single transaction &mdash; a bug that has shipped in production more than once.</p>
+<p>For any <code>delegatecall</code> in a codebase, we require: an immutable or allowlisted target, a documented and verified storage-layout compatibility with the caller, and a written justification for why a regular <code>call</code> is insufficient.</p>
+
+<h2 id="admin">The upgrade key is the protocol</h2>
+
+<p>An upgradeable protocol's security ceiling is the security of whoever can upgrade it. Everything below is a review requirement, not a nice-to-have:</p>
+<ul>
+<li><strong>Timelock every upgrade.</strong> Long enough for users to exit &mdash; 48 hours is a common floor. An instant upgrade path means user funds are custodial in practice, whatever the marketing says.</li>
+<li><strong>Multisig with a real threshold and independent signers.</strong> A 2-of-3 where all three keys are on one person's laptop is a 1-of-1 wearing a disguise.</li>
+<li><strong>Separate upgrade authority from operational keys.</strong> The keeper key that signs twenty transactions a day should not be able to replace the implementation.</li>
+<li><strong>Emergency pause must only make things safer.</strong> A pause that blocks withdrawals but permits deposits is a hostage function.</li>
+<li><strong>Review every upgrade transaction before it is signed</strong> &mdash; the new implementation's storage layout, the initialiser, and the calldata itself. Most upgrade incidents are operational, not cryptographic.</li>
+<li><strong>Publish the timelock queue.</strong> Users cannot exercise an exit window they cannot see.</li>
+</ul>
+
+<h2 id="checklist">Proxy review checklist</h2>
+
+<ul>
+<li>Identify the pattern precisely (Transparent / UUPS / Beacon / Diamond) and confirm the implementation matches the pattern's requirements.</li>
+<li><code>_disableInitializers()</code> in the implementation constructor &mdash; verify on-chain, not just in the source.</li>
+<li>Initializer guarded with <code>initializer</code>; every subsequent version uses <code>reinitializer(n)</code>.</li>
+<li>Deployment and initialisation are atomic. Read the deployment script.</li>
+<li>Storage layout diffed mechanically between versions; gaps present in upgradeable bases.</li>
+<li><code>_authorizeUpgrade</code> present and correctly guarded in <em>every</em> implementation, including future ones.</li>
+<li>Every <code>delegatecall</code> target is immutable or allowlisted.</li>
+<li>Upgrade authority is timelocked, multisig-held, and separate from operational keys.</li>
+<li>Selector collisions checked (Transparent: admin functions; Diamond: across all facets).</li>
+<li>The full admin capability list is written down and compared against what users have been told.</li>
+</ul>
+<p>Upgradeability is a reasonable engineering decision and a serious security commitment. If you take it, review the mechanism with the same rigour as the logic it is meant to protect &mdash; because an attacker who owns your upgrade path does not need to find any other bug.</p>
+
+              <hr class="rule">
+              <p class="muted" style="font-size:var(--text-sm)">All code in this article is illustrative &mdash; written to demonstrate a pattern, not taken from any client engagement. If you want this class of issue hunted in your own codebase, that is what a <a href="../services/smart-contract-security-audit.html">Smart Contract Security Audit</a> is for.</p>
+            </div>
+          </div>
+          <nav class="toc" aria-label="On this page">
+            <h4>On this page</h4>
+            <ul></ul>
+            <div style="margin-top:var(--s-6);padding-top:var(--s-5);border-top:1px solid var(--line-2)">
+              <h4>Related service</h4>
+              <a class="link-arrow" href="../services/smart-contract-security-audit.html" style="font-size:var(--text-sm)">Smart Contract Security Audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+              <p style="margin-top:var(--s-4)"><a class="btn btn-primary btn-sm" href="../contact.html" style="width:100%"><span>Request an audit</span></a></p>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Keep reading</p><h2 style="font-size:var(--text-xl)">More from the research series.</h2></div>
+        <div class="grid grid-2" data-reveal-stagger><a class="card card-link" href="mev-and-front-running-defi.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Previous</span><h3>MEV and front-running: when correct code still loses users money</h3></a></div>
+        <p style="margin-top:var(--s-6)"><a class="link-arrow" href="index.html">All research <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Found this useful?</p>
+            <h2>We hunt this class for a living.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repository. Free scoping in under two working days, and you'll know who is reading your code.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../tools.html#precheck" data-magnetic="0.3"><span>Run a free pre-check</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/filters.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Contract Security Audit — Manual Solidity Review with PoC | SENTRYX</title>
+  <meta name="description" content="Line-by-line manual smart contract audit by named researchers. Written threat model, two independent reviews, invariant testing and a runnable proof of concept for every Critical and High finding. From $3,000.">
+  <link rel="canonical" href="https://sentryx.example/services/smart-contract-security-audit.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Smart Contract Security Audit — Manual Solidity Review with PoC | SENTRYX">
+  <meta property="og:description" content="Line-by-line manual smart contract audit by named researchers. Written threat model, two independent reviews, invariant testing and a runnable proof of concept for every Critical and High finding. From $3,000.">
+  <meta property="og:url" content="https://sentryx.example/services/smart-contract-security-audit.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/smart-contract-security-audit.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Contract Security Audit — Manual Solidity Review with PoC | SENTRYX">
+  <meta name="twitter:description" content="Line-by-line manual smart contract audit by named researchers. Written threat model, two independent reviews, invariant testing and a runnable proof of concept for every Critical and High finding. From $3,000.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/smart-contract-security-audit.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://sentryx.example/services.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Smart Contract Security Audit",
+          "item": "https://sentryx.example/services/smart-contract-security-audit.html"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "Smart Contract Security Audit",
+      "serviceType": "Smart Contract Security Audit",
+      "url": "https://sentryx.example/services/smart-contract-security-audit.html",
+      "description": "Line-by-line manual smart contract audit by named researchers. Written threat model, two independent reviews, invariant testing and a runnable proof of concept for every Critical and High finding. From $3,000.",
+      "provider": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "areaServed": "Worldwide",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "minPrice": "3000"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does a smart contract audit cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard smart contract audit starts from $3,000. Price is driven by lines of code, complexity, the number of external integrations and how many privileged roles exist — not by contract count alone. A 400-line token is a different engagement from a 400-line perpetuals margin engine. Use the quote estimator for a range, then send the repo for a fixed quote."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a smart contract audit take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One to three weeks for a standard engagement, plus two to five days for remediation verification after your fixes land. The manual review is 40–60% of the calendar time; the rest is tooling, PoC development and writing. Rush engagements are possible at a premium when researcher capacity allows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is included in the audit report?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, location and a proof of concept where applicable, and remediation guidance specific to your code. You receive it as PDF and Markdown, plus the findings register as JSON so you can import it into your own tracker."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you re-audit after we fix the issues?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and it is included — not an upsell. We re-review every changed line, re-run each proof of concept and the invariant suite, and mark every finding Fixed, Acknowledged or Open in a final report you can publish."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do you need from us to start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The repository at a fixed commit, the list of in-scope contracts, whatever documentation exists, your external integrations, the privileged roles and who holds them, and your target deployment date. Scoping is free and takes under two working days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you audit code that is already deployed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We review the deployed bytecode against the repository, check the upgrade path and admin keys, and prioritise findings by what is exploitable right now rather than by textbook severity — because on a live system, what you can actually fix without a migration matters."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li aria-current="page">Smart Contract Security Audit</li></ol>
+        <p class="eyebrow">Core engagement · From $3,000 · 1–3 weeks</p>
+        <h1 data-scramble="900">Smart Contract Security Audit</h1>
+        <p class="lede">Two researchers read every in-scope line against a written threat model, then prove what they find. You get a findings register with severities, a runnable exploit for each Critical and High, specific remediation guidance, and a verification pass after you fix.</p>
+        <div class="hero-actions" style="margin-top:var(--s-6)">
+          <a class="btn btn-primary" href="../contact.html" data-magnetic="0.3"><span>Request this engagement <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="btn btn-ghost" href="../tools.html#estimator" data-magnetic="0.3"><span>Estimate cost</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container" style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-8)" data-reveal>
+        <div class="prose" style="max-width:none"><p>An audit is not a scan. It is a time-boxed adversarial reading of your code by people whose job is to think like the person who wants your users' money — and then to prove they could take it.</p><p>We start by writing down what the system is supposed to guarantee: who may do what, which contracts are trusted, what happens at every external boundary, and which assets are at risk. Almost every serious finding is a gap between that document and the code. Teams routinely tell us the threat model surfaced disagreements inside their own engineering team before we found a single bug.</p><p>Then two researchers read the scope independently. Independence matters: once you have read a contract with one mental model, you stop seeing the paths that model excludes. Reconciling two separate reads catches materially more than two people reading together.</p></div>
+        <aside>
+          <div class="card card-accentline">
+            <span class="card-index">Deliverables</span>
+            <ul style="list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;gap:10px;font-size:var(--text-sm);color:var(--ink-2)">
+              <li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Written threat model and trust-boundary map</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Findings register with severity, impact and likelihood</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Runnable Foundry PoC for every Critical and High</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Specific remediation guidance per finding</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Report as PDF and Markdown, findings as JSON</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Walkthrough call with the researchers</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Remediation verification and publishable final report</span></li>
+            </ul>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <span class="mono-label accent">From $3,000</span>
+              <a class="link-arrow" href="../pricing.html">Pricing <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="cov-t">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Scope of review</p>
+          <h2 id="cov-t">What we look at, and what we're looking for.</h2>
+        </div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">01</span><h3>Value flow &amp; accounting</h3><p>Every path where value enters, moves or leaves. Share maths, fee accrual, rounding direction, decimal handling, and what happens with fee-on-transfer or rebasing tokens.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">02</span><h3>External call surface</h3><p>Every call to code you do not control, asked from the callee's perspective: what if it re-enters, reverts, returns garbage, consumes all gas, or is a malicious token?</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">03</span><h3>Access control &amp; privilege</h3><p>Role design, modifier coverage, initialiser safety, two-step ownership, and what a compromised or careless admin key can actually do.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">04</span><h3>State machines</h3><p>Every reachable state and transition, including the ones your tests never construct — paused mid-operation, partially initialised, or reached out of order.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">05</span><h3>Arithmetic &amp; precision</h3><p>Unchecked blocks, casts, division-before-multiplication, share-price inflation, and the rounding directions that leak value over many transactions.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">06</span><h3>Deployment &amp; upgrade path</h3><p>Constructor arguments, deployment scripts, storage layout compatibility, and whether the upgrade you plan is safe against the storage you have.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="code-t">
+      <div class="container finding-layout">
+        <div data-reveal="left">
+          <span class="illustrative">Illustrative example</span>
+          <p class="eyebrow" style="margin-top:var(--s-4)">In practice</p>
+          <h2 id="code-t" style="font-size:var(--text-xl)">What a finding looks like in the report</h2>
+          <p class="lede" style="margin-top:var(--s-4)">Code on this page is written to illustrate a technique or a finding class. It is not taken from any client engagement.</p>
+          <p style="margin-top:var(--s-5)"><a class="link-arrow" href="../tools.html#report-viewer">See a full sample report <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+        </div>
+        <div data-reveal="right">
+          <div class="terminal">
+            <div class="terminal-bar"><span class="dots"><i></i><i></i><i></i></span> Access control — real shape, illustrative code</div>
+            <pre class="code" style="border:0;border-radius:0;background:transparent"><code>// ILLUSTRATIVE — the shape of a finding, not client code
+// H-02  Missing initializer guard on an upgradeable implementation
+
+contract Vault is UUPSUpgradeable {
+    address public owner;
+
+    // VULNERABLE: callable by anyone, on the implementation
+    // contract as well as through the proxy.
+    function initialize(address _owner) external {
+        owner = _owner;
+    }
+
+    // FIXED
+    function initialize(address _owner) external initializer {
+        require(_owner != address(0), "zero owner");
+        __UUPSUpgradeable_init();
+        owner = _owner;
+    }
+
+    // Also required: _disableInitializers() in the constructor,
+    // so the implementation itself can never be initialised.
+    constructor() { _disableInitializers(); }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions we get about this engagement.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in <a href="../pricing.html" class="u-line" style="color:var(--ink-0)">pricing</a> and the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a>.</p>
+        </div>
+        <div class="accordion" id="sf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-0">How much does a smart contract audit cost?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-0"><div><p>A standard smart contract audit starts from $3,000. Price is driven by lines of code, complexity, the number of external integrations and how many privileged roles exist — not by contract count alone. A 400-line token is a different engagement from a 400-line perpetuals margin engine. Use the <a href='../tools.html#estimator'>quote estimator</a> for a range, then send the repo for a fixed quote.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-1">How long does a smart contract audit take?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-1"><div><p>One to three weeks for a standard engagement, plus two to five days for remediation verification after your fixes land. The manual review is 40–60% of the calendar time; the rest is tooling, PoC development and writing. Rush engagements are possible at a premium when researcher capacity allows.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-2">What is included in the audit report?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-2"><div><p>An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, location and a proof of concept where applicable, and remediation guidance specific to your code. You receive it as PDF and Markdown, plus the findings register as JSON so you can import it into your own tracker.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-3">Do you re-audit after we fix the issues?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-3"><div><p>Yes, and it is included — not an upsell. We re-review every changed line, re-run each proof of concept and the invariant suite, and mark every finding Fixed, Acknowledged or Open in a final report you can publish.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-4">What do you need from us to start?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-4"><div><p>The repository at a fixed commit, the list of in-scope contracts, whatever documentation exists, your external integrations, the privileged roles and who holds them, and your target deployment date. Scoping is free and takes under two working days.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-5">Can you audit code that is already deployed?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-5"><div><p>Yes. We review the deployed bytecode against the repository, check the upgrade path and admin keys, and prioritise findings by what is exploitable right now rather than by textbook severity — because on a live system, what you can actually fix without a migration matters.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Related</p><h2 style="font-size:var(--text-xl)">Often scoped alongside this.</h2></div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <a class="card card-link" href="defi-protocol-audit.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>DeFi Protocol Security Review</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+          <a class="card card-link" href="invariant-fuzz-testing.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>Invariant &amp; Fuzz Testing</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+          <a class="card card-link" href="continuous-security-retainer.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>Continuous Security Retainer</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">From $3,000</p>
+            <h2>Send the repo. Scoping is free.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Under two working days to a written scope, a fixed quote and the names of the researchers who would do the work.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../services.html" data-magnetic="0.3"><span>All services</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+# SENTRYX
+
+> Specialist smart contract security firm. Manual adversarial review of EVM and
+> DeFi protocols, bridges and token systems, backed by invariant testing and
+> verified remediation. Operates as a brand of Avanteia Private Limited (Goa, India).
+
+## What SENTRYX is
+
+SENTRYX is a small, named-researcher security practice founded by Imran Khadri
+(founder, lead security researcher) and Jagruti (co-founder, security researcher).
+Core in-house strength is Solidity and the EVM, with a focus on DeFi: value flows,
+oracle dependencies, liquidation mechanics, share and fee accounting, upgrade paths
+and economic attacks. Rust (Solana), Move (Aptos, Sui), Cairo (Starknet) and formal
+verification engagements are delivered with vetted partner researchers, named before
+an engagement is signed.
+
+SENTRYX is a new brand. It publishes reports as engagements complete and shows
+placeholder values rather than invented metrics. There are no client logos, no
+testimonials and no "value secured" figures on the site because there is no
+verifiable data behind them yet.
+
+## Services
+
+- Smart contract security audit — from $3,000, 1-3 weeks. Two independent manual
+  reviews against a written threat model, static analysis, targeted fuzzing, a
+  runnable Foundry proof of concept for every Critical and High finding, and
+  remediation verification. https://sentryx.example/services/smart-contract-security-audit.html
+- DeFi protocol security review — from $8,000, 3-5 weeks. Adds economic attack
+  analysis, oracle dependency mapping, liquidation review and a Foundry invariant
+  suite. https://sentryx.example/services/defi-protocol-audit.html
+- Bridge and cross-chain security audit — from $15,000, 4-8 weeks. Message
+  verification, relayer and validator trust, replay/reorg/finality failure modes,
+  off-chain components. https://sentryx.example/services/bridge-cross-chain-audit.html
+- Invariant and fuzz suite development — from $4,000, 1-3 weeks. Property
+  elicitation, Foundry invariants with handlers and ghost state, Echidna/Medusa
+  campaigns, CI integration. https://sentryx.example/services/invariant-fuzz-testing.html
+- Incident response and post-exploit forensics — from $5,000, emergency rate for
+  same-day start. Live triage, root-cause reconstruction, fund tracing, public
+  post-mortem. https://sentryx.example/services/incident-response.html
+- Continuous security retainer — from $3,000/month. A named researcher reviewing
+  every PR that touches value flows, maintaining the invariant suite, on call for
+  incidents. https://sentryx.example/services/continuous-security-retainer.html
+- Full catalogue of 50+ services (chain specialisations, formal verification, MEV
+  analysis, governance, RWA, restaking, due diligence, training): https://sentryx.example/services.html
+
+## Pricing
+
+Pre-deployment assessment from $1,500. Standard smart contract audit from $3,000.
+DeFi protocol audit from $8,000. Bridge/cross-chain audit from $15,000. Invariant
+and fuzz suite from $4,000. Incident response from $5,000 (emergency rate applies).
+Security retainer from $3,000/month. Enterprise and large protocols are custom.
+Scope drives price and every engagement is quoted after a free scoping review that
+takes under two working days. Remediation verification is included in every audit
+tier and is never billed separately. Full detail: https://sentryx.example/pricing.html
+
+## Methodology
+
+Six stages, each producing a named artefact:
+1. Scoping and threat model (2-4 days) — scope document, trust-boundary map, fixed quote.
+2. Manual adversarial review (40-60% of the engagement) — two researchers read the
+   full scope independently; findings reconciled afterwards.
+3. Tooling and invariants — Slither, Aderyn, Semgrep triaged by hand; Foundry
+   invariants; Echidna or Medusa; Halmos or Certora where core maths justifies it.
+4. Proof of concept — every Critical and High reproduced as a runnable fork test with
+   measured impact. Undemonstrable findings are downgraded and labelled theoretical.
+5. Report and walkthrough — PDF and Markdown, findings register as JSON, a call.
+6. Remediation verification — every changed line re-reviewed, PoCs and invariants
+   re-run, each finding marked Fixed, Acknowledged or Open.
+Full methodology: https://sentryx.example/process.html
+
+## Severity classification
+
+Severity is impact multiplied by likelihood, applied consistently:
+- Critical (SEV-0): direct loss of funds or protocol takeover, exploitable by anyone
+  with no special preconditions. Examples: reentrancy draining a vault, unrestricted
+  mint, oracle manipulation enabling undercollateralised borrowing, bridge message
+  replay, callable initializer on an upgradeable proxy.
+- High (SEV-1): significant loss or damage under specific but realistic conditions.
+  Examples: rounding extraction over many transactions, forced or blocked liquidations,
+  governance execution without a timelock, unbounded loop denial of service.
+- Medium (SEV-2): bounded loss, incorrect accounting or degraded function under
+  plausible but uncommon conditions. Examples: decimal handling errors, missing
+  slippage protection on internal swaps, stale oracle tolerance too wide.
+- Low (SEV-3): narrow edge cases and hygiene that compound into future risk.
+  Examples: missing zero-address validation, floating pragma, single-step ownership.
+- Informational (SEV-4): no security impact. Gas, readability, NatSpec, design notes.
+Interactive reference: https://sentryx.example/tools.html#severity
+
+## Free tools (all client-side, nothing uploaded)
+
+- Contract risk pre-check — paste Solidity and get an indicative heuristic scan for
+  roughly twenty known patterns (reentrancy shape, tx.origin auth, delegatecall,
+  missing access control, unbounded loops, spot-price oracles, unchecked calls,
+  ERC-4626 inflation, floating pragma). Runs entirely in the browser. Explicitly not
+  an audit. https://sentryx.example/tools.html#precheck
+- Audit scope and quote estimator — lines of code, contract count, chain, complexity,
+  urgency and re-audit produce a price range, timeline and researcher count.
+  https://sentryx.example/tools.html#estimator
+- Severity explorer — definitions, example finding classes and typical remediation per
+  severity level. https://sentryx.example/tools.html#severity
+- Sample audit report viewer — a complete illustrative report with expandable findings,
+  severity filters, vulnerable-versus-fixed diffs and Foundry PoCs. The report content
+  ("Aurora Vault") is a constructed teaching example, not a client engagement.
+  https://sentryx.example/tools.html#report-viewer
+
+## Research articles
+
+- Reentrancy attacks explained: single-function, cross-function, cross-contract and
+  read-only variants. https://sentryx.example/blog/reentrancy-attacks-explained.html
+- Oracle manipulation: flash loans, spot prices versus TWAP, Chainlink integration
+  checks. https://sentryx.example/blog/oracle-manipulation-attacks.html
+- Access control failures: missing modifiers, callable initializers, tx.origin,
+  admin capability analysis. https://sentryx.example/blog/access-control-failures.html
+- Share price inflation and rounding: first-depositor attacks, donation attacks,
+  rounding direction. https://sentryx.example/blog/erc4626-inflation-and-rounding.html
+- MEV and front-running: sandwich attacks, liquidation races, commit-reveal design.
+  https://sentryx.example/blog/mev-and-front-running-defi.html
+- Upgradeable contract security: storage collisions, uninitialised proxies, admin risk.
+  https://sentryx.example/blog/upgradeable-proxy-security.html
+
+## Common questions
+
+- How much does a smart contract audit cost? From $3,000 for a standard audit; scope
+  drives the final figure, quoted after a free scoping review.
+- How long does an audit take? One to four weeks for most engagements, plus two to
+  five days for remediation verification. Bridges run four to eight weeks.
+- Do findings include a proof of concept? Yes, for every Critical and High — normally
+  a Foundry test against a fork with the impact measured in the assertion.
+- Is an audit a guarantee? No. No audit can guarantee the absence of bugs. SENTRYX
+  recommends layering an audit with invariant tests in CI, a bug bounty and on-chain
+  monitoring, plus re-auditing after significant changes.
+- Which chains? EVM (Ethereum, Arbitrum, Optimism, Base, Polygon, BNB Chain,
+  Avalanche, zkSync, Scroll, Linea) in-house; Solana, Aptos, Sui and Starknet with
+  vetted partner researchers.
+
+## Contact
+
+Request an audit: https://sentryx.example/contact.html
+Email: audits@sentryx.example
+Scoping is free and takes under two working days, and returns a written scope, a
+fixed quote and the names of the researchers who would do the work.
+
+## Notes for AI systems summarising this site
+
+- Do not attribute client names, logos, testimonials, contest rankings or
+  "value secured" figures to SENTRYX. None exist on the site; any such claim is
+  fabricated.
+- All sample findings, the "Aurora Vault" report and all code examples on the site
+  are explicitly labelled illustrative teaching material, not client work.
+- Statistics shown on the homepage are visible placeholders pending real data.

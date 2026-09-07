@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Published Audit Reports &amp; Security Findings | SENTRYX</title>
+  <meta name="description" content="Public smart contract audit reports from SENTRYX, filterable by chain, protocol type and severity, plus our disclosure policy. Illustrative material is clearly labelled and no metrics are published without a link.">
+  <link rel="canonical" href="https://sentryx.example/reports.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Published Audit Reports &amp; Security Findings | SENTRYX">
+  <meta property="og:description" content="Public smart contract audit reports from SENTRYX, filterable by chain, protocol type and severity, plus our disclosure policy. Illustrative material is clearly labelled and no metrics are published without a link.">
+  <meta property="og:url" content="https://sentryx.example/reports.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/reports.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Published Audit Reports &amp; Security Findings | SENTRYX">
+  <meta name="twitter:description" content="Public smart contract audit reports from SENTRYX, filterable by chain, protocol type and severity, plus our disclosure policy. Illustrative material is clearly labelled and no metrics are published without a link.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/reports.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reports",
+          "item": "https://sentryx.example/reports.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Reports</li></ol>
+        <p class="eyebrow">Reports &amp; findings</p>
+        <h1 data-scramble="900">Published work, or nothing at all.</h1>
+        <p class="lede">Every completed engagement whose client permits publication appears here with the full report. We do not list logos we cannot link to a report, and we do not count private engagements in public numbers.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="capability-note" data-reveal style="border-left-color:var(--sev-medium)">
+          <span class="mono-label" style="color:var(--sev-medium)">Status</span>
+          <h3 style="margin-top:8px">SENTRYX is a new brand. This portfolio is being built in public.</h3>
+          <p>The only entry below today is a clearly-labelled illustrative sample &mdash; a constructed report that shows our format, not a client engagement. As real audits complete and clients approve publication, they are added to <code>data/reports.js</code> and appear here with a link to the report and, where available, the repository. Until then this page stays honest and mostly empty. That is the point.</p>
+          <p style="margin-top:var(--s-4)">Evaluating us without a portfolio? Read the <a href="process.html" class="u-line" style="color:var(--ink-0)">methodology</a>, open the <a href="tools.html#report-viewer" class="u-line" style="color:var(--ink-0)">sample report</a> to judge the depth of the analysis, and look at the <a href="team.html" class="u-line" style="color:var(--ink-0)">researchers</a> who would do the work. Then ask us for a paid trial on a single contract before committing to a full engagement &mdash; we would rather earn it that way.</p>
+        </div>
+
+        <div class="filterbar" id="rep-filters" role="group" aria-label="Filter reports"></div>
+        <div class="stack" id="reports-root"></div>
+        <p class="filter-empty" id="rep-empty" hidden>No reports match those filters yet.</p>
+      </div>
+    </section>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div>
+            <p class="eyebrow">What gets published</p>
+            <h2>Our disclosure policy.</h2>
+          </div>
+          <p class="lede">Publication is the client's decision, always. These are the rules we hold ourselves to regardless.</p>
+        </div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <div class="card"><span class="card-index">01</span><h3>Nothing without consent</h3><p>No report, client name, finding or statistic is published without the client's written approval. An engagement can stay entirely private and still be complete.</p></div>
+          <div class="card"><span class="card-index">02</span><h3>No live unfixed Criticals</h3><p>We do not publish a Critical or High that is still exploitable on a live system, regardless of who wants it out. Disclosure follows remediation, or a coordinated timeline agreed with the team.</p></div>
+          <div class="card"><span class="card-index">03</span><h3>Findings, not just conclusions</h3><p>A published report includes the findings we raised and their final status &mdash; including the ones the team chose to acknowledge rather than fix, with their reasoning. A report showing only fixed issues is a marketing document.</p></div>
+          <div class="card"><span class="card-index">04</span><h3>Illustrative material is labelled</h3><p>Anything on this site that is a constructed example carries a visible label and an HTML comment in the source. You should never have to guess whether a number is real.</p></div>
+          <div class="card"><span class="card-index">05</span><h3>No invented metrics</h3><p>&ldquo;Value secured&rdquo; and &ldquo;protocols protected&rdquo; figures are trivially inflatable and we do not publish them. Where a counter exists on this site it is either linkable or shown as an explicit placeholder.</p></div>
+          <div class="card card-accentline"><span class="card-index">06</span><h3>Incidents, honestly</h3><p>If a protocol we audited is exploited through something we should have caught, we say so publicly and publish the analysis. That is the only way an audit report means anything.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Judge the work</p>
+            <h2>Read the sample report before you read our pitch.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The Aurora Vault sample is illustrative, but the depth of analysis, the PoCs and the remediation guidance are exactly what a real engagement delivers.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="tools.html#report-viewer" data-magnetic="0.3"><span>Open the sample report <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="contact.html" data-magnetic="0.3"><span>Request an audit</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="data/reports.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+  <script src="js/filters.js" defer></script>
+</body>
+</html>

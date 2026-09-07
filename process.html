@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Contract Audit Process &amp; Methodology — How SENTRYX Works</title>
+  <meta name="description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <link rel="canonical" href="https://sentryx.example/process.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Smart Contract Audit Process &amp; Methodology — How SENTRYX Works">
+  <meta property="og:description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <meta property="og:url" content="https://sentryx.example/process.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/process.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Contract Audit Process &amp; Methodology — How SENTRYX Works">
+  <meta name="twitter:description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/process.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Process",
+          "item": "https://sentryx.example/process.html"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "How a SENTRYX smart contract audit runs",
+      "description": "The six stages of a SENTRYX security engagement, from scoping and threat modelling through manual review, tooling, proof-of-concept development, reporting and remediation verification.",
+      "totalTime": "P21D",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Scoping & threat model",
+          "text": "We read the documentation and the code before we quote. Together we fix the boundary: which contracts are in scope, which are trusted, and which are explicitly out. Then we enumerate the actors and their privileges, the external dependencies, and the assets at risk &mdash; and we write it down. That document is what the review is measured against, and it is the artefact most teams tell us they did not know they needed."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Manual adversarial review",
+          "text": "Two researchers read every in-scope line independently. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Tooling & invariants",
+          "text": "Static analysis (Slither, Aderyn, Semgrep) covers the known patterns cheaply so human attention goes where tools cannot reach. Then we write the properties your protocol must never violate &mdash; solvency, share-price monotonicity, conservation of value, access-control invariants &mdash; and let Foundry, Echidna or Medusa search for counterexamples. Where core maths justifies it, we reach for Halmos or Certora."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Proof of concept",
+          "text": "Every Critical and High is reproduced as a runnable test against a fork, with the attacker's profit or the protocol's loss measured in the assertion. This is the discipline that keeps severity honest: a finding we cannot demonstrate gets downgraded and labelled as theoretical. It also means your engineers can verify the fix themselves rather than taking our word for it."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Report & walkthrough",
+          "text": "One report, two audiences. Your engineers get the location, the mechanism, the PoC and a specific remediation. Your investors and users get an executive summary that says what was reviewed, what was found and what it means &mdash; without marketing language. Then we walk your team through every finding on a call, because the questions that come up there frequently surface a second issue."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Remediation verification",
+          "text": "You fix; we re-review every changed line, re-run each PoC and the invariant suite, and confirm the fix did not introduce something new &mdash; which happens more often than teams expect. Each finding is marked Fixed, Acknowledged or Open, with your reasoning recorded where you have accepted a risk. The final report is publishable, and the invariant suite stays in your CI."
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What do you need from us before day one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The repository at a fixed commit, a list of the contracts in scope, whatever documentation or spec exists, the external integrations (oracles, AMMs, bridges, tokens you do not control), the list of privileged roles and who holds them, and your deployment target. If documentation is thin we will write our understanding back to you &mdash; the disagreements that surfaces are often the first finding."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why two independent reviewers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two researchers reading independently and comparing notes afterwards catches materially more than two researchers reading together, which is why our standard audit budgets for both reads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if you find a Critical mid-review?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We stop and tell you the same day, before the report exists. If the code is live we help you evaluate containment &mdash; pause, parameter change, migration &mdash; before anything is written down or shared. Unfixed Criticals on live systems are never published."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is severity decided?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Impact times likelihood, applied consistently, with the reasoning written out. If we cannot demonstrate a finding with a proof of concept, we downgrade it and say so. Where you disagree with a rating we record your position in the report rather than quietly changing ours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is remediation verification?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After you fix, we re-review every changed line (not just the diff you point us at), re-run the proof of concept for each finding and the invariant suite, and mark each finding Fixed, Acknowledged or Open. That final report is the one you publish, and it is included in every audit &mdash; not an upsell."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you sign an NDA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, as standard. Nothing about the engagement is published without your written approval, and you decide whether the final report becomes public."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Process</li></ol>
+        <p class="eyebrow">Methodology</p>
+        <h1 data-scramble="900">Six stages. Every one produces an artefact.</h1>
+        <p class="lede">An audit that cannot be inspected is a receipt, not a review. This page is the whole methodology &mdash; what we do at each stage, what you get, how severity is decided, and what we need from you before day one.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="method-list">
+        <article class="method-item" data-reveal>
+          <div class="m-num">01</div>
+          <div>
+            <h3>Scoping &amp; threat model</h3>
+            <p class="mono-label" style="margin-bottom:10px">2&ndash;4 days</p>
+            <p>We read the documentation and the code before we quote. Together we fix the boundary: which contracts are in scope, which are trusted, and which are explicitly out. Then we enumerate the actors and their privileges, the external dependencies, and the assets at risk &mdash; and we write it down. That document is what the review is measured against, and it is the artefact most teams tell us they did not know they needed.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Scope document at a fixed commit</li><li>Trust-boundary map and actor list</li><li>Assumptions register</li><li>Fixed quote and named researchers</li></ul>
+          </div>
+        </article>
+        <article class="method-item" data-reveal>
+          <div class="m-num">02</div>
+          <div>
+            <h3>Manual adversarial review</h3>
+            <p class="mono-label" style="margin-bottom:10px">40&ndash;60% of the engagement</p>
+            <p>Two researchers read every in-scope line independently. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Independent findings from each researcher</li><li>Reconciled findings register with severities</li><li>Questions log for the dev team</li></ul>
+          </div>
+        </article>
+        <article class="method-item" data-reveal>
+          <div class="m-num">03</div>
+          <div>
+            <h3>Tooling &amp; invariants</h3>
+            <p class="mono-label" style="margin-bottom:10px">Runs alongside review</p>
+            <p>Static analysis (Slither, Aderyn, Semgrep) covers the known patterns cheaply so human attention goes where tools cannot reach. Then we write the properties your protocol must never violate &mdash; solvency, share-price monotonicity, conservation of value, access-control invariants &mdash; and let Foundry, Echidna or Medusa search for counterexamples. Where core maths justifies it, we reach for Halmos or Certora.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Triaged tool output (false positives removed)</li><li>Foundry invariant suite with handlers</li><li>Fuzzing corpus and campaign config</li></ul>
+          </div>
+        </article>
+        <article class="method-item" data-reveal>
+          <div class="m-num">04</div>
+          <div>
+            <h3>Proof of concept</h3>
+            <p class="mono-label" style="margin-bottom:10px">Per Critical / High finding</p>
+            <p>Every Critical and High is reproduced as a runnable test against a fork, with the attacker's profit or the protocol's loss measured in the assertion. This is the discipline that keeps severity honest: a finding we cannot demonstrate gets downgraded and labelled as theoretical. It also means your engineers can verify the fix themselves rather than taking our word for it.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Foundry PoC per Critical / High</li><li>Measured impact in the assertion</li><li>Exploit path written out step by step</li></ul>
+          </div>
+        </article>
+        <article class="method-item" data-reveal>
+          <div class="m-num">05</div>
+          <div>
+            <h3>Report &amp; walkthrough</h3>
+            <p class="mono-label" style="margin-bottom:10px">3&ndash;5 days</p>
+            <p>One report, two audiences. Your engineers get the location, the mechanism, the PoC and a specific remediation. Your investors and users get an executive summary that says what was reviewed, what was found and what it means &mdash; without marketing language. Then we walk your team through every finding on a call, because the questions that come up there frequently surface a second issue.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Report as PDF and Markdown</li><li>Findings register as JSON</li><li>Walkthrough call with the researchers</li></ul>
+          </div>
+        </article>
+        <article class="method-item" data-reveal>
+          <div class="m-num">06</div>
+          <div>
+            <h3>Remediation verification</h3>
+            <p class="mono-label" style="margin-bottom:10px">2&ndash;5 days after fixes</p>
+            <p>You fix; we re-review every changed line, re-run each PoC and the invariant suite, and confirm the fix did not introduce something new &mdash; which happens more often than teams expect. Each finding is marked Fixed, Acknowledged or Open, with your reasoning recorded where you have accepted a risk. The final report is publishable, and the invariant suite stays in your CI.</p>
+          </div>
+          <div class="method-side">
+            <h4>Output</h4>
+            <ul><li>Final report with per-finding status</li><li>Re-run PoC results</li><li>CI-ready invariant suite</li></ul>
+          </div>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="matrix-t">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div>
+            <p class="eyebrow">Severity</p>
+            <h2 id="matrix-t">Impact times likelihood. Written down.</h2>
+          </div>
+          <p class="lede">Severity disputes waste everyone's time when the rule is implicit. Ours is a matrix, applied consistently, with our reasoning in the report. A finding we cannot demonstrate is downgraded and labelled theoretical &mdash; even when it is interesting.</p>
+        </div>
+        <div class="table-wrap" data-reveal><table class="matrix">
+        <caption class="sr-only">Severity as a function of impact and likelihood</caption>
+        <thead><tr><th scope="col">Impact &darr; / Likelihood &rarr;</th><th scope="col">Low</th><th scope="col">Medium</th><th scope="col">High</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Catastrophic &mdash; total loss / insolvency</th><td data-sev="medium">Medium</td><td data-sev="high">High</td><td data-sev="critical">Critical</td></tr>
+          <tr><th scope="row">Severe &mdash; significant loss</th><td data-sev="low">Low</td><td data-sev="medium">Medium</td><td data-sev="high">High</td></tr>
+          <tr><th scope="row">Moderate &mdash; bounded loss / broken accounting</th><td data-sev="low">Low</td><td data-sev="low">Low</td><td data-sev="medium">Medium</td></tr>
+          <tr><th scope="row">Minor &mdash; no direct value at risk</th><td data-sev="info">Info</td><td data-sev="low">Low</td><td data-sev="low">Low</td></tr>
+        </tbody>
+      </table></div>
+        <p class="muted" style="margin-top:var(--s-4);font-size:var(--text-sm);max-width:80ch">Likelihood accounts for preconditions: capital required, privileged access needed, market conditions, and whether the attack is a single transaction or a sequence someone can interrupt. Full definitions per level are in the <a href="tools.html#severity" class="u-line" style="color:var(--ink-0)">Severity Explorer</a>.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tools-t">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div>
+            <p class="eyebrow">Toolchain</p>
+            <h2 id="tools-t">What we run, and what we don't trust it to find.</h2>
+          </div>
+          <p class="lede">Tools are cheap coverage of known patterns. They do not find the flaw in your liquidation curve. We use them to free human attention, then triage every result &mdash; you never receive raw scanner output as a finding.</p>
+        </div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Static</span><h3>Slither · Aderyn · Semgrep</h3><p>Pattern coverage across the codebase, with custom rules for your architecture. Every hit is triaged by hand; false positives never reach your report.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Dynamic</span><h3>Foundry · Echidna · Medusa</h3><p>Invariant tests and coverage-guided fuzzing with handlers that reach deep protocol state, plus fork tests against real mainnet conditions.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Symbolic</span><h3>Halmos · Certora · hevm</h3><p>Symbolic execution and formal specs where core arithmetic or access rules justify the cost. Certora engagements are delivered with partner specialists.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Runtime</span><h3>Tenderly · fork simulation</h3><p>Transaction tracing and state inspection for reproducing exploits and validating fixes against live chain state.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Review</span><h3>Two humans, independently</h3><p>The part no tool replaces. Value-flow tracing, state-machine walks and adversarial reasoning about every external call.</p></div>
+          <div class="card card-accentline"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Handover</span><h3>Your CI, after we leave</h3><p>The invariant suite and pipeline stay in your repository. Security that expires when the engagement ends is theatre.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="proc-faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Working with us</p>
+          <h2 id="proc-faq-t" style="font-size:var(--text-xl)">Practical questions.</h2>
+        </div>
+        <div class="accordion" id="pfaq">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-0">What do you need from us before day one?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-0"><div><p>The repository at a fixed commit, a list of the contracts in scope, whatever documentation or spec exists, the external integrations (oracles, AMMs, bridges, tokens you do not control), the list of privileged roles and who holds them, and your deployment target. If documentation is thin we will write our understanding back to you &mdash; the disagreements that surfaces are often the first finding.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-1">Why two independent reviewers?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-1"><div><p>Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two researchers reading independently and comparing notes afterwards catches materially more than two researchers reading together, which is why our standard audit budgets for both reads.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-2">What happens if you find a Critical mid-review?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-2"><div><p>We stop and tell you the same day, before the report exists. If the code is live we help you evaluate containment &mdash; pause, parameter change, migration &mdash; before anything is written down or shared. Unfixed Criticals on live systems are never published.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-3">How is severity decided?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-3"><div><p>Impact times likelihood, applied consistently, with the reasoning written out. If we cannot demonstrate a finding with a proof of concept, we downgrade it and say so. Where you disagree with a rating we record your position in the report rather than quietly changing ours.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-4">What is remediation verification?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-4"><div><p>After you fix, we re-review every changed line (not just the diff you point us at), re-run the proof of concept for each finding and the invariant suite, and mark each finding Fixed, Acknowledged or Open. That final report is the one you publish, and it is included in every audit &mdash; not an upsell.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-5">Can you sign an NDA?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-5"><div><p>Yes, as standard. Nothing about the engagement is published without your written approval, and you decide whether the final report becomes public.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Ready when you are</p>
+            <h2>Stage one is free and takes two days.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repo. You get a written scope, a threat-boundary sketch, a fixed quote and the names of the researchers who would do the work.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Start scoping <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="tools.html#report-viewer" data-magnetic="0.3"><span>See a sample report</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+</body>
+</html>

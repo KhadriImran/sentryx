@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Free Smart Contract Security Tools — Risk Pre-Check &amp; Audit Quote Estimator | SENTRYX</title>
+  <meta name="description" content="Free browser-based tools from SENTRYX: a Solidity risk pre-check that never uploads your code, an audit scope and quote estimator, an interactive severity explorer, and a full sample audit report.">
+  <link rel="canonical" href="https://sentryx.example/tools.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Free Smart Contract Security Tools — Risk Pre-Check &amp; Audit Quote Estimator | SENTRYX">
+  <meta property="og:description" content="Free browser-based tools from SENTRYX: a Solidity risk pre-check that never uploads your code, an audit scope and quote estimator, an interactive severity explorer, and a full sample audit report.">
+  <meta property="og:url" content="https://sentryx.example/tools.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/tools.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Smart Contract Security Tools — Risk Pre-Check &amp; Audit Quote Estimator | SENTRYX">
+  <meta name="twitter:description" content="Free browser-based tools from SENTRYX: a Solidity risk pre-check that never uploads your code, an audit scope and quote estimator, an interactive severity explorer, and a full sample audit report.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/tools.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://sentryx.example/tools.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the contract risk pre-check an audit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and it is not close. It is a client-side heuristic scan for about twenty well-known code patterns. It cannot reason about intent, follow cross-contract state, model economics or understand your specification &mdash; which is where most serious findings live. Treat a clean result as &ldquo;the obvious shapes are absent&rdquo;, nothing more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my code leave the browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The pre-check runs entirely in JavaScript on your machine. Nothing is uploaded, logged or stored. You can verify this by opening the network tab, or by reading js/precheck.js &mdash; every rule is in that file."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is the quote estimator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It produces an indicative range from lines of code, contract count, complexity, chain and urgency. Real quotes come from a scoping review that looks at your actual code &mdash; test coverage, external integrations, documentation quality and the number of privileged roles routinely move a quote by 30% in either direction."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use the sample report as a template?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The structure &mdash; threat model, findings with severity, impact, likelihood, PoC, remediation, verification status &mdash; is the format we deliver. The Aurora Vault content itself is a constructed teaching example, not a client engagement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the assistant send my questions anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In its shipped configuration, no: it runs a local intent matcher with no network calls, and the panel header tells you which mode it is in. If an API endpoint is configured by the site owner, the header changes to say so before you type."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "SENTRYX Contract Risk Pre-Check",
+      "url": "https://sentryx.example/tools.html#precheck",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (browser)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Client-side heuristic pre-scan for common Solidity vulnerability patterns. Indicative only; not a substitute for an audit."
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Tools</li></ol>
+        <p class="eyebrow">Free security tools</p>
+        <h1 data-scramble="900">Four tools. No sign-up, no upload.</h1>
+        <p class="lede">Everything below runs in your browser. The pre-check reads your source locally and never transmits it; the estimator and severity explorer are pure client-side logic; the report viewer renders our actual deliverable format. Useful before you talk to anyone &mdash; including us.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool-grid" data-reveal-stagger>
+          <a class="card card-link tool-card is-lead card-accentline" href="#precheck" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="tool-num">01</span>
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 6v6c0 5-3.8 8.9-9 10-5.2-1.1-9-5-9-10V6z"/><path d="M12 8v4M12 16h.01"/></svg></div>
+            <h3>Contract Risk Pre-Check</h3>
+            <p>Paste Solidity and get an indicative scan for reentrancy shape, <code>tx.origin</code> auth, <code>delegatecall</code>, missing access control, unbounded loops, spot-price oracles, unchecked calls and floating pragmas. Results use our severity colours. Runs locally &mdash; your code never leaves the page.</p>
+            <div class="card-foot"><span class="tool-status">Live</span><span class="link-arrow">Run a scan <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </a>
+          <a class="card card-link tool-card is-lead" href="#estimator" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="tool-num">02</span>
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M15 11v6"/></svg></div>
+            <h3>Audit Scope &amp; Quote Estimator</h3>
+            <p>Lines of code, contract count, chain, complexity, urgency and whether you need a re-audit &mdash; out comes a price range, a timeline in working days and a researcher count. Every coefficient sits in one editable config object.</p>
+            <div class="card-foot"><span class="tool-status">Live</span><span class="link-arrow">Estimate scope <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </a>
+          <a class="card card-link tool-card" href="#severity" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="tool-num">03</span>
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M6 20V10M12 20V4M18 20v-7"/></svg></div>
+            <h3>Severity Explorer</h3>
+            <p>What Critical actually means, the finding classes that land at each level, and the remediation each typically needs.</p>
+            <div class="card-foot"><span class="tool-status">Live</span></div>
+          </a>
+          <a class="card card-link tool-card" href="#report-viewer" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="tool-num">04</span>
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+            <h3>Sample Report Viewer</h3>
+            <p>A full audit report in the browser: expandable findings, severity filters, vulnerable-vs-fixed diffs and Foundry PoCs.</p>
+            <div class="card-foot"><span class="tool-status">Live</span></div>
+          </a>
+          <a class="card card-link tool-card" href="#assistant" data-open-assistant data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="tool-num">05</span>
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <h3>Security Assistant</h3>
+            <p>Ask about scope, process, severity or pricing. Answers from a local knowledge base &mdash; no backend required.</p>
+            <div class="card-foot"><span class="tool-status">Live</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== PRE-CHECK ===== -->
+    <section class="section" aria-labelledby="pc-title">
+      <div class="container">
+        <div class="tool-panel" id="precheck" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Tool 01</p>
+              <h2 id="pc-title">Contract Risk Pre-Check</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-ghost btn-sm" id="pc-sample" type="button">Load vulnerable sample</button>
+              <button class="btn btn-ghost btn-sm" id="pc-clear" type="button">Clear</button>
+              <button class="btn btn-primary btn-sm" id="pc-run" type="button">Run pre-check</button>
+            </div>
+          </div>
+          <div class="tool-body">
+            <div class="disclaimer" style="margin-bottom:var(--s-5)">
+              <strong>Indicative pre-check &mdash; not an audit.</strong> This is regex and light structural matching against about twenty known patterns. It cannot follow cross-contract state, reason about your specification, or model economic attacks &mdash; which is where most Critical findings actually come from. A clean result means the obvious shapes are absent, not that the code is safe.
+            </div>
+            <div class="tool-split wide-left">
+              <div class="field">
+                <label for="pc-input">Solidity source or contract address</label>
+                <textarea class="textarea mono" id="pc-input" rows="22" spellcheck="false" placeholder="// paste Solidity here, or a 0x… address&#10;pragma solidity 0.8.24;&#10;&#10;contract MyVault { … }" style="min-height:520px"></textarea>
+                <p class="hint">Runs entirely in your browser. Press <kbd class="mono">⌘/Ctrl + Enter</kbd> to scan.</p>
+              </div>
+              <div id="pc-out" aria-live="polite" aria-busy="false"></div>
+            </div>
+            <div style="margin-top:var(--s-6);display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:center;border-top:1px solid var(--line-2);padding-top:var(--s-5)">
+              <p class="muted" style="flex:1;min-width:280px;font-size:var(--text-sm);margin:0">Found something that worries you? A human should look at it. Scoping is free and takes under two working days.</p>
+              <a class="btn btn-primary" href="contact.html" data-magnetic="0.3"><span>Request a real audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== ESTIMATOR ===== -->
+    <section class="section" aria-labelledby="es-title">
+      <div class="container">
+        <div class="tool-panel" id="estimator" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Tool 02</p>
+              <h2 id="es-title">Audit Scope &amp; Quote Estimator</h2>
+            </div>
+            <span class="chip chip-dot">Client-side · USD</span>
+          </div>
+          <div class="tool-body">
+            <div class="tool-split wide-left">
+              <div class="est-grid">
+                <div class="field">
+                  <label for="es-loc">Approximate lines of Solidity in scope</label>
+                  <input class="input mono" type="number" id="es-loc" value="1500" min="50" max="30000" step="50">
+                  <input class="range" type="range" id="es-loc-range" value="1500" min="50" max="20000" step="50" aria-label="Lines of code slider">
+                  <p class="hint">Exclude tests, interfaces you don't own, and vendored libraries such as OpenZeppelin.</p>
+                </div>
+                <div class="field">
+                  <label for="es-contracts">Number of contracts in scope</label>
+                  <input class="input mono" type="number" id="es-contracts" value="5" min="1" max="60">
+                </div>
+                <fieldset style="border:0;padding:0;margin:0">
+                  <legend class="mono-label" style="margin-bottom:10px">Complexity</legend>
+                  <div class="radio-grid">
+                    <label class="radio-card"><input type="radio" name="complexity" value="simple"><span>Simple</span></label>
+                    <label class="radio-card"><input type="radio" name="complexity" value="moderate" checked><span>Moderate</span></label>
+                    <label class="radio-card"><input type="radio" name="complexity" value="complex"><span>Complex</span></label>
+                    <label class="radio-card"><input type="radio" name="complexity" value="extreme"><span>Very complex</span></label>
+                  </div>
+                  <p class="hint" style="margin-top:8px">Simple: token, vesting, static mint. Moderate: staking, escrow, marketplace. Complex: AMM, lending, vaults, oracles, proxies. Very complex: perps, bridges, restaking, novel economics.</p>
+                </fieldset>
+                <fieldset style="border:0;padding:0;margin:0">
+                  <legend class="mono-label" style="margin-bottom:10px">Chain / language</legend>
+                  <div class="radio-grid">
+                    <label class="radio-card"><input type="radio" name="chain" value="evm" checked><span>Ethereum / EVM</span></label>
+                    <label class="radio-card"><input type="radio" name="chain" value="l2"><span>EVM L2 / rollup</span></label>
+                    <label class="radio-card"><input type="radio" name="chain" value="multi"><span>Multi-chain / bridge</span></label>
+                    <label class="radio-card"><input type="radio" name="chain" value="solana"><span>Solana (Rust)</span></label>
+                    <label class="radio-card"><input type="radio" name="chain" value="move"><span>Aptos / Sui (Move)</span></label>
+                    <label class="radio-card"><input type="radio" name="chain" value="cairo"><span>Starknet (Cairo)</span></label>
+                  </div>
+                </fieldset>
+                <fieldset style="border:0;padding:0;margin:0">
+                  <legend class="mono-label" style="margin-bottom:10px">Timeline urgency</legend>
+                  <div class="radio-grid">
+                    <label class="radio-card"><input type="radio" name="urgency" value="standard" checked><span>Standard</span></label>
+                    <label class="radio-card"><input type="radio" name="urgency" value="priority"><span>Priority</span></label>
+                    <label class="radio-card"><input type="radio" name="urgency" value="rush"><span>Rush</span></label>
+                  </div>
+                </fieldset>
+                <label class="radio-card" style="display:block"><input type="checkbox" id="es-reaudit"><span>Include re-audit &amp; remediation verification of the fixes</span></label>
+              </div>
+
+              <div class="est-out">
+                <p class="mono-label">Indicative range</p>
+                <div class="est-figure" id="es-amount" aria-live="polite">&mdash;</div>
+                <div class="est-bar" id="es-bar" aria-hidden="true"><i></i></div>
+                <div class="est-rows" id="es-rows"></div>
+                <p class="hint" id="es-note" style="margin-top:var(--s-4)"></p>
+                <a class="btn btn-primary" id="es-send" href="contact.html" style="width:100%;margin-top:var(--s-4)"><span>Send this scope to us <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== SEVERITY ===== -->
+    <section class="section" aria-labelledby="se-title">
+      <div class="container">
+        <div class="tool-panel" id="severity" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Tool 03</p>
+              <h2 id="se-title">Severity Explorer</h2>
+            </div>
+            <span class="chip">Impact &times; likelihood</span>
+          </div>
+          <div class="tool-body">
+            <div class="sev-explorer" id="severity-explorer">
+              <div class="sev-nav" id="se-nav" role="tablist" aria-label="Severity levels" aria-orientation="vertical"></div>
+              <div class="sev-pane" id="se-pane" data-sev="critical" role="tabpanel" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= REPORT VIEWER ===== -->
+    <section class="section" aria-labelledby="rv-title">
+      <div class="container">
+        <!-- ILLUSTRATIVE: the report rendered below is a constructed teaching example, not a client engagement -->
+        <div class="tool-panel" id="report-viewer" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Tool 04</p>
+              <h2 id="rv-title">Sample Audit Report</h2>
+              <span class="illustrative" style="margin-top:10px">Illustrative example &mdash; not a client engagement</span>
+            </div>
+            <a class="btn btn-ghost btn-sm" href="reports.html">All published reports</a>
+          </div>
+          <div class="tool-body">
+            <p class="lede" style="margin-bottom:var(--s-5)">&ldquo;Aurora Vault&rdquo; is a constructed ERC-4626 vault written to demonstrate the finding classes and the report format we deliver. The structure below &mdash; threat model, findings with impact and likelihood, proof of concept, remediation, verification status &mdash; is exactly what a real engagement produces.</p>
+            <div class="rv-meta" id="rv-meta"></div>
+            <div class="filterbar" id="rv-filters"></div>
+            <div id="rv-findings"></div>
+            <p class="filter-empty" id="rv-empty" hidden>No findings at that severity.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================== FAQ ===== -->
+    <section class="section" aria-labelledby="tools-faq">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Tool FAQ</p>
+          <h2 id="tools-faq" style="font-size:var(--text-xl)">What these tools do and don't do.</h2>
+        </div>
+        <div class="accordion" id="tfaq">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tfaq-0">Is the contract risk pre-check an audit?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tfaq-0"><div><p>No, and it is not close. It is a client-side heuristic scan for about twenty well-known code patterns. It cannot reason about intent, follow cross-contract state, model economics or understand your specification &mdash; which is where most serious findings live. Treat a clean result as &ldquo;the obvious shapes are absent&rdquo;, nothing more.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tfaq-1">Does my code leave the browser?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tfaq-1"><div><p>No. The pre-check runs entirely in JavaScript on your machine. Nothing is uploaded, logged or stored. You can verify this by opening the network tab, or by reading <code>js/precheck.js</code> &mdash; every rule is in that file.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tfaq-2">How accurate is the quote estimator?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tfaq-2"><div><p>It produces an indicative range from lines of code, contract count, complexity, chain and urgency. Real quotes come from a scoping review that looks at your actual code &mdash; test coverage, external integrations, documentation quality and the number of privileged roles routinely move a quote by 30% in either direction.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tfaq-3">Can I use the sample report as a template?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tfaq-3"><div><p>Yes. The structure &mdash; threat model, findings with severity, impact, likelihood, PoC, remediation, verification status &mdash; is the format we deliver. The Aurora Vault content itself is a constructed teaching example, not a client engagement.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tfaq-4">Does the assistant send my questions anywhere?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tfaq-4"><div><p>In its shipped configuration, no: it runs a local intent matcher with no network calls, and the panel header tells you which mode it is in. If an API endpoint is configured by the site owner, the header changes to say so before you type.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Beyond the tools</p>
+            <h2>A regex can't read your spec. We can.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The findings that drain protocols come from state assumptions, economic design and cross-contract interaction &mdash; none of which a scanner sees. Send us the repo.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="process.html" data-magnetic="0.3"><span>How we work</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="data/findings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+  <script src="js/precheck.js" defer></script>
+  <script src="js/estimator.js" defer></script>
+  <script src="js/report-viewer.js" defer></script>
+</body>
+</html>

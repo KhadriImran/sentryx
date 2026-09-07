@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MEV &amp; Front-Running in DeFi — Sandwich Attacks and Protocol Design | SENTRYX</title>
+  <meta name="description" content="Sandwich attacks, liquidation races, weak commit-reveal schemes and the design decisions that determine how much user value leaks to searchers.">
+  <link rel="canonical" href="https://sentryx.example/blog/mev-and-front-running-defi.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="MEV &amp; Front-Running in DeFi — Sandwich Attacks and Protocol Design | SENTRYX">
+  <meta property="og:description" content="Sandwich attacks, liquidation races, weak commit-reveal schemes and the design decisions that determine how much user value leaks to searchers.">
+  <meta property="og:url" content="https://sentryx.example/blog/mev-and-front-running-defi.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/mev-and-front-running-defi.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MEV &amp; Front-Running in DeFi — Sandwich Attacks and Protocol Design | SENTRYX">
+  <meta name="twitter:description" content="Sandwich attacks, liquidation races, weak commit-reveal schemes and the design decisions that determine how much user value leaks to searchers.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/mev-and-front-running-defi.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research",
+          "item": "https://sentryx.example/blog/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "MEV and front-running: when correct code still loses users money",
+          "item": "https://sentryx.example/blog/mev-and-front-running-defi.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "MEV and front-running: when correct code still loses users money",
+      "description": "Sandwich attacks, liquidation races, weak commit-reveal schemes and the design decisions that determine how much user value leaks to searchers.",
+      "url": "https://sentryx.example/blog/mev-and-front-running-defi.html",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sentryx.example/blog/mev-and-front-running-defi.html"
+      },
+      "datePublished": "2026-03-04",
+      "dateModified": "2026-03-04",
+      "author": {
+        "@type": "Person",
+        "name": "Imran Khadri",
+        "url": "https://sentryx.example/team.html#imran-khadri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "image": "https://sentryx.example/assets/og/mev-and-front-running-defi.png",
+      "keywords": "Vulnerability classes, DeFi, MEV",
+      "articleSection": "Smart contract security research",
+      "wordCount": 923
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="section" style="padding-top:calc(var(--header-h) + 3rem)">
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../blog/index.html">Research</a></li><li aria-current="page">Vulnerability class · VC-05</li></ol>
+        <div class="article-layout">
+          <div>
+            <header class="article-head">
+              <p class="eyebrow">Vulnerability class · VC-05</p>
+              <h1>MEV and front-running: when correct code still loses users money</h1>
+              <p class="lede" style="margin-top:var(--s-4)">Sandwich attacks, liquidation races, weak commit-reveal and the protocol design decisions that decide how much value leaks to searchers before a user's transaction lands.</p>
+              <div class="article-meta">
+                <span>04 March 2026</span><span>12 min read</span><span>By Imran Khadri</span>
+                <span>Vulnerability classes · DeFi · MEV</span>
+              </div>
+            </header>
+            <div class="prose">
+<h2 id="ordering-is-an-input">Transaction ordering is an input to your protocol</h2>
+
+<p>Most protocol logic is written as though transactions arrive in the order users sent them. They do not. Between broadcast and inclusion, a transaction sits in a public mempool where anyone can read it, and block builders order the block to maximise their own revenue.</p>
+<p>That makes ordering an attacker-controlled input. If any outcome in your protocol depends on the sequence in which transactions land, an adversary chooses that sequence &mdash; and pays the builder for the privilege out of the profit.</p>
+<p>This is why MEV findings are genuinely uncomfortable to write. There is often no line of code that is wrong. The contract behaves exactly as specified; the specification simply assumed something the chain does not guarantee.</p>
+
+<h2 id="sandwich">Sandwich attacks and the slippage parameters that stop them</h2>
+
+<p>The canonical extraction. A user submits a swap. A searcher sees it, buys ahead of them (pushing the price up), lets the user's swap execute at the worse price, and sells immediately after.</p>
+<pre class="code"><code>// VULNERABLE — amountOutMin of 0 authorises unlimited loss
+router.swapExactTokensForTokens(
+    amountIn,
+    0,                      // "the swap should just work"
+    path,
+    msg.sender,
+    block.timestamp         // deadline that is always satisfiable
+);
+
+// FIXED
+router.swapExactTokensForTokens(
+    amountIn,
+    minOut,                 // computed from a quote, with explicit tolerance
+    path,
+    msg.sender,
+    deadline                // supplied by the caller, not the block
+);</code></pre>
+<p>Two failures are combined in the vulnerable version. <code>amountOutMin: 0</code> means the user accepts any output, including nearly zero. <code>block.timestamp</code> as a deadline means no deadline at all &mdash; the transaction can sit in the mempool for hours and execute whenever conditions favour a searcher.</p>
+<div class="callout" data-sev="high"><span class="mono-label">Contract-level finding</span>The worst version is a <em>protocol</em> that performs internal swaps with hardcoded zero slippage during rebalancing or liquidation. Users never see that parameter and cannot protect themselves &mdash; the protocol is donating value to searchers on every operation.</div>
+
+<h2 id="liquidations">Liquidation races and priority-gas auctions</h2>
+
+<p>Liquidation is a designed MEV opportunity. The question is whether the design captures value for the protocol or leaks it to a gas auction.</p>
+<ul>
+<li><strong>Fixed-bonus liquidations</strong> create a race: every bot sees the same profit and bids gas up to just under it. The value goes to the builder, not to the protocol or the liquidated user.</li>
+<li><strong>Dutch-auction liquidations</strong> start the bonus at zero and increase it over time, so the position clears at approximately the minimum bonus the market requires. This is strictly better for both protocol and borrower.</li>
+<li><strong>Liquidation griefing</strong> is the failure mode to check for: can an attacker make a position <em>unliquidatable</em>? A liquidation path that reverts on a token blacklist, an oracle staleness check, or an unbounded loop turns a solvent protocol insolvent while everyone watches.</li>
+<li><strong>Partial liquidation rounding</strong> can leave dust positions that cost more gas to liquidate than they yield. Enforce a minimum liquidation size or allow full closure of small positions.</li>
+</ul>
+
+<h2 id="commit-reveal">Commit-reveal that actually commits</h2>
+
+<p>Auctions, games, randomness and governance often reach for commit-reveal. It is easy to implement it in a way that provides no protection.</p>
+<pre class="code"><code>// VULNERABLE — brute-forceable commitment
+commitment = keccak256(abi.encodePacked(bidAmount));
+// A bid is a bounded number. An attacker enumerates plausible bids
+// offline and matches the hash in seconds.
+
+// FIXED — salt makes the pre-image space unsearchable,
+// and binding the sender prevents commitment theft.
+commitment = keccak256(abi.encodePacked(bidAmount, salt, msg.sender));</code></pre>
+<p>Then check the protocol around it: is there a penalty for committing and never revealing? Without one, an attacker commits to several outcomes and reveals only the favourable one &mdash; a free option, which is the exact thing the scheme was meant to prevent. Bond the commitment, and slash it on non-reveal.</p>
+
+<h2 id="design-choices">Design choices that reduce leakage</h2>
+
+<ul>
+<li><strong>Never hardcode zero slippage.</strong> Anywhere. Internal swaps included.</li>
+<li><strong>Deadlines come from the caller.</strong> <code>block.timestamp</code> is not a deadline.</li>
+<li><strong>Use oracle-priced settlement where possible.</strong> If a trade settles against a validated oracle price rather than instantaneous pool state, sandwiching has nothing to squeeze.</li>
+<li><strong>Batch into a single clearing price.</strong> Frequent batch auctions eliminate ordering advantage within a batch entirely. It is a bigger design commitment but the strongest available defence.</li>
+<li><strong>Dutch auctions over fixed bonuses.</strong> Let the market discover the minimum incentive.</li>
+<li><strong>Private submission where the UX permits.</strong> Routing user transactions through a private relay keeps them out of the public mempool. This is a user-side mitigation, not a protocol-level fix, and it does not protect against a builder.</li>
+<li><strong>Two-step approvals.</strong> The classic ERC-20 approve race is still live; <code>increaseAllowance</code> / <code>decreaseAllowance</code> or permit-based flows avoid it.</li>
+</ul>
+
+<h2 id="in-an-audit">How MEV appears in an audit report</h2>
+
+<p>We treat MEV exposure as a first-class finding with a quantified cost rather than a note at the end. The structure we use:</p>
+<ol>
+<li><strong>Enumerate ordering-sensitive operations.</strong> Every function whose outcome changes based on when it lands relative to other transactions.</li>
+<li><strong>Identify who captures the value.</strong> Protocol, user, liquidator, searcher, or builder. If the answer is &ldquo;searcher&rdquo;, quantify it.</li>
+<li><strong>Estimate leakage per operation</strong> at realistic volumes, and annualise it. &ldquo;Roughly 0.3% of swap volume leaks to sandwiching&rdquo; lands very differently in a report than &ldquo;consider MEV risk&rdquo;.</li>
+<li><strong>Check for griefing, not just extraction.</strong> Can ordering be used to make an operation permanently fail rather than merely expensive?</li>
+<li><strong>Recommend the design change, not just the parameter.</strong> Adding a slippage argument is a patch; settling against an oracle removes the category.</li>
+</ol>
+<p>MEV is not a bug to be eliminated &mdash; it is a property of a public, permissionless mempool. The question a review answers is how much of your users' value leaks out of your design by default, and whether that number is one you would be comfortable publishing.</p>
+
+              <hr class="rule">
+              <p class="muted" style="font-size:var(--text-sm)">All code in this article is illustrative &mdash; written to demonstrate a pattern, not taken from any client engagement. If you want this class of issue hunted in your own codebase, that is what a <a href="../services/defi-protocol-audit.html">DeFi Protocol Security Review</a> is for.</p>
+            </div>
+          </div>
+          <nav class="toc" aria-label="On this page">
+            <h4>On this page</h4>
+            <ul></ul>
+            <div style="margin-top:var(--s-6);padding-top:var(--s-5);border-top:1px solid var(--line-2)">
+              <h4>Related service</h4>
+              <a class="link-arrow" href="../services/defi-protocol-audit.html" style="font-size:var(--text-sm)">DeFi Protocol Security Review <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+              <p style="margin-top:var(--s-4)"><a class="btn btn-primary btn-sm" href="../contact.html" style="width:100%"><span>Request an audit</span></a></p>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Keep reading</p><h2 style="font-size:var(--text-xl)">More from the research series.</h2></div>
+        <div class="grid grid-2" data-reveal-stagger><a class="card card-link" href="erc4626-inflation-and-rounding.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Previous</span><h3>Share price inflation and rounding: how vaults leak value one wei at a time</h3></a><a class="card card-link" href="upgradeable-proxy-security.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Next</span><h3>Upgradeable contracts: storage collisions, uninitialised proxies and admin risk</h3></a></div>
+        <p style="margin-top:var(--s-6)"><a class="link-arrow" href="index.html">All research <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Found this useful?</p>
+            <h2>We hunt this class for a living.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repository. Free scoping in under two working days, and you'll know who is reading your code.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../tools.html#precheck" data-magnetic="0.3"><span>Run a free pre-check</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/filters.js" defer></script>
+</body>
+</html>

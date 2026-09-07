@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Contract Security Services — Audits, Testing &amp; Incident Response | SENTRYX</title>
+  <meta name="description" content="Full catalogue of SENTRYX security services: smart contract and DeFi audits, bridge reviews, invariant and fuzz testing, formal verification, MEV analysis, incident response and retainers. Each tagged in-house or partner-delivered.">
+  <link rel="canonical" href="https://sentryx.example/services.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Smart Contract Security Services — Audits, Testing &amp; Incident Response | SENTRYX">
+  <meta property="og:description" content="Full catalogue of SENTRYX security services: smart contract and DeFi audits, bridge reviews, invariant and fuzz testing, formal verification, MEV analysis, incident response and retainers. Each tagged in-house or partner-delivered.">
+  <meta property="og:url" content="https://sentryx.example/services.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/services.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Contract Security Services — Audits, Testing &amp; Incident Response | SENTRYX">
+  <meta name="twitter:description" content="Full catalogue of SENTRYX security services: smart contract and DeFi audits, bridge reviews, invariant and fuzz testing, formal verification, MEV analysis, incident response and retainers. Each tagged in-house or partner-delivered.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/services.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://sentryx.example/services.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Which services are delivered entirely in-house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Everything on Solidity, Vyper and the EVM: smart contract audits, DeFi protocol reviews, bridge contracts on EVM chains, invariant and fuzz testing, incident response, MEV and oracle analysis, access control and upgrade reviews, and all advisory work. Those are the engagements Imran and Jagruti run themselves, end to end."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does &ldquo;delivered with vetted partner researchers&rdquo; mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For Rust (Solana), Move (Aptos, Sui), Cairo (Starknet), formal verification and frontend security we bring in researchers we have worked with and whose output we review. We tell you who is on the engagement, what they are responsible for, and who signs the report &mdash; before you sign anything. We would rather name a partner than pretend to a depth we do not have in-house."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you audit a protocol that is already live?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and it is common. A live protocol changes the engagement: we review the deployed bytecode against the repository, check the upgrade path and admin keys, and work out what can actually be fixed without a migration. Findings are prioritised by what is exploitable today rather than by textbook severity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you do bug bounty triage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We design programmes (scope, severity matrix, payout bands) and triage incoming reports &mdash; reproducing, classifying and recommending a payout. A bounty is a complement to an audit, not a replacement: bounty hunters optimise for what is cheap to find, which is a different search than a paid adversarial review."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer a discount for open-source or public-good protocols?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Talk to us. We reserve capacity for public-goods and open-source infrastructure and price it differently. Tell us what you are building and what you can fund."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Services</li></ol>
+        <p class="eyebrow">Service catalogue</p>
+        <h1 data-scramble="900">Everything we do, and who does it.</h1>
+        <p class="lede">Fifty-plus engagements across seven groups. Each is tagged with how it is delivered: in-house by our named researchers, or with vetted partner specialists. Filter by group, or show only what we do ourselves.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="capability-note" data-reveal>
+          <span class="mono-label accent">Capability note &mdash; read this first</span>
+          <h3 style="margin-top:8px">We would rather name a partner than overstate our bench.</h3>
+          <p>SENTRYX is a small, specialist firm built around two named researchers. That is a feature for depth and a constraint on breadth, and we would rather tell you which is which than let a service list imply otherwise.</p>
+          <dl>
+            <dt><span class="tag-delivery" data-delivery="inhouse">In-house</span></dt>
+            <dd>Solidity / EVM and Vyper across Ethereum and L2s; DeFi protocol review; invariant, fuzz and differential testing; oracle, MEV and access-control analysis; upgrade and proxy safety; incident response and forensics; retainers, threat modelling, training and due diligence. Imran and Jagruti do this work themselves.</dd>
+            <dt><span class="tag-delivery" data-delivery="partner">With partners</span></dt>
+            <dd>Rust (Solana), Move (Aptos, Sui), Cairo (Starknet), formal verification (Certora / Halmos), frontend and dApp security, red-team exercises and tokenomics modelling. Delivered with researchers we have worked with and whose output we review. We name them before you sign.</dd>
+          </dl>
+          <p style="margin-top:var(--s-4)"><strong style="color:var(--ink-0)">On track record:</strong> SENTRYX is a new brand. We publish reports as engagements complete, and the numbers on this site stay as visible placeholders until there are real, linkable figures behind them. If a security firm shows you a &ldquo;$4B secured&rdquo; banner with nothing to click, ask them for the list.</p>
+        </div>
+
+        <div class="filterbar" id="svc-filters" role="group" aria-label="Filter services"></div>
+        <div id="services-root"></div>
+        <p class="filter-empty" id="svc-empty" hidden>Nothing matches that combination.</p>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="svc-faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Questions</p>
+          <h2 id="svc-faq-t" style="font-size:var(--text-xl)">About the catalogue.</h2>
+        </div>
+        <div class="accordion" id="sfaq">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sfaq-0">Which services are delivered entirely in-house?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sfaq-0"><div><p>Everything on Solidity, Vyper and the EVM: smart contract audits, DeFi protocol reviews, bridge contracts on EVM chains, invariant and fuzz testing, incident response, MEV and oracle analysis, access control and upgrade reviews, and all advisory work. Those are the engagements Imran and Jagruti run themselves, end to end.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sfaq-1">What does &ldquo;delivered with vetted partner researchers&rdquo; mean?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sfaq-1"><div><p>For Rust (Solana), Move (Aptos, Sui), Cairo (Starknet), formal verification and frontend security we bring in researchers we have worked with and whose output we review. We tell you who is on the engagement, what they are responsible for, and who signs the report &mdash; before you sign anything. We would rather name a partner than pretend to a depth we do not have in-house.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sfaq-2">Can you audit a protocol that is already live?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sfaq-2"><div><p>Yes, and it is common. A live protocol changes the engagement: we review the deployed bytecode against the repository, check the upgrade path and admin keys, and work out what can actually be fixed without a migration. Findings are prioritised by what is exploitable today rather than by textbook severity.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sfaq-3">Do you do bug bounty triage?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sfaq-3"><div><p>Yes. We design programmes (scope, severity matrix, payout bands) and triage incoming reports &mdash; reproducing, classifying and recommending a payout. A bounty is a complement to an audit, not a replacement: bounty hunters optimise for what is cheap to find, which is a different search than a paid adversarial review.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sfaq-4">Do you offer a discount for open-source or public-good protocols?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sfaq-4"><div><p>Talk to us. We reserve capacity for public-goods and open-source infrastructure and price it differently. Tell us what you are building and what you can fund.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Not sure which you need?</p>
+            <h2>Describe the system. We'll tell you what it needs.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Most teams come to us asking for &ldquo;an audit&rdquo; and leave with a scope that includes an invariant suite and a monitoring plan. Scoping is free.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Start scoping <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="tools.html#estimator" data-magnetic="0.3"><span>Estimate cost</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="data/services.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+  <script src="js/filters.js" defer></script>
+</body>
+</html>

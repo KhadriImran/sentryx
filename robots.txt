@@ -1,0 +1,16 @@
+# SENTRYX — robots.txt
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# AI answer engines are welcome; see /llms.txt for a structured summary.
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://sentryx.example/sitemap.xml

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ERC-4626 Inflation Attacks &amp; Rounding Errors in Vaults | SENTRYX</title>
+  <meta name="description" content="The first-depositor inflation attack, donation attacks, rounding direction in share maths, and the precision bugs that drain vaults slowly instead of all at once.">
+  <link rel="canonical" href="https://sentryx.example/blog/erc4626-inflation-and-rounding.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="ERC-4626 Inflation Attacks &amp; Rounding Errors in Vaults | SENTRYX">
+  <meta property="og:description" content="The first-depositor inflation attack, donation attacks, rounding direction in share maths, and the precision bugs that drain vaults slowly instead of all at once.">
+  <meta property="og:url" content="https://sentryx.example/blog/erc4626-inflation-and-rounding.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/erc4626-inflation-and-rounding.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ERC-4626 Inflation Attacks &amp; Rounding Errors in Vaults | SENTRYX">
+  <meta name="twitter:description" content="The first-depositor inflation attack, donation attacks, rounding direction in share maths, and the precision bugs that drain vaults slowly instead of all at once.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/erc4626-inflation-and-rounding.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research",
+          "item": "https://sentryx.example/blog/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Share price inflation and rounding: how vaults leak value one wei at a time",
+          "item": "https://sentryx.example/blog/erc4626-inflation-and-rounding.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Share price inflation and rounding: how vaults leak value one wei at a time",
+      "description": "The first-depositor inflation attack, donation attacks, rounding direction in share maths, and the precision bugs that drain vaults slowly instead of all at once.",
+      "url": "https://sentryx.example/blog/erc4626-inflation-and-rounding.html",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sentryx.example/blog/erc4626-inflation-and-rounding.html"
+      },
+      "datePublished": "2026-02-25",
+      "dateModified": "2026-02-25",
+      "author": {
+        "@type": "Person",
+        "name": "Imran Khadri",
+        "url": "https://sentryx.example/team.html#imran-khadri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "image": "https://sentryx.example/assets/og/erc4626-inflation-and-rounding.png",
+      "keywords": "Vulnerability classes, DeFi, Accounting",
+      "articleSection": "Smart contract security research",
+      "wordCount": 1215
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="section" style="padding-top:calc(var(--header-h) + 3rem)">
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../blog/index.html">Research</a></li><li aria-current="page">Vulnerability class · VC-04</li></ol>
+        <div class="article-layout">
+          <div>
+            <header class="article-head">
+              <p class="eyebrow">Vulnerability class · VC-04</p>
+              <h1>Share price inflation and rounding: how vaults leak value one wei at a time</h1>
+              <p class="lede" style="margin-top:var(--s-4)">The first-depositor attack, donation attacks, rounding direction, and why 'it's only a wei' stops being true when an attacker can repeat it a million times.</p>
+              <div class="article-meta">
+                <span>25 February 2026</span><span>12 min read</span><span>By Imran Khadri</span>
+                <span>Vulnerability classes · DeFi · Accounting</span>
+              </div>
+            </header>
+            <div class="prose">
+<h2 id="shares-are-a-claim">Shares are a claim, and claims can be diluted</h2>
+
+<p>A share-based vault makes one promise: your shares represent a proportional claim on the assets. Every bug in this class is a way to break the proportion &mdash; either by inflating what one share is worth before someone else deposits, or by shaving fractions off every conversion until the accumulated dust is worth stealing.</p>
+<p>The maths is two lines and both of them are dangerous:</p>
+<pre class="code"><code>shares = assets * totalSupply / totalAssets;   // deposit
+assets = shares * totalAssets / totalSupply;   // redeem</code></pre>
+<p>Integer division truncates. Both <code>totalSupply</code> and <code>totalAssets</code> are attacker-influenceable in most designs. Everything below follows from those two facts.</p>
+
+<h2 id="first-depositor">The first-depositor inflation attack</h2>
+
+<p>When <code>totalSupply</code> is zero the formula has no ratio to use, so implementations mint 1:1. That first mint is where the attack lives.</p>
+<pre class="code"><code>// VULNERABLE
+function deposit(uint256 assets) external returns (uint256 shares) {
+    shares = totalSupply == 0 ? assets : assets * totalSupply / totalAssets();
+    _mint(msg.sender, shares);
+    asset.safeTransferFrom(msg.sender, address(this), assets);
+}</code></pre>
+<p>The sequence:</p>
+<ol>
+<li>Attacker deposits <strong>1 wei</strong>, receiving 1 share. <code>totalSupply == 1</code>.</li>
+<li>Attacker transfers <strong>10,000 tokens directly</strong> to the vault &mdash; not through <code>deposit()</code>, just a plain <code>transfer</code>. <code>totalAssets()</code> is now 10,000e18 + 1, but <code>totalSupply</code> is still 1.</li>
+<li>Victim deposits 9,999 tokens. Their shares: <code>9999e18 * 1 / 10000e18</code> = <strong>0</strong>. Truncated to nothing.</li>
+<li>Attacker redeems their single share and receives the entire vault.</li>
+</ol>
+<p>The attacker's capital is at risk only for the length of one block if they front-run the victim's deposit, which is exactly what happens in practice. Note that the vulnerable ingredient is <code>totalAssets()</code> reading <code>asset.balanceOf(address(this))</code> &mdash; that is what makes a direct transfer count.</p>
+
+<h2 id="fixes">Three fixes, ranked</h2>
+
+<p><strong>1. Virtual shares and assets (best).</strong> OpenZeppelin's ERC4626 from 4.9 adds a virtual offset to both sides of the ratio, making the attack unprofitable by orders of magnitude rather than merely expensive:</p>
+<pre class="code"><code>function _decimalsOffset() internal view virtual returns (uint8) {
+    return 6;    // shares are minted 10^6 : 1 against assets
+}
+// convertToShares uses (totalSupply + 10**offset) and (totalAssets + 1)</code></pre>
+<p><strong>2. Dead shares on first deposit.</strong> Mint a minimum quantity to <code>address(0)</code> the first time, so <code>totalSupply</code> can never be 1:</p>
+<pre class="code"><code>if (totalSupply == 0) {
+    require(assets &gt; MINIMUM_LIQUIDITY, "initial deposit too small");
+    _mint(address(0), MINIMUM_LIQUIDITY);       // permanently locked
+    shares = assets - MINIMUM_LIQUIDITY;
+}</code></pre>
+<p><strong>3. Internal accounting instead of balanceOf.</strong> Track deposited assets in a storage variable so a direct transfer does not change <code>totalAssets()</code> at all. This closes donation attacks generally, not just the first-deposit case &mdash; but it means genuine yield must be reported explicitly, which is a design change rather than a patch.</p>
+<div class="callout" data-sev="high"><span class="mono-label">Review note</span>Seeding the vault at deployment is a mitigation, not a fix. It depends on an operational step happening in the same transaction as deployment. We accept it when the deployment script is atomic and we have read it; we flag it when it is a line in a runbook.</div>
+
+<h2 id="rounding-direction">Rounding direction: the invariant nobody writes down</h2>
+
+<p>Every conversion must round in the direction that favours the protocol. Stated precisely:</p>
+<ul>
+<li><code>deposit</code> (assets in, shares out) &rarr; round shares <strong>down</strong>.</li>
+<li><code>mint</code> (shares out, assets in) &rarr; round assets <strong>up</strong>.</li>
+<li><code>withdraw</code> (assets out, shares in) &rarr; round shares <strong>up</strong>.</li>
+<li><code>redeem</code> (shares in, assets out) &rarr; round assets <strong>down</strong>.</li>
+</ul>
+<p>Get one of these backwards and every operation leaks a fraction of a unit to the user. That sounds harmless until you notice the attacker can call it in a loop.</p>
+<pre class="code"><code>// VULNERABLE: rounds in the user's favour on withdraw
+function withdraw(uint256 assets) external returns (uint256 shares) {
+    shares = assets * totalSupply / totalAssets();          // rounds DOWN
+    _burn(msg.sender, shares);                              // burns too few
+    asset.safeTransfer(msg.sender, assets);
+}
+
+// FIXED
+function withdraw(uint256 assets) external returns (uint256 shares) {
+    shares = _mulDivUp(assets, totalSupply, totalAssets()); // rounds UP
+    _burn(msg.sender, shares);
+    asset.safeTransfer(msg.sender, assets);
+}</code></pre>
+<p>The economics: if each withdrawal leaks 1 wei and gas costs 30,000 units, the attack is not profitable on Ethereum mainnet. On an L2 where a transaction costs a fraction of a cent, and where a single transaction can batch a thousand iterations, it becomes profitable at surprisingly small leak sizes. Always evaluate rounding leaks against the gas costs of the <em>target chain</em>.</p>
+
+<h2 id="precision">Precision loss beyond rounding direction</h2>
+
+<p><strong>Division before multiplication.</strong> The most common precision bug in the class, and it survives code review because it looks like a gas optimisation:</p>
+<pre class="code"><code>// WRONG: truncates before the multiply
+uint256 interest = (debt * rate) / 1e18 * elapsed / 365 days;
+
+// RIGHT: all multiplications first
+uint256 interest = (debt * rate * elapsed) / (1e18 * 365 days);</code></pre>
+<p>At small <code>debt</code> the first version truncates to zero and interest stops accruing entirely &mdash; a free loan below a threshold. Tests pass because they use realistic magnitudes.</p>
+<p><strong>Decimal mismatches.</strong> USDC has 6 decimals, WBTC has 8, most ERC-20s have 18, and Chainlink feeds have 8. Any maths mixing them without explicit normalisation is wrong somewhere. Test every accounting path with a 6-decimal token; it is the single highest-yield test in this class.</p>
+<p><strong>Non-standard token behaviour.</strong> Fee-on-transfer tokens mean the vault receives less than <code>assets</code>. Rebasing tokens mean <code>balanceOf</code> changes without a transfer. Both silently break share accounting. Either measure the balance delta:</p>
+<pre class="code"><code>uint256 before = asset.balanceOf(address(this));
+asset.safeTransferFrom(msg.sender, address(this), assets);
+uint256 received = asset.balanceOf(address(this)) - before;
+shares = convertToShares(received);   // mint against what actually arrived</code></pre>
+<p>&mdash; or document and enforce an allowlist of supported tokens. What you cannot do is assume standard behaviour and let the owner whitelist arbitrary assets later.</p>
+
+<h2 id="testing">The invariants that catch all of this</h2>
+
+<p>This entire class is what invariant testing was built for. The properties are short, and a fuzzer finds violations that reading will not.</p>
+<pre class="code"><code>// No user may extract more than they put in, absent real yield.
+function invariant_noValueCreation() public view {
+    assertGe(handler.ghost_depositSum() + ghost_yield,
+             handler.ghost_withdrawSum());
+}
+
+// Share price never decreases outside a realised loss.
+function invariant_sharePriceMonotonic() public view {
+    assertGe(vault.convertToAssets(1e18), ghost_lastSharePrice);
+}
+
+// Round-tripping must never be profitable.
+function invariant_roundTripNotProfitable(uint256 assets) public {
+    assets = bound(assets, 1, 1e24);
+    uint256 shares = vault.previewDeposit(assets);
+    assertLe(vault.previewRedeem(shares), assets);
+}
+
+// The vault can always honour every outstanding share.
+function invariant_solvent() public view {
+    assertGe(vault.totalAssets(), vault.convertToAssets(vault.totalSupply()));
+}</code></pre>
+<p>The last one is the one to write first. If it holds under a few million fuzzed sequences including donations, dust deposits and adversarial ordering, most of this article is already covered.</p>
+
+<h2 id="checklist">Review checklist</h2>
+
+<ul>
+<li>Check the <code>totalSupply == 0</code> branch. Virtual offset, dead shares or internal accounting &mdash; one of the three must be present.</li>
+<li>Does <code>totalAssets()</code> read <code>balanceOf</code>? If so, a direct transfer changes the share price. Confirm that is intended.</li>
+<li>Verify rounding direction on all four ERC-4626 entry points, then price a round-trip leak against the target chain's gas cost.</li>
+<li>Grep for division that precedes multiplication in any accrual or conversion path.</li>
+<li>Test every accounting path with 6-, 8- and 18-decimal tokens.</li>
+<li>Test with a fee-on-transfer mock and a rebasing mock, even if you believe they are unsupported.</li>
+<li>Write the four invariants above and run them for a few million sequences before shipping.</li>
+</ul>
+<p>Value leaks in this class do not announce themselves. There is no dramatic drain transaction to point at &mdash; just a share price that is slightly wrong, forever, in a direction that is not yours.</p>
+
+              <hr class="rule">
+              <p class="muted" style="font-size:var(--text-sm)">All code in this article is illustrative &mdash; written to demonstrate a pattern, not taken from any client engagement. If you want this class of issue hunted in your own codebase, that is what a <a href="../services/invariant-fuzz-testing.html">Invariant &amp; Fuzz Testing</a> is for.</p>
+            </div>
+          </div>
+          <nav class="toc" aria-label="On this page">
+            <h4>On this page</h4>
+            <ul></ul>
+            <div style="margin-top:var(--s-6);padding-top:var(--s-5);border-top:1px solid var(--line-2)">
+              <h4>Related service</h4>
+              <a class="link-arrow" href="../services/invariant-fuzz-testing.html" style="font-size:var(--text-sm)">Invariant &amp; Fuzz Testing <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+              <p style="margin-top:var(--s-4)"><a class="btn btn-primary btn-sm" href="../contact.html" style="width:100%"><span>Request an audit</span></a></p>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Keep reading</p><h2 style="font-size:var(--text-xl)">More from the research series.</h2></div>
+        <div class="grid grid-2" data-reveal-stagger><a class="card card-link" href="access-control-failures.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Previous</span><h3>Access control failures: the simplest bug class, and the most expensive</h3></a><a class="card card-link" href="mev-and-front-running-defi.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Next</span><h3>MEV and front-running: when correct code still loses users money</h3></a></div>
+        <p style="margin-top:var(--s-6)"><a class="link-arrow" href="index.html">All research <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Found this useful?</p>
+            <h2>We hunt this class for a living.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repository. Free scoping in under two working days, and you'll know who is reading your code.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../tools.html#precheck" data-magnetic="0.3"><span>Run a free pre-check</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/filters.js" defer></script>
+</body>
+</html>

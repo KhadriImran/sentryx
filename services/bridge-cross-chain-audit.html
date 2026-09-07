@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX</title>
+  <meta name="description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
+  <link rel="canonical" href="https://sentryx.example/services/bridge-cross-chain-audit.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX">
+  <meta property="og:description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
+  <meta property="og:url" content="https://sentryx.example/services/bridge-cross-chain-audit.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/bridge-cross-chain-audit.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX">
+  <meta name="twitter:description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/bridge-cross-chain-audit.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://sentryx.example/services.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Bridge & Cross-Chain Security Audit",
+          "item": "https://sentryx.example/services/bridge-cross-chain-audit.html"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "Bridge & Cross-Chain Security Audit",
+      "serviceType": "Bridge & Cross-Chain Security Audit",
+      "url": "https://sentryx.example/services/bridge-cross-chain-audit.html",
+      "description": "Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.",
+      "provider": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "areaServed": "Worldwide",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "minPrice": "15000"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do bridge audits cost more than contract audits?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because a bridge is several systems and the attack surface is the seam between them. You are paying for a threat model per chain, review of the off-chain relay layer, and analysis of failure modes — halts, reorgs, forks — that do not exist in a single-chain audit. Starting price is $15,000 and scope is quoted per chain pair."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a bridge audit take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Four to eight weeks depending on the number of chains, the verification mechanism and whether the off-chain components are in scope. Light-client and ZK-verified bridges take longer than multisig attestation because the proof system itself needs review."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you audit non-EVM sides of a bridge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The EVM side is fully in-house. For a Solana, Aptos, Sui or Starknet counterpart we bring in vetted partner researchers for that chain, and we tell you who they are before you sign. We stay responsible for the cross-chain threat model and the integration between the two sides."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you review the relayer and off-chain infrastructure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, when it is in scope — and we recommend it is. A large share of bridge incidents involved compromised keys or a relayer that could be induced to sign something it should not have. Reviewing only the contracts leaves that untouched."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the most common bridge vulnerability class?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Verification that does not verify what it appears to: missing chain-ID or domain binding, a proof check that can be satisfied by a crafted payload, a signer set read at the wrong time, or a nonce recorded but never checked. Almost every large bridge loss traces to the verifier accepting a message it should have rejected."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you review our bridge before the second chain is finished?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and it is often the right sequence: we review the source chain and the message format first, then the destination side when it is ready. Phasing it that way catches design problems in the message schema while changing it is still cheap."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li aria-current="page">Bridge &amp; Cross-Chain Security Audit</li></ol>
+        <p class="eyebrow">Specialist engagement · From $15,000 · 4–8 weeks</p>
+        <h1 data-scramble="900">Bridge &amp; Cross-Chain Security Audit</h1>
+        <p class="lede">Bridges hold the largest single-exploit losses in this industry, and almost none of them lost money to a bug in a token contract. They lost it at the verification boundary — a forged proof, a replayed message, a compromised signer set, or an assumption about finality that did not hold.</p>
+        <div class="hero-actions" style="margin-top:var(--s-6)">
+          <a class="btn btn-primary" href="../contact.html" data-magnetic="0.3"><span>Request this engagement <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a class="btn btn-ghost" href="../tools.html#estimator" data-magnetic="0.3"><span>Estimate cost</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container" style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-8)" data-reveal>
+        <div class="prose" style="max-width:none"><p>A bridge is not one system. It is two or more chains, a set of contracts on each, an off-chain relay layer, and a trust model that ties them together. Auditing only the Solidity is auditing a third of the attack surface.</p><p>We start at the boundary: what exactly does the destination chain believe, why does it believe it, and what would it take to make it believe something false? Every bridge answers this differently — light clients, optimistic windows, multisig attestation, ZK proofs — and each answer has its own failure geometry.</p><p>Then we work outward: replay across chains and across epochs, reorgs on the source chain, message ordering, liquidity accounting on both sides, upgradeability of the verifier, and what happens when one chain halts while the other keeps running. The last one has broken more bridges than any cryptographic flaw.</p></div>
+        <aside>
+          <div class="card card-accentline">
+            <span class="card-index">Deliverables</span>
+            <ul style="list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;gap:10px;font-size:var(--text-sm);color:var(--ink-2)">
+              <li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Cross-chain threat model covering every chain in the path</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Message lifecycle analysis with failure modes</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Trust-model documentation (who can do what, and what breaks if they are compromised)</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Invariant suite for supply and accounting reconciliation</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Off-chain component review</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Monitoring and pause-runbook recommendations</span></li><li style="display:grid;grid-template-columns:16px 1fr;gap:9px"><span style="width:6px;height:6px;margin-top:7px;background:var(--accent);transform:rotate(45deg)"></span><span>Remediation verification and final report</span></li>
+            </ul>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <span class="mono-label accent">From $15,000</span>
+              <a class="link-arrow" href="../pricing.html">Pricing <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="cov-t">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Scope of review</p>
+          <h2 id="cov-t">What we look at, and what we're looking for.</h2>
+        </div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">01</span><h3>Message verification</h3><p>The proof or attestation path in full: what is signed, what is checked, what is assumed. Signature malleability, domain separation, chain-ID binding and nonce handling.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">02</span><h3>Replay &amp; reorg protection</h3><p>Cross-chain and cross-epoch replay, message uniqueness, and behaviour when a source-chain block containing a burn is reorganised after the mint has already executed.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">03</span><h3>Relayer &amp; validator trust</h3><p>Who can submit, who can censor, what a threshold of compromised signers achieves, key rotation safety, and the liveness assumptions the design depends on.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">04</span><h3>Finality assumptions</h3><p>Confirmation depths per chain, probabilistic vs deterministic finality, and what the contract does when a chain it depends on halts, forks or reverts.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">05</span><h3>Liquidity &amp; accounting</h3><p>Mint-and-burn vs lock-and-release invariants, supply reconciliation across chains, and whether a failure on one side can leave the other permanently unbalanced.</p></div>
+          <div class="card"><div class="card-glow" aria-hidden="true"></div><span class="card-index">06</span><h3>Off-chain components</h3><p>Relayer implementation, watcher and challenger logic, key management, and the operational runbook for pausing a bridge under attack.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="code-t">
+      <div class="container finding-layout">
+        <div data-reveal="left">
+          <span class="illustrative">Illustrative example</span>
+          <p class="eyebrow" style="margin-top:var(--s-4)">In practice</p>
+          <h2 id="code-t" style="font-size:var(--text-xl)">The check that separates a bridge from an incident</h2>
+          <p class="lede" style="margin-top:var(--s-4)">Code on this page is written to illustrate a technique or a finding class. It is not taken from any client engagement.</p>
+          <p style="margin-top:var(--s-5)"><a class="link-arrow" href="../tools.html#report-viewer">See a full sample report <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+        </div>
+        <div data-reveal="right">
+          <div class="terminal">
+            <div class="terminal-bar"><span class="dots"><i></i><i></i><i></i></span> Message verification — illustrative</div>
+            <pre class="code" style="border:0;border-radius:0;background:transparent"><code>// ILLUSTRATIVE — the anatomy of a replay/forgery bug
+
+// VULNERABLE: no chain binding, no nonce consumption ordering,
+// signer set read after the loop.
+function receiveMessage(bytes calldata payload, bytes[] calldata sigs) external {
+    bytes32 h = keccak256(payload);
+    require(_countValidSigners(h, sigs) &gt;= threshold, "threshold");
+    (address to, uint256 amount, uint256 nonce) = abi.decode(payload, (address, uint256, uint256));
+    processed[nonce] = true;              // set, but never checked
+    token.mint(to, amount);
+}
+
+// FIXED: domain-separated, chain-bound, nonce checked before effects,
+// signer set snapshotted at message creation.
+function receiveMessage(bytes calldata payload, bytes[] calldata sigs) external {
+    bytes32 h = keccak256(abi.encode(DOMAIN, srcChainId, block.chainid, payload));
+    (address to, uint256 amount, uint256 nonce, uint64 epoch) =
+        abi.decode(payload, (address, uint256, uint256, uint64));
+    require(!processed[nonce], "replay");
+    require(_countValidSigners(h, sigs, signerSetAt[epoch]) &gt;= thresholdAt[epoch], "threshold");
+    processed[nonce] = true;              // effects before interaction
+    token.mint(to, amount);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions we get about this engagement.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in <a href="../pricing.html" class="u-line" style="color:var(--ink-0)">pricing</a> and the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a>.</p>
+        </div>
+        <div class="accordion" id="sf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-0">Why do bridge audits cost more than contract audits?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-0"><div><p>Because a bridge is several systems and the attack surface is the seam between them. You are paying for a threat model per chain, review of the off-chain relay layer, and analysis of failure modes — halts, reorgs, forks — that do not exist in a single-chain audit. Starting price is $15,000 and scope is quoted per chain pair.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-1">How long does a bridge audit take?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-1"><div><p>Four to eight weeks depending on the number of chains, the verification mechanism and whether the off-chain components are in scope. Light-client and ZK-verified bridges take longer than multisig attestation because the proof system itself needs review.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-2">Do you audit non-EVM sides of a bridge?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-2"><div><p>The EVM side is fully in-house. For a Solana, Aptos, Sui or Starknet counterpart we bring in vetted partner researchers for that chain, and we tell you who they are before you sign. We stay responsible for the cross-chain threat model and the integration between the two sides.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-3">Do you review the relayer and off-chain infrastructure?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-3"><div><p>Yes, when it is in scope — and we recommend it is. A large share of bridge incidents involved compromised keys or a relayer that could be induced to sign something it should not have. Reviewing only the contracts leaves that untouched.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-4">What is the most common bridge vulnerability class?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-4"><div><p>Verification that does not verify what it appears to: missing chain-ID or domain binding, a proof check that can be satisfied by a crafted payload, a signer set read at the wrong time, or a nonce recorded but never checked. Almost every large bridge loss traces to the verifier accepting a message it should have rejected.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="sf-5">Can you review our bridge before the second chain is finished?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="sf-5"><div><p>Yes, and it is often the right sequence: we review the source chain and the message format first, then the destination side when it is ready. Phasing it that way catches design problems in the message schema while changing it is still cheap.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Related</p><h2 style="font-size:var(--text-xl)">Often scoped alongside this.</h2></div>
+        <div class="grid grid-3" data-reveal-stagger>
+          <a class="card card-link" href="defi-protocol-audit.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>DeFi Protocol Security Review</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+          <a class="card card-link" href="smart-contract-security-audit.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>Smart Contract Security Audit</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+          <a class="card card-link" href="incident-response.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Related service</span><h3>Incident Response &amp; Forensics</h3><div class="card-foot"><span class="link-arrow">View <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">From $15,000</p>
+            <h2>Send the repo. Scoping is free.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Under two working days to a written scope, a fixed quote and the names of the researchers who would do the work.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../services.html" data-magnetic="0.3"><span>All services</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+</body>
+</html>

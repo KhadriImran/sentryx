@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Contract Audit Pricing — What a Security Audit Costs | SENTRYX</title>
+  <meta name="description" content="Transparent SENTRYX pricing: pre-deployment assessment from $1,500, standard audit from $3,000, DeFi protocol audit from $8,000, bridge audit from $15,000, retainer from $3,000/month. Remediation verification included.">
+  <link rel="canonical" href="https://sentryx.example/pricing.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Smart Contract Audit Pricing — What a Security Audit Costs | SENTRYX">
+  <meta property="og:description" content="Transparent SENTRYX pricing: pre-deployment assessment from $1,500, standard audit from $3,000, DeFi protocol audit from $8,000, bridge audit from $15,000, retainer from $3,000/month. Remediation verification included.">
+  <meta property="og:url" content="https://sentryx.example/pricing.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/pricing.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Contract Audit Pricing — What a Security Audit Costs | SENTRYX">
+  <meta name="twitter:description" content="Transparent SENTRYX pricing: pre-deployment assessment from $1,500, standard audit from $3,000, DeFi protocol audit from $8,000, bridge audit from $15,000, retainer from $3,000/month. Remediation verification included.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/pricing.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Pricing",
+          "item": "https://sentryx.example/pricing.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why are these ranges rather than fixed prices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because a fixed price for &ldquo;an audit&rdquo; is either padded to cover the worst case or quoted before anyone read the code. Scope drives price: 2,000 lines of a staking contract and 2,000 lines of a perpetuals margin engine are not the same engagement. We quote a fixed figure after a free scoping review, and that figure does not move unless the scope does."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes a quote go up or down?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Up: novel economic design, many external integrations, upgradeable architecture, thin documentation, low test coverage, non-EVM chains, and urgency. Down: a well-documented fork of known code, high test coverage, a tight scope, and flexible timing. Test coverage is the biggest lever a team actually controls &mdash; good tests let us spend time hunting instead of reconstructing intent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you charge for scoping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Scoping takes us under two working days and produces a written scope, a trust-boundary sketch and a fixed quote. If we are not the right firm for the job, we will say so at that point rather than quoting for work we should not take."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do payments work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fifty percent to book the slot, fifty percent on delivery of the report. Remediation verification is included in that price &mdash; it is not billed separately. Retainers are billed monthly in advance. We invoice in USD and can accept stablecoins or bank transfer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is remediation verification really included?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for every audit tier. Re-reviewing your fixes is part of the engagement, not an upsell &mdash; an audit that ends before the fixes are checked has not finished doing its job. What is billed separately is a full re-audit after substantial new development, because that is new code."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer discounts for open-source or public goods?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We reserve capacity for public-goods infrastructure and price it differently. Tell us what you are building and what you can fund &mdash; we would rather do the work at a workable number than not do it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if our budget is below your starting price?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Say so. Sometimes the answer is a narrower scope &mdash; audit the two contracts that hold funds rather than all nine. Sometimes it is a pre-deployment assessment plus an invariant suite instead of a full audit. And sometimes the honest answer is that you should ship less code until you can afford to review the code you have."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Pricing</li></ol>
+        <p class="eyebrow">Pricing · USD</p>
+        <h1 data-scramble="900">Starting points, not price tags.</h1>
+        <p class="lede" id="pricing-note"></p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="price-grid" id="price-grid" data-reveal-stagger></div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="cmp-t">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div><p class="eyebrow">Side by side</p><h2 id="cmp-t">What each tier actually includes.</h2></div>
+          <p class="lede">The row that matters most is remediation verification. An audit that stops at the report has told you what was wrong, not confirmed that it is fixed.</p>
+        </div>
+        <div class="table-wrap" data-reveal><table class="cmp-table" id="cmp-table"></table></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="price-faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Commercials</p>
+          <h2 id="price-faq-t" style="font-size:var(--text-xl)">How pricing actually works.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">Try the <a href="tools.html#estimator" class="u-line" style="color:var(--ink-0)">quote estimator</a> for an indicative range in ten seconds.</p>
+        </div>
+        <div class="accordion" id="prfaq">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-0">Why are these ranges rather than fixed prices?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-0"><div><p>Because a fixed price for &ldquo;an audit&rdquo; is either padded to cover the worst case or quoted before anyone read the code. Scope drives price: 2,000 lines of a staking contract and 2,000 lines of a perpetuals margin engine are not the same engagement. We quote a fixed figure after a free scoping review, and that figure does not move unless the scope does.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-1">What makes a quote go up or down?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-1"><div><p>Up: novel economic design, many external integrations, upgradeable architecture, thin documentation, low test coverage, non-EVM chains, and urgency. Down: a well-documented fork of known code, high test coverage, a tight scope, and flexible timing. Test coverage is the biggest lever a team actually controls &mdash; good tests let us spend time hunting instead of reconstructing intent.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-2">Do you charge for scoping?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-2"><div><p>No. Scoping takes us under two working days and produces a written scope, a trust-boundary sketch and a fixed quote. If we are not the right firm for the job, we will say so at that point rather than quoting for work we should not take.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-3">How do payments work?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-3"><div><p>Fifty percent to book the slot, fifty percent on delivery of the report. Remediation verification is included in that price &mdash; it is not billed separately. Retainers are billed monthly in advance. We invoice in USD and can accept stablecoins or bank transfer.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-4">Is remediation verification really included?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-4"><div><p>Yes, for every audit tier. Re-reviewing your fixes is part of the engagement, not an upsell &mdash; an audit that ends before the fixes are checked has not finished doing its job. What is billed separately is a full re-audit after substantial new development, because that is new code.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-5">Do you offer discounts for open-source or public goods?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-5"><div><p>Yes. We reserve capacity for public-goods infrastructure and price it differently. Tell us what you are building and what you can fund &mdash; we would rather do the work at a workable number than not do it.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="prfaq-6">What if our budget is below your starting price?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="prfaq-6"><div><p>Say so. Sometimes the answer is a narrower scope &mdash; audit the two contracts that hold funds rather than all nine. Sometimes it is a pre-deployment assessment plus an invariant suite instead of a full audit. And sometimes the honest answer is that you should ship less code until you can afford to review the code you have.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Free scoping</p>
+            <h2>A fixed quote in two working days.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repository. You get a written scope, a fixed price and the names of the researchers &mdash; before you commit to anything.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Request a quote <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="tools.html#estimator" data-magnetic="0.3"><span>Estimate it yourself</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="data/pricing.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+  <script src="js/pricing.js" defer></script>
+</body>
+</html>

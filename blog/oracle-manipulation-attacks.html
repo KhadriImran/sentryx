@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Oracle Manipulation Attacks in DeFi — Spot Prices, TWAP &amp; Flash Loans | SENTRYX</title>
+  <meta name="description" content="Why AMM spot prices are not prices, what a TWAP actually protects against, the Chainlink integration checks most teams skip, and how to review an oracle dependency properly.">
+  <link rel="canonical" href="https://sentryx.example/blog/oracle-manipulation-attacks.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Oracle Manipulation Attacks in DeFi — Spot Prices, TWAP &amp; Flash Loans | SENTRYX">
+  <meta property="og:description" content="Why AMM spot prices are not prices, what a TWAP actually protects against, the Chainlink integration checks most teams skip, and how to review an oracle dependency properly.">
+  <meta property="og:url" content="https://sentryx.example/blog/oracle-manipulation-attacks.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/oracle-manipulation-attacks.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Oracle Manipulation Attacks in DeFi — Spot Prices, TWAP &amp; Flash Loans | SENTRYX">
+  <meta name="twitter:description" content="Why AMM spot prices are not prices, what a TWAP actually protects against, the Chainlink integration checks most teams skip, and how to review an oracle dependency properly.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/oracle-manipulation-attacks.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research",
+          "item": "https://sentryx.example/blog/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Oracle manipulation: how a flash loan turns a price feed into an exploit",
+          "item": "https://sentryx.example/blog/oracle-manipulation-attacks.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Oracle manipulation: how a flash loan turns a price feed into an exploit",
+      "description": "Why AMM spot prices are not prices, what a TWAP actually protects against, the Chainlink integration checks most teams skip, and how to review an oracle dependency properly.",
+      "url": "https://sentryx.example/blog/oracle-manipulation-attacks.html",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sentryx.example/blog/oracle-manipulation-attacks.html"
+      },
+      "datePublished": "2026-02-11",
+      "dateModified": "2026-02-11",
+      "author": {
+        "@type": "Person",
+        "name": "Imran Khadri",
+        "url": "https://sentryx.example/team.html#imran-khadri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      },
+      "image": "https://sentryx.example/assets/og/oracle-manipulation-attacks.png",
+      "keywords": "Vulnerability classes, DeFi, Oracles",
+      "articleSection": "Smart contract security research",
+      "wordCount": 1259
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../team.html">Researchers</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="section" style="padding-top:calc(var(--header-h) + 3rem)">
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../blog/index.html">Research</a></li><li aria-current="page">Vulnerability class · VC-02</li></ol>
+        <div class="article-layout">
+          <div>
+            <header class="article-head">
+              <p class="eyebrow">Vulnerability class · VC-02</p>
+              <h1>Oracle manipulation: how a flash loan turns a price feed into an exploit</h1>
+              <p class="lede" style="margin-top:var(--s-4)">Why spot prices from AMM reserves are not prices, what TWAP actually protects against, and the Chainlink integration checks that most teams skip.</p>
+              <div class="article-meta">
+                <span>11 February 2026</span><span>13 min read</span><span>By Imran Khadri</span>
+                <span>Vulnerability classes · DeFi · Oracles</span>
+              </div>
+            </header>
+            <div class="prose">
+<h2 id="the-core-mistake">The core mistake: treating a quote as a price</h2>
+
+<p>An AMM pool does not publish a price. It publishes a <em>ratio of its current reserves</em>, which is the price at which it will trade with you right now, given its current inventory. Those are different things, and the difference is the entire attack.</p>
+<p>A price is a claim about the market. A reserve ratio is a claim about one pool's inventory &mdash; and inventory is something anyone with capital can change, atomically, inside the same transaction that then reads it.</p>
+<pre class="code"><code>// VULNERABLE — this is a quote, not a price
+function getPrice() public view returns (uint256) {
+    (uint112 r0, uint112 r1, ) = pair.getReserves();
+    return uint256(r1) * 1e18 / uint256(r0);
+}</code></pre>
+<p>Flash loans removed the capital requirement that used to make this theoretical. An attacker does not need to own $50M to move a pool by 60% &mdash; they need to borrow it for the duration of one transaction and repay it in the same transaction. The cost of the attack collapses to gas plus the flash-loan fee plus the slippage they eat and partially recover on the way out.</p>
+
+<h2 id="attack-shape">The attack, step by step</h2>
+
+<p>Every variant of this exploit has the same five-step shape. Recognising it is most of the review:</p>
+<ol>
+<li><strong>Borrow.</strong> Flash loan a large amount of one side of the pool.</li>
+<li><strong>Move.</strong> Swap into the pool, pushing the reserve ratio far from the true market price.</li>
+<li><strong>Read.</strong> Call the victim protocol, which reads the manipulated ratio and mis-values something &mdash; collateral, shares, a payout, a mint amount.</li>
+<li><strong>Extract.</strong> Borrow against inflated collateral, redeem shares at an inflated price, or mint tokens against a deflated backing.</li>
+<li><strong>Restore and repay.</strong> Swap back, repay the flash loan, keep the difference.</li>
+</ol>
+<pre class="code"><code>// The exploit, compressed to its essence
+function attack() external {
+    lender.flashLoan(address(this), USDC, 50_000_000e6, "");
+}
+
+function onFlashLoan(...) external {
+    pool.swap(50_000_000e6, 0, address(this));   // 2. move the ratio
+    uint256 inflated = victim.collateralValue(address(this));
+    victim.borrow(inflated * 80 / 100);          // 4. borrow against a lie
+    pool.swap(0, received, address(this));       // 5. restore
+    USDC.transfer(address(lender), amount + fee);
+}</code></pre>
+<p>Note what is <em>not</em> in this attack: no reentrancy, no access control bypass, no arithmetic overflow. Every function did exactly what it was written to do. The protocol was defeated by believing a number.</p>
+
+<h2 id="twap">What a TWAP actually protects against</h2>
+
+<p>A time-weighted average price makes the manipulation cost proportional to duration. To move a 30-minute TWAP meaningfully you must hold the pool away from market price for a meaningful fraction of 30 minutes &mdash; which means eating arbitrage losses the whole time, and crucially, it cannot be done inside a single transaction. Flash loans stop working.</p>
+<p>But TWAPs are not magic, and reviewing one means checking specifics:</p>
+<ul>
+<li><strong>Window length.</strong> A 5-minute TWAP on an illiquid pool is manipulable across two or three blocks for a determined attacker. Thirty minutes is a common floor; longer for thin liquidity.</li>
+<li><strong>Pool liquidity.</strong> The cost of manipulation scales with depth. A TWAP over a $200k pool protects nothing regardless of window. Check the actual pool you are reading, not the token's aggregate liquidity.</li>
+<li><strong>Staleness in the other direction.</strong> A long TWAP lags. During a genuine crash, a 60-minute TWAP will value collateral far above market for the better part of an hour &mdash; which is its own solvency problem for a lending market.</li>
+<li><strong>Observation cardinality.</strong> On Uniswap V3, if cardinality was never increased, the oracle cannot serve the window you are requesting and the call reverts or returns a much shorter effective window.</li>
+</ul>
+<div class="callout" data-sev="high"><span class="mono-label">Frequent finding</span>A protocol adds a TWAP after an audit recommends one, but reads it with a 10-minute window from a pool with $80k of liquidity. The recommendation was implemented; the risk was not removed. Always price the manipulation, do not just check the mechanism exists.</div>
+
+<h2 id="chainlink">Chainlink integrations: the checks teams skip</h2>
+
+<p>Using a professional feed is the right default. Using it incorrectly is one of the most common findings we write.</p>
+<pre class="code"><code>// VULNERABLE — the return values nobody checks
+function getPrice() public view returns (uint256) {
+    (, int256 answer, , , ) = feed.latestRoundData();
+    return uint256(answer);          // stale? negative? wrong decimals?
+}
+
+// FIXED
+function getPrice() public view returns (uint256) {
+    (uint80 roundId, int256 answer, , uint256 updatedAt, uint80 answeredInRound)
+        = feed.latestRoundData();
+    require(answer &gt; 0, "invalid answer");
+    require(updatedAt != 0, "incomplete round");
+    require(answeredInRound &gt;= roundId, "stale round");
+    require(block.timestamp - updatedAt &lt;= HEARTBEAT, "stale price");
+    return uint256(answer) * 1e18 / 10 ** feed.decimals();
+}</code></pre>
+<p>Beyond the return values themselves:</p>
+<ul>
+<li><strong>Heartbeat per feed.</strong> Feeds have different update frequencies &mdash; a single global <code>MAX_AGE</code> constant across feeds is either too tight (spurious reverts) or too loose (accepts stale data).</li>
+<li><strong>Circuit breakers.</strong> Some feeds have min/max answer bounds. If the real price moves outside them, the feed reports the bound, not the price. This is what turned a depeg into an insolvency event for more than one protocol.</li>
+<li><strong>L2 sequencer uptime.</strong> On Arbitrum, Optimism and similar, if the sequencer was down, prices went stale while the chain could not process liquidations. Read the sequencer uptime feed and enforce a grace period after recovery.</li>
+<li><strong>Deviation, not just age.</strong> Feeds update on a deviation threshold <em>or</em> heartbeat. A price can be perfectly fresh and still be up to the threshold away from market.</li>
+</ul>
+
+<h2 id="design">Designing an oracle dependency you can defend</h2>
+
+<p>The strongest pattern we see in practice is layered rather than singular:</p>
+<ol>
+<li><strong>Primary:</strong> a professional feed with full validation as above.</li>
+<li><strong>Cross-check:</strong> an independent source &mdash; a long TWAP, or a second feed provider &mdash; with a maximum permitted deviation between them.</li>
+<li><strong>Fail closed:</strong> if the sources disagree beyond the bound, or the primary is stale, <em>pause the affected operation</em> rather than falling back to the weaker source. A fallback that activates precisely when something is wrong is an attack trigger, not a safety measure.</li>
+<li><strong>Bound the blast radius:</strong> per-block borrow caps, per-transaction limits, and a maximum price movement accepted between updates. These do not prevent manipulation; they cap what it can extract.</li>
+</ol>
+<pre class="code"><code>uint256 primary   = _chainlinkPrice();      // fully validated
+uint256 secondary = _twapPrice(30 minutes); // manipulation-resistant
+require(_deviationBps(primary, secondary) &lt;= MAX_DEVIATION_BPS, "oracle disagreement");
+return primary;</code></pre>
+<div class="callout" data-sev="medium"><span class="mono-label">Design note</span>Fail-closed hurts. It means a feed problem stops borrowing for everyone, and someone will argue for a fallback. Have that argument during design, with the cost of each option written down &mdash; not at 3am during an incident.</div>
+
+<h2 id="review-checklist">How we review an oracle dependency</h2>
+
+<ul>
+<li>Enumerate every price read in the codebase and trace it to its ultimate source. Include indirect reads through integrated protocols.</li>
+<li>For each source, estimate the cost of moving it by 10% for one block, and for thirty minutes. If either number is smaller than what an attacker gains, that is the finding.</li>
+<li>Check every Chainlink return value, per-feed heartbeats, circuit-breaker bounds and L2 sequencer handling.</li>
+<li>Check TWAP window length against the actual liquidity of the specific pool, and verify observation cardinality was increased.</li>
+<li>Check decimals normalisation at every boundary &mdash; an 8-decimal feed into 18-decimal maths is a whole finding class of its own.</li>
+<li>Ask what happens when the oracle fails, and confirm the answer is not &ldquo;fall back to something weaker&rdquo;.</li>
+<li>Write an invariant: collateral value must never permit a borrow that leaves the position immediately liquidatable at the cross-checked price.</li>
+</ul>
+<p>Oracle manipulation is not an exotic attack any more. It is the default thing a sophisticated attacker tries first, because it defeats correct code. If your protocol values anything, the question is not whether your oracle can be manipulated &mdash; it is how much that costs, and whether the answer is more than what they would gain.</p>
+
+              <hr class="rule">
+              <p class="muted" style="font-size:var(--text-sm)">All code in this article is illustrative &mdash; written to demonstrate a pattern, not taken from any client engagement. If you want this class of issue hunted in your own codebase, that is what a <a href="../services/defi-protocol-audit.html">DeFi Protocol Security Review</a> is for.</p>
+            </div>
+          </div>
+          <nav class="toc" aria-label="On this page">
+            <h4>On this page</h4>
+            <ul></ul>
+            <div style="margin-top:var(--s-6);padding-top:var(--s-5);border-top:1px solid var(--line-2)">
+              <h4>Related service</h4>
+              <a class="link-arrow" href="../services/defi-protocol-audit.html" style="font-size:var(--text-sm)">DeFi Protocol Security Review <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+              <p style="margin-top:var(--s-4)"><a class="btn btn-primary btn-sm" href="../contact.html" style="width:100%"><span>Request an audit</span></a></p>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head" data-reveal><p class="eyebrow">Keep reading</p><h2 style="font-size:var(--text-xl)">More from the research series.</h2></div>
+        <div class="grid grid-2" data-reveal-stagger><a class="card card-link" href="reentrancy-attacks-explained.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Previous</span><h3>Reentrancy attacks explained: every variant, and why guards aren't enough</h3></a><a class="card card-link" href="access-control-failures.html" data-tilt="3"><div class="card-glow" aria-hidden="true"></div><span class="card-index">Next</span><h3>Access control failures: the simplest bug class, and the most expensive</h3></a></div>
+        <p style="margin-top:var(--s-6)"><a class="link-arrow" href="index.html">All research <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Found this useful?</p>
+            <h2>We hunt this class for a living.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repository. Free scoping in under two working days, and you'll know who is reading your code.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../tools.html#precheck" data-magnetic="0.3"><span>Run a free pre-check</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../team.html">Researchers</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/filters.js" defer></script>
+</body>
+</html>
