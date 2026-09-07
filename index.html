@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SENTRYX — Smart Contract Security Audits by Named Researchers</title>
+  <meta name="description" content="Specialist smart contract security firm. Manual adversarial review of EVM and DeFi protocols, bridges and token systems, backed by invariant testing and verified remediation. Every finding ships with a proof of concept.">
+  <link rel="canonical" href="https://sentryx.example/">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="SENTRYX — Smart Contract Security Audits by Named Researchers">
+  <meta property="og:description" content="Manual adversarial review of EVM and DeFi protocols, bridges and token systems. Invariant testing, fuzzing, proof-of-concept exploits and verified remediation.">
+  <meta property="og:url" content="https://sentryx.example/">
+  <meta property="og:image" content="https://sentryx.example/assets/og/home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SENTRYX — Smart Contract Security Audits">
+  <meta name="twitter:description" content="Manual adversarial review of EVM and DeFi protocols by named researchers. PoC with every finding. Remediation verified.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/home.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <!-- Fonts: preconnect + swap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <!-- Critical CSS: paint the base and the veil before the stylesheet arrives (no CLS, no white flash) -->
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+    .hero{min-height:100vh;min-height:100svh}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sentryx.example/#org",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/",
+        "logo": "https://sentryx.example/assets/og/logo.png",
+        "parentOrganization": { "@type": "Organization", "name": "Avanteia Private Limited" },
+        "founder": [
+          { "@type": "Person", "name": "Imran Khadri", "url": "https://sentryx.example/team.html#imran-khadri" },
+          { "@type": "Person", "name": "Jagruti", "url": "https://sentryx.example/team.html#jagruti" }
+        ],
+        "sameAs": ["https://github.com/PLACEHOLDER-sentryx", "https://x.com/PLACEHOLDER-sentryx"]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://sentryx.example/#service",
+        "name": "SENTRYX Smart Contract Security",
+        "url": "https://sentryx.example/",
+        "parentOrganization": { "@id": "https://sentryx.example/#org" },
+        "description": "Smart contract security audits, DeFi protocol reviews, bridge audits, invariant and fuzz testing, incident response and continuous security retainers.",
+        "areaServed": "Worldwide",
+        "priceRange": "$1,500 - custom",
+        "serviceType": ["Smart contract security audit", "DeFi protocol security review", "Bridge and cross-chain security audit", "Invariant and fuzz testing", "Incident response", "Security retainer"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://sentryx.example/#website",
+        "url": "https://sentryx.example/",
+        "name": "SENTRYX",
+        "publisher": { "@id": "https://sentryx.example/#org" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "How much does a smart contract audit cost?", "acceptedAnswer": { "@type": "Answer", "text": "Scope drives price. A pre-deployment assessment of a small contract set starts from $1,500; a standard smart contract audit from $3,000; a full DeFi protocol audit from $8,000; bridge and cross-chain audits from $15,000. Every engagement is quoted after a scoping review of the repository." } },
+          { "@type": "Question", "name": "How long does a smart contract audit take?", "acceptedAnswer": { "@type": "Answer", "text": "Typically one to four weeks depending on lines of code, complexity and the number of external integrations. A focused pre-deployment assessment can be delivered in under a week; a lending protocol with oracle and liquidation logic usually needs three to four weeks including remediation verification." } },
+          { "@type": "Question", "name": "What does a SENTRYX audit report include?", "acceptedAnswer": { "@type": "Answer", "text": "An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, a proof-of-concept where applicable, and specific remediation guidance. After fixes, we verify each remediation and publish the final status per finding." } },
+          { "@type": "Question", "name": "Do you provide a proof of concept for findings?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every Critical and High finding ships with a runnable proof of concept, usually a Foundry test against a fork, so your team can reproduce the issue and confirm the fix." } },
+          { "@type": "Question", "name": "Which chains and languages do you audit?", "acceptedAnswer": { "@type": "Answer", "text": "Core in-house strength is Solidity and the EVM across Ethereum and L2s such as Arbitrum, Optimism, Base and Polygon. Vyper, Rust (Solana), Move (Aptos, Sui) and Cairo (Starknet) engagements are delivered with vetted partner researchers." } },
+          { "@type": "Question", "name": "Is an audit a guarantee that the code is safe?", "acceptedAnswer": { "@type": "Answer", "text": "No audit can guarantee the absence of bugs. An audit is a time-boxed adversarial review that materially reduces risk. We recommend layering it with invariant tests, a bug bounty and monitoring, and re-auditing after any significant change." } }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===================================================== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="team.html">Researchers</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================================================== HERO ===== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-vignette" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="load-seq">
+          <p class="eyebrow">Smart contract security · EVM · DeFi · Cross-chain</p>
+          <h1 id="hero-title"><span class="line">Find the exploit</span><span class="line accent" data-scramble="1100" data-scramble-delay="350">before the attacker does.</span></h1>
+          <p class="lede">SENTRYX is a specialist smart contract security firm. Named researchers perform manual, adversarial review of EVM and DeFi systems — backed by invariant testing, fuzzing and verified remediation. Every Critical and High finding ships with a runnable proof of concept.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="process.html" data-magnetic="0.3"><span>Read the methodology</span></a>
+          </div>
+          <ul class="hero-proof" aria-label="How we work">
+            <li class="chip chip-dot">Manual-first review</li>
+            <li class="chip chip-dot">Named researchers</li>
+            <li class="chip chip-dot">PoC with every C/H finding</li>
+            <li class="chip chip-dot">Remediation verified</li>
+          </ul>
+        </div>
+        <div class="hero-side load-seq">
+          <!-- ILLUSTRATIVE: this terminal session is a scripted demo, not a real engagement -->
+          <div class="terminal" data-typewriter="11" data-delay="900" aria-label="Illustrative audit session">
+            <div class="terminal-bar"><span class="dots"><i></i><i></i><i></i></span> sentryx · illustrative session</div>
+            <div class="terminal-body">
+              <template>
+                <div><span class="c-dim">$</span> sentryx audit ./contracts --scope vault,router</div>
+                <div data-pause="120"><span class="c-dim">[scan]</span> 2 contracts · 1,184 LoC · solc 0.8.24</div>
+                <div data-pause="120"><span class="c-dim">[model]</span> roles: owner, keeper, user · external: oracle, AMM</div>
+                <div data-pause="300"><span class="c-dim">[manual]</span> Vault.withdraw() → external call before state update</div>
+                <div data-pause="200"><span class="c-crit">[C-01] CRITICAL</span>  reentrancy: shares burned after transfer</div>
+                <div data-pause="200"><span class="c-high">[H-01] HIGH</span>      spot price from single pool, manipulable in-block</div>
+                <div data-pause="200"><span class="c-med">[M-01] MEDIUM</span>    fee-on-transfer tokens break share accounting</div>
+                <div data-pause="300"><span class="c-dim">[poc]</span> C-01 reproduced on fork · 1 tx · <span class="c-crit">drains vault</span></div>
+                <div><span class="c-dim">[report]</span> 3 findings · 3 PoCs · remediation attached <span class="c-ok">✓</span></div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true"><i></i>scroll</div>
+    </section>
+
+    <!-- ================================================== MARQUEES ===== -->
+    <div class="marquee" aria-label="Chains supported">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Ethereum</span><span class="marquee-item">Arbitrum</span><span class="marquee-item">Optimism</span><span class="marquee-item">Base</span><span class="marquee-item">Polygon</span><span class="marquee-item">BNB Chain</span><span class="marquee-item">Avalanche</span><span class="marquee-item">zkSync</span><span class="marquee-item">Scroll</span><span class="marquee-item">Linea</span><span class="marquee-item">Solana</span><span class="marquee-item">Aptos</span><span class="marquee-item">Sui</span><span class="marquee-item">Starknet</span>
+        </div>
+      </div>
+    </div>
+    <div class="marquee marquee-reverse" style="border-top:0" aria-label="Tooling">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Foundry</span><span class="marquee-item">Hardhat</span><span class="marquee-item">Slither</span><span class="marquee-item">Echidna</span><span class="marquee-item">Medusa</span><span class="marquee-item">Certora</span><span class="marquee-item">Halmos</span><span class="marquee-item">Tenderly</span><span class="marquee-item">Aderyn</span><span class="marquee-item">Semgrep</span><span class="marquee-item">Mythril</span><span class="marquee-item">Wake</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================== STATS ===== -->
+    <section class="section section-tight" aria-labelledby="stats-title">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div>
+            <p class="eyebrow">Track record</p>
+            <h2 id="stats-title" class="text-xl" style="font-size:var(--text-xl)">Numbers we can stand behind.</h2>
+          </div>
+          <p class="lede">This band is driven by <code>data/stats.js</code>. Placeholders stay visible until a real, verifiable figure replaces them — we do not publish counts we cannot show you.</p>
+        </div>
+        <div class="stats-band" data-stats data-reveal="scale">
+          <!-- populated by main.js from data/stats.js -->
+          <noscript><div class="stat"><span class="stat-value">—</span><div class="stat-label">Enable JavaScript to view stats</div></div></noscript>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= VULNERABILITY CLASSES ===== -->
+    <section class="section section-raised" aria-labelledby="vuln-title">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container vuln-layout">
+        <div class="vuln-sticky" data-reveal="left">
+          <p class="eyebrow">Threat classes</p>
+          <h2 id="vuln-title">The bugs that actually drain protocols.</h2>
+          <p class="lede">Most losses in DeFi come from a short list of well-understood flaw classes, applied to code that had never been read adversarially. We start every review with a threat model of your trust boundaries, then hunt these classes by hand before any tooling runs.</p>
+          <p><a class="link-arrow" href="blog/index.html">Read our research on each class <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+        </div>
+        <div class="vuln-list" data-reveal-stagger>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-01</span>
+            <div><h3>Reentrancy</h3><p>An external call made before state is updated lets the callee re-enter and repeat a withdrawal against stale balances. Classic, cross-function and cross-contract variants still appear in vaults, NFT mints and callbacks such as ERC-777 hooks and <code>onERC721Received</code>.</p></div>
+            <span class="sev sev-critical">Critical</span>
+          </article>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-02</span>
+            <div><h3>Oracle &amp; price manipulation</h3><p>Reading a spot price from a single AMM pool, or a Chainlink feed without staleness and deviation checks, lets an attacker move the price inside one transaction with a flash loan and borrow, liquidate or mint against it.</p></div>
+            <span class="sev sev-critical">Critical</span>
+          </article>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-03</span>
+            <div><h3>Access control failures</h3><p>Missing modifiers, initializers left callable, roles granted to the wrong address, or <code>tx.origin</code> authentication. The simplest class to describe and the one behind a large share of total losses, because one unguarded setter is enough.</p></div>
+            <span class="sev sev-critical">Critical</span>
+          </article>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-04</span>
+            <div><h3>Integer &amp; precision issues</h3><p>Solidity 0.8 reverts on overflow, but <code>unchecked</code> blocks, casts, rounding direction and decimal mismatches still leak value. Share-price inflation on an empty vault and division-before-multiplication remain routine findings.</p></div>
+            <span class="sev sev-high">High</span>
+          </article>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-05</span>
+            <div><h3>Front-running &amp; MEV</h3><p>Any transaction whose outcome depends on ordering can be sandwiched or back-run: swaps without slippage bounds, approvals, commit-reveal schemes with weak commitments, and liquidations that pay the fastest bot rather than the protocol.</p></div>
+            <span class="sev sev-high">High</span>
+          </article>
+          <article class="vuln-item">
+            <span class="vuln-id">VC-06</span>
+            <div><h3>Upgrade &amp; proxy risks</h3><p>Storage layout collisions, uninitialised implementations, <code>delegatecall</code> to untrusted targets and admin keys held by a single EOA. Upgradeability multiplies attack surface; we review the migration path, not only the current code.</p></div>
+            <span class="sev sev-high">High</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================== SERVICES ===== -->
+    <section class="section" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div>
+            <p class="eyebrow">Flagship services</p>
+            <h2 id="services-title">Six engagements. One standard of evidence.</h2>
+          </div>
+          <div>
+            <p class="lede">Every engagement produces the same artefacts: a written threat model, a findings register with severities, proofs of concept, and a remediation verification pass.</p>
+            <p style="margin-top:var(--s-4)"><a class="link-arrow" href="services.html">All services, filterable <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+          </div>
+        </div>
+        <div class="services-grid" data-reveal-stagger>
+          <a class="card card-link card-accentline service-card is-wide" href="services/smart-contract-security-audit.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">01 / Core</span>
+            <h3>Smart Contract Security Audit</h3>
+            <p>Line-by-line manual review of your Solidity or Vyper codebase against a written threat model. We enumerate trust assumptions, trace every external call and state transition, and then run static analysis and fuzzing to cover what humans miss. Findings are classified Critical to Informational, each with impact, likelihood and a PoC.</p>
+            <div class="card-foot"><span class="mono-label">From $3,000 · 1–3 weeks</span><span class="link-arrow">Details <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </a>
+          <a class="card card-link service-card" href="services/defi-protocol-audit.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">02 / Core</span>
+            <h3>DeFi Protocol Security Review</h3>
+            <p>AMMs, lending, staking, vaults, perps and yield. Economic attack analysis, oracle dependencies, liquidation paths and accounting invariants under adversarial market conditions.</p>
+            <div class="card-foot"><span class="mono-label">From $8,000</span></div>
+          </a>
+          <a class="card card-link service-card" href="services/bridge-cross-chain-audit.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">03 / Specialist</span>
+            <h3>Bridge &amp; Cross-Chain Audit</h3>
+            <p>Message verification, relayer trust, replay protection, finality assumptions and the failure modes of every chain in the path. Bridges hold the largest single-exploit losses in the industry.</p>
+            <div class="card-foot"><span class="mono-label">From $15,000</span></div>
+          </a>
+          <a class="card card-link service-card" href="services/invariant-fuzz-testing.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">04 / Testing</span>
+            <h3>Invariant &amp; Fuzz Suite Development</h3>
+            <p>We write the properties your protocol must never violate — solvency, share-price monotonicity, conservation of value — and build Foundry, Echidna or Medusa suites that search for violations continuously.</p>
+            <div class="card-foot"><span class="mono-label">From $4,000</span></div>
+          </a>
+          <a class="card card-link service-card" href="services/incident-response.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">05 / Response</span>
+            <h3>Incident Response &amp; Forensics</h3>
+            <p>Live triage during an exploit, root-cause analysis, fund tracing, coordination with white-hats and exchanges, and a post-mortem your users and investors can rely on.</p>
+            <div class="card-foot"><span class="mono-label">From $5,000 · emergency rate</span></div>
+          </a>
+          <a class="card card-link card-accentline service-card is-wide" href="services/continuous-security-retainer.html" data-tilt="4">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">06 / Retainer</span>
+            <h3>Continuous Security Retainer</h3>
+            <p>For teams that ship every week. A named researcher reviews each pull request that touches value flows, maintains your invariant suite, monitors dependencies and upgrades, and is on call when something looks wrong. Security that moves at the speed of your roadmap instead of gating it.</p>
+            <div class="card-foot"><span class="mono-label">From $3,000 / month</span><span class="link-arrow">Details <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </a>
+          <a class="card card-link service-card" href="services.html" style="justify-content:center;align-items:flex-start;border-style:dashed;background:transparent">
+            <span class="card-index">+ 50 more</span>
+            <h3>Full service catalogue</h3>
+            <p>Chain specialisations, formal verification, MEV analysis, governance, RWA, restaking, due diligence and training.</p>
+            <div class="card-foot"><span class="link-arrow">Browse services <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================== PROCESS ===== -->
+    <section class="section section-raised process" aria-labelledby="process-title">
+      <div class="process-pin">
+        <div class="container" style="margin-bottom:var(--s-6)">
+          <div class="section-head split" data-reveal>
+            <div>
+              <p class="eyebrow">Methodology</p>
+              <h2 id="process-title">How an engagement runs.</h2>
+            </div>
+            <p class="lede">Six stages, each with a defined output. Scroll to move through them. The full methodology, including our severity matrix and what we need from you before day one, is on the <a href="process.html" class="u-line" style="color:var(--ink-0)">process page</a>.</p>
+          </div>
+        </div>
+        <div class="process-track">
+          <article class="process-step"><div class="step-num">01</div><h3>Scoping &amp; threat model</h3><p>We read the docs and the code before quoting. Together we fix the scope, list actors and privileges, external dependencies, and the assets at risk. The output is a written threat model that the review is measured against.</p><div class="step-out">Output <b>Scope document, trust-boundary map, fixed quote</b></div></article>
+          <article class="process-step"><div class="step-num">02</div><h3>Manual adversarial review</h3><p>Two researchers read every in-scope line independently, tracing value flows, state machines and every external call. This is where most Critical findings come from — no tool found the bugs behind the largest exploits.</p><div class="step-out">Output <b>Preliminary findings register with severities</b></div></article>
+          <article class="process-step"><div class="step-num">03</div><h3>Tooling &amp; invariants</h3><p>Slither, Aderyn and Semgrep for known patterns; Foundry invariant tests, Echidna or Medusa fuzzing for the properties the protocol must hold. Where it pays off, Halmos or Certora for symbolic and formal checks on core maths.</p><div class="step-out">Output <b>Invariant suite, fuzzing corpus, tool reports triaged</b></div></article>
+          <article class="process-step"><div class="step-num">04</div><h3>Proof of concept</h3><p>Every Critical and High is reproduced as a runnable test against a fork, with the attacker's profit or the protocol's loss measured. If we cannot demonstrate it, we downgrade it and say so.</p><div class="step-out">Output <b>PoC tests, exploit paths documented</b></div></article>
+          <article class="process-step"><div class="step-num">05</div><h3>Report &amp; walkthrough</h3><p>A report written for both your engineers and your investors: threat model, findings with remediation guidance, and a call to walk through each issue and its fix. The findings register is delivered as data, not only PDF.</p><div class="step-out">Output <b>Report (PDF + Markdown), findings JSON, walkthrough call</b></div></article>
+          <article class="process-step"><div class="step-num">06</div><h3>Remediation verification</h3><p>You fix; we re-review every changed line, re-run the PoCs and the invariant suite, and mark each finding Fixed, Acknowledged or Open. The final report is publishable — and the invariant suite stays in your CI.</p><div class="step-out">Output <b>Final report with fix status, CI-ready test suite</b></div></article>
+        </div>
+        <div class="process-progress" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ================================================== SEVERITY ===== -->
+    <section class="section" aria-labelledby="sev-title" style="padding-bottom:0">
+      <div class="container" style="margin-bottom:var(--s-6)">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Severity system</p>
+          <h2 id="sev-title">Five levels. No ambiguity about what matters.</h2>
+          <p class="lede">Severity is a function of impact and likelihood, not of how clever the bug is. Select a level to see how we define it, the finding classes that usually land there, and what remediation typically involves.</p>
+        </div>
+      </div>
+      <div class="full-bleed sev-band" data-default="critical" data-reveal="fade">
+        <button class="sev-cell" data-sev="critical" type="button"><span><span class="sev-code">SEV-0</span><br><span class="sev-name">Critical</span></span><span class="sev-desc">Direct loss of funds or protocol takeover, exploitable by anyone.</span></button>
+        <button class="sev-cell" data-sev="high" type="button"><span><span class="sev-code">SEV-1</span><br><span class="sev-name">High</span></span><span class="sev-desc">Significant loss or damage under specific, realistic conditions.</span></button>
+        <button class="sev-cell" data-sev="medium" type="button"><span><span class="sev-code">SEV-2</span><br><span class="sev-name">Medium</span></span><span class="sev-desc">Bounded loss, broken accounting or degraded function.</span></button>
+        <button class="sev-cell" data-sev="low" type="button"><span><span class="sev-code">SEV-3</span><br><span class="sev-name">Low</span></span><span class="sev-desc">Edge cases and hygiene that compound into future risk.</span></button>
+        <button class="sev-cell" data-sev="info" type="button"><span><span class="sev-code">SEV-4</span><br><span class="sev-name">Informational</span></span><span class="sev-desc">Gas, readability, documentation and design notes.</span></button>
+      </div>
+      <div class="container">
+        <div class="sev-detail" data-sev-detail aria-live="polite"></div>
+        <p style="margin-top:var(--s-6)"><a class="link-arrow" href="tools.html#severity">Open the Severity Explorer <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+      </div>
+    </section>
+
+    <!-- =========================================== FINDING PREVIEW ===== -->
+    <section class="section" aria-labelledby="finding-title">
+      <div class="container finding-layout">
+        <div data-reveal="left">
+          <!-- ILLUSTRATIVE FINDING: constructed example for demonstration, not from a client engagement -->
+          <span class="illustrative">Illustrative example</span>
+          <p class="eyebrow" style="margin-top:var(--s-4)">What a finding looks like</p>
+          <h2 id="finding-title" style="font-size:var(--text-xl)">Reentrancy in <code style="font-size:0.8em;color:var(--accent-2)">Vault.withdraw()</code> allows draining all deposits.</h2>
+          <dl class="finding-meta">
+            <dt>ID</dt><dd class="mono">SNTX-EX-001</dd>
+            <dt>Severity</dt><dd><span class="sev sev-critical">Critical</span></dd>
+            <dt>Impact</dt><dd>Total loss of vault assets</dd>
+            <dt>Likelihood</dt><dd>High — any address, single transaction</dd>
+            <dt>Status</dt><dd><span class="sev sev-fixed">Fixed</span> <span class="dim" style="font-size:var(--text-xs)">verified in re-review</span></dd>
+          </dl>
+          <p class="muted" style="font-size:var(--text-sm)"><code>withdraw()</code> sends ETH to the caller before burning their shares. A contract receiving ETH re-enters <code>withdraw()</code> from its <code>receive()</code> hook; the balance check still passes because shares have not been updated, so the loop repeats until the vault is empty. The fix moves the state update before the transfer and adds a reentrancy guard as defence in depth.</p>
+          <p style="margin-top:var(--s-4)"><a class="link-arrow" href="tools.html#report-viewer">Open the sample report viewer <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+        </div>
+        <div data-reveal="right">
+          <div class="diff-tabs" role="tablist" aria-label="Code views">
+            <button role="tab" aria-selected="true" aria-controls="diff-vuln" id="tab-vuln">Vulnerable</button>
+            <button role="tab" aria-selected="false" aria-controls="diff-fixed" id="tab-fixed" tabindex="-1">Fixed</button>
+            <button role="tab" aria-selected="false" aria-controls="diff-poc" id="tab-poc" tabindex="-1">PoC (Foundry)</button>
+          </div>
+          <pre class="code tab-panel" id="diff-vuln" role="tabpanel" aria-labelledby="tab-vuln"><code><span class="diff-line">function withdraw(uint256 shares) external {</span><span class="diff-line">    uint256 amount = shares * address(this).balance / totalShares;</span><span class="diff-line">    require(balanceOf[msg.sender] >= shares, "insufficient");</span><span class="diff-line diff-del">    (bool ok, ) = msg.sender.call{value: amount}("");  // external call first</span><span class="diff-line diff-del">    require(ok, "transfer failed");</span><span class="diff-line diff-del">    balanceOf[msg.sender] -= shares;                    // state updated after</span><span class="diff-line diff-del">    totalShares -= shares;</span><span class="diff-line">}</span></code></pre>
+          <pre class="code tab-panel" id="diff-fixed" role="tabpanel" aria-labelledby="tab-fixed" hidden><code><span class="diff-line diff-add">function withdraw(uint256 shares) external nonReentrant {</span><span class="diff-line">    uint256 amount = shares * address(this).balance / totalShares;</span><span class="diff-line">    require(balanceOf[msg.sender] >= shares, "insufficient");</span><span class="diff-line diff-add">    balanceOf[msg.sender] -= shares;                    // effects first</span><span class="diff-line diff-add">    totalShares -= shares;</span><span class="diff-line diff-add">    (bool ok, ) = msg.sender.call{value: amount}("");  // interaction last</span><span class="diff-line">    require(ok, "transfer failed");</span><span class="diff-line">}</span></code></pre>
+          <pre class="code tab-panel" id="diff-poc" role="tabpanel" aria-labelledby="tab-poc" hidden><code><span class="diff-line">contract Attacker {</span><span class="diff-line">    Vault v; uint256 shares;</span><span class="diff-line">    receive() external payable {</span><span class="diff-line">        if (address(v).balance >= shares) v.withdraw(shares); // re-enter</span><span class="diff-line">    }</span><span class="diff-line">}</span><span class="diff-line"></span><span class="diff-line">function test_drain() public {</span><span class="diff-line">    vm.deal(address(attacker), 1 ether);</span><span class="diff-line">    attacker.deposit{value: 1 ether}();</span><span class="diff-line">    attacker.attack();                 // one tx</span><span class="diff-line">    assertEq(address(vault).balance, 0);  // vault emptied</span><span class="diff-line">}</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================== RESEARCHERS ===== -->
+    <section class="section section-raised" aria-labelledby="team-title">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container team-layout">
+        <div class="team-intro" data-reveal="left">
+          <p class="eyebrow">Researchers</p>
+          <h2 id="team-title">You know exactly who is reading your code.</h2>
+          <p class="lede">No anonymous "audit team". Every engagement names the researchers who did the work, and they sign the report. Their contest handles and public work are on their profiles.</p>
+          <p style="margin-top:var(--s-4)"><a class="link-arrow" href="team.html">Researcher profiles <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+        </div>
+        <article class="card team-card" data-reveal data-tilt="3" id="imran-khadri">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="avatar"><span>IK</span></div>
+          <p class="role">Founder · Lead Security Researcher</p>
+          <h3>Imran Khadri</h3>
+          <p>Smart contract auditor and web3 bug-bounty researcher focused on EVM and DeFi. Leads scoping, threat modelling and the manual review on every engagement, and builds the firm's AI-assisted audit tooling.</p>
+          <div class="tags"><span class="chip">Solidity / EVM</span><span class="chip">DeFi</span><span class="chip">Bug bounty</span><span class="chip">Audit tooling</span></div>
+          <div class="socials">
+            <a href="https://github.com/PLACEHOLDER-imran" aria-label="Imran Khadri on GitHub" rel="me noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg></a>
+            <a href="https://x.com/PLACEHOLDER-imran" aria-label="Imran Khadri on X" rel="me noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.3L23 22h-6.6l-5.2-6.8L5.3 22H2.2l7.7-8.8L1 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.8L7.3 3.9H5.4L17.8 20z"/></svg></a>
+          </div>
+        </article>
+        <article class="card team-card" data-reveal data-tilt="3" id="jagruti">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="avatar"><span>J</span></div>
+          <p class="role">Co-founder · Security Researcher</p>
+          <h3>Jagruti</h3>
+          <p>Smart contract security researcher. Second reviewer on every engagement — independent read of the full scope, tooling and invariant-suite development, and remediation verification.</p>
+          <div class="tags"><span class="chip">Solidity / EVM</span><span class="chip">Invariant testing</span><span class="chip">Static analysis</span><span class="chip">Remediation</span></div>
+          <div class="socials">
+            <a href="https://github.com/PLACEHOLDER-jagruti" aria-label="Jagruti on GitHub" rel="me noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg></a>
+            <a href="https://x.com/PLACEHOLDER-jagruti" aria-label="Jagruti on X" rel="me noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.3L23 22h-6.6l-5.2-6.8L5.3 22H2.2l7.7-8.8L1 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.8L7.3 3.9H5.4L17.8 20z"/></svg></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================================================= FAQ ===== -->
+    <section class="section" aria-labelledby="faq-title">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Questions buyers ask</p>
+          <h2 id="faq-title" style="font-size:var(--text-xl)">Before you request a quote.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More on the <a href="pricing.html" class="u-line" style="color:var(--ink-0)">pricing page</a> and in each service's FAQ.</p>
+        </div>
+        <div class="accordion" id="faq">
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-1">How much does a smart contract audit cost?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-1"><div><p>Scope drives price. A pre-deployment assessment of a small contract set starts from $1,500; a standard smart contract audit from $3,000; a full DeFi protocol audit from $8,000; bridge and cross-chain audits from $15,000. Every engagement is quoted after a scoping review of the repository — lines of code, external integrations and the number of privileged roles matter more than contract count.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-2">How long does a smart contract audit take?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-2"><div><p>Typically one to four weeks depending on lines of code, complexity and external dependencies. A focused pre-deployment assessment can be delivered in under a week; a lending protocol with oracle and liquidation logic usually needs three to four weeks including remediation verification. Urgent timelines are possible at a premium if researcher capacity allows.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-3">What does the report include?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-3"><div><p>An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, a proof of concept where applicable, and specific remediation guidance. After fixes, we verify each remediation and publish the final status per finding. You receive the report as PDF and Markdown, plus the findings register as JSON.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-4">Do you provide a proof of concept for findings?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-4"><div><p>Yes. Every Critical and High finding ships with a runnable proof of concept, usually a Foundry test against a fork, so your team can reproduce the issue and confirm the fix. If we cannot demonstrate an issue, we say so and downgrade it.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-5">Which chains and languages do you cover?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-5"><div><p>Core in-house strength is Solidity and the EVM across Ethereum and L2s such as Arbitrum, Optimism, Base and Polygon. Vyper, Rust (Solana), Move (Aptos, Sui) and Cairo (Starknet) engagements are delivered with vetted partner researchers, and we tell you up front who is on the engagement.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-6">Is an audit a guarantee the code is safe?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-6"><div><p>No audit can guarantee the absence of bugs. An audit is a time-boxed adversarial review that materially reduces risk. We recommend layering it with an invariant suite in CI, a bug bounty programme and on-chain monitoring, and re-auditing after any significant change — which is what the retainer is for.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= CTA ===== -->
+    <section class="section" style="padding-top:0" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Request an audit</p>
+            <h2 id="cta-title">Send us the repo. We'll tell you what it needs.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Scoping is free and takes under two working days. You get a written scope, a fixed quote and the names of the researchers who will do the work.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Start scoping <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="tools.html#estimator" data-magnetic="0.3"><span>Estimate scope &amp; cost</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="team.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
+            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
+            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> SENTRYX · Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> · <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> · <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <!-- Data (editable without touching markup) -->
+  <script src="data/site.js"></script>
+  <script src="data/stats.js"></script>
+  <script src="data/severity.js"></script>
+  <!-- Motion library (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <!-- Site behaviour -->
+  <script src="js/main.js" defer></script>
+  <script src="js/hero.js" defer></script>
+</body>
+</html>
