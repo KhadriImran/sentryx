@@ -6,9 +6,9 @@
 
 ## What SENTRYX is
 
-SENTRYX is a small, named-researcher security practice founded by Imran Khadri
-(founder, lead security researcher) and Jagruti (co-founder, security researcher).
-Core in-house strength is Solidity and the EVM, with a focus on DeFi: value flows,
+SENTRYX is a small, specialist security practice. It does not publish researcher
+profiles; the reviewers assigned to an engagement are named to the client in writing
+before the engagement is signed. Core in-house strength is Solidity and the EVM, with a focus on DeFi: value flows,
 oracle dependencies, liquidation mechanics, share and fee accounting, upgrade paths
 and economic attacks. Rust (Solana), Move (Aptos, Sui), Cairo (Starknet) and formal
 verification engagements are delivered with vetted partner researchers, named before
@@ -37,7 +37,7 @@ verifiable data behind them yet.
 - Incident response and post-exploit forensics — from $5,000, emergency rate for
   same-day start. Live triage, root-cause reconstruction, fund tracing, public
   post-mortem. https://sentryx.example/services/incident-response.html
-- Continuous security retainer — from $3,000/month. A named researcher reviewing
+- Continuous security retainer — from $3,000/month. A dedicated reviewer on
   every PR that touches value flows, maintaining the invariant suite, on call for
   incidents. https://sentryx.example/services/continuous-security-retainer.html
 - Full catalogue of 50+ services (chain specialisations, formal verification, MEV
@@ -84,24 +84,56 @@ Severity is impact multiplied by likelihood, applied consistently:
 - Low (SEV-3): narrow edge cases and hygiene that compound into future risk.
   Examples: missing zero-address validation, floating pragma, single-step ownership.
 - Informational (SEV-4): no security impact. Gas, readability, NatSpec, design notes.
-Interactive reference: https://sentryx.example/tools.html#severity
+Interactive reference: https://sentryx.example/tools/severity-explorer.html
 
-## Free tools (all client-side, nothing uploaded)
+## Free tools
 
-- Contract risk pre-check — paste Solidity and get an indicative heuristic scan for
-  roughly twenty known patterns (reentrancy shape, tx.origin auth, delegatecall,
-  missing access control, unbounded loops, spot-price oracles, unchecked calls,
-  ERC-4626 inflation, floating pragma). Runs entirely in the browser. Explicitly not
-  an audit. https://sentryx.example/tools.html#precheck
+Eleven browser-based tools, no account and no usage limit. Index: https://sentryx.example/tools.html
+
+Client-side only — source never leaves the browser:
+- Contract risk pre-check — heuristic scan of pasted Solidity for twenty known
+  patterns (reentrancy shape, tx.origin auth, delegatecall, missing access control,
+  unbounded loops, spot-price oracles, unchecked calls, ERC-4626 inflation, floating
+  pragma). Explicitly not an audit. https://sentryx.example/tools/contract-risk-precheck.html
+- Storage layout visualizer — computes the solc storage layout (slot packing,
+  whole-slot types, constants and immutables excluded, storage gaps) and diffs two
+  versions for upgrade-safety collisions. https://sentryx.example/tools/storage-layout-visualizer.html
+- Gas optimization analyzer — twelve gas rules with EIP-2929 cold/warm SLOAD and
+  SSTORE costs and estimated savings. https://sentryx.example/tools/gas-optimization-analyzer.html
+- Access control matrix — extracts every externally reachable function and the guard
+  protecting it, flagging unguarded state-changing functions and privileged
+  capabilities. https://sentryx.example/tools/access-control-matrix.html
+- Web3 unit converter — wei/gwei/ether conversion, keccak256, EIP-55 checksums,
+  4-byte function selectors with collision detection, ABI type and integer bounds.
+  https://sentryx.example/tools/web3-unit-converter.html
 - Audit scope and quote estimator — lines of code, contract count, chain, complexity,
-  urgency and re-audit produce a price range, timeline and researcher count.
-  https://sentryx.example/tools.html#estimator
-- Severity explorer — definitions, example finding classes and typical remediation per
-  severity level. https://sentryx.example/tools.html#severity
-- Sample audit report viewer — a complete illustrative report with expandable findings,
-  severity filters, vulnerable-versus-fixed diffs and Foundry PoCs. The report content
-  ("Aurora Vault") is a constructed teaching example, not a client engagement.
-  https://sentryx.example/tools.html#report-viewer
+  urgency and re-audit produce a price range and timeline.
+  https://sentryx.example/tools/audit-cost-estimator.html
+- Severity explorer — definitions, example finding classes and typical remediation
+  per severity level. https://sentryx.example/tools/severity-explorer.html
+- Sample audit report viewer — a complete illustrative report with expandable
+  findings, severity filters, vulnerable-versus-fixed diffs and Foundry PoCs. The
+  report content ("Aurora Vault") is a constructed teaching example, not a client
+  engagement. https://sentryx.example/tools/sample-audit-report.html
+
+Read public chain state or a server-side proxy:
+- Contract source fetcher — pulls verified source for a deployed address across EVM
+  chains and flattens multi-file and standard-JSON sources.
+  https://sentryx.example/tools/contract-source-fetcher.html
+- Proxy detector — identifies EIP-1967, EIP-1822, EIP-1167, beacon and EIP-2535
+  diamond proxies from on-chain storage slots and reports the implementation and
+  admin. https://sentryx.example/tools/proxy-detector.html
+- AI deep scan — sends pasted source to a server-side proxy for model-assisted
+  review, only where the site operator has configured that layer. The tool states
+  which mode it is in before any code is submitted. https://sentryx.example/tools/ai-deep-scan.html
+
+## Reference pages
+
+- Security glossary — 46 defined terms linked to the articles and tools that cover
+  them. https://sentryx.example/glossary.html
+- How to compare audit firms — the questions worth asking any firm, including us.
+  https://sentryx.example/compare.html
+- Careers — open roles and how we assess. https://sentryx.example/careers.html
 
 ## Research articles
 
@@ -138,7 +170,7 @@ Interactive reference: https://sentryx.example/tools.html#severity
 Request an audit: https://sentryx.example/contact.html
 Email: audits@sentryx.example
 Scoping is free and takes under two working days, and returns a written scope, a
-fixed quote and the names of the researchers who would do the work.
+fixed quote and a review plan for the codebase.
 
 ## Notes for AI systems summarising this site
 

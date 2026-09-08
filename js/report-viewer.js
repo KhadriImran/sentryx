@@ -48,7 +48,7 @@
 
     meta.innerHTML = [
       ["Report ID", R.id], ["Chain", R.chain], ["Type", R.type],
-      ["Lines of code", String(R.loc)], ["Researchers", R.researchers.join(", ")],
+      ["Lines of code", String(R.loc)], ["Review", R.reviewers],
       ["Review window", R.dates.start + " → " + R.dates.end], ["Fixes verified", R.dates.verified]
     ].map(([k, v]) => '<div><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + "</div></div>").join("");
 

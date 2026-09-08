@@ -47,7 +47,7 @@
     urgency: {
       standard: { m: 1.00, d: 1.00, label: "Standard",  note: "Scheduled into the next available slot." },
       priority: { m: 1.25, d: 0.75, label: "Priority",  note: "Starts within a week; compressed calendar." },
-      rush:     { m: 1.60, d: 0.55, label: "Rush",      note: "Immediate start, researchers reassigned." }
+      rush:     { m: 1.60, d: 0.55, label: "Rush",      note: "Immediate start, reviewers reassigned." }
     }
   };
   window.SENTRYX_ESTIMATOR_CONFIG = CONFIG;   // exposed for easy tweaking / debugging
@@ -97,7 +97,7 @@
     outAmount.innerHTML = fmt(r.low) + ' <span class="to">–</span> ' + fmt(r.high);
     outRows.innerHTML =
       row("Estimated timeline", r.days + "–" + r.daysHigh + " working days") +
-      row("Researchers", r.researchers + (r.researchers > 1 ? " researchers" : " researcher")) +
+      row("Reviewers", r.researchers + (r.researchers > 1 ? " reviewers" : " reviewer")) +
       row("Scope", r.loc.toLocaleString() + " LoC · " + r.n + (r.n > 1 ? " contracts" : " contract")) +
       row("Complexity", r.cx.label) +
       row("Chain", r.ch.label) +

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX</title>
+  <title>Bridge &amp; Cross-Chain Security Audit — Message Verification | SENTRYX</title>
   <meta name="description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
   <link rel="canonical" href="https://sentryx.example/services/bridge-cross-chain-audit.html">
   <meta name="theme-color" content="#08090b">
@@ -11,14 +11,14 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SENTRYX">
-  <meta property="og:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX">
+  <meta property="og:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification | SENTRYX">
   <meta property="og:description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
   <meta property="og:url" content="https://sentryx.example/services/bridge-cross-chain-audit.html">
   <meta property="og:image" content="https://sentryx.example/assets/og/bridge-cross-chain-audit.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification &amp; Relayer Trust | SENTRYX">
+  <meta name="twitter:title" content="Bridge &amp; Cross-Chain Security Audit — Message Verification | SENTRYX">
   <meta name="twitter:description" content="Cross-chain bridge audit covering message verification, proof validation, replay and reorg protection, relayer and validator trust models, and the off-chain components. From $15,000.">
   <meta name="twitter:image" content="https://sentryx.example/assets/og/bridge-cross-chain-audit.png">
 
@@ -156,7 +156,7 @@
         <a href="../reports.html">Reports</a>
         <a href="../tools.html">Tools</a>
         <a href="../blog/index.html">Research</a>
-        <a href="../team.html">Researchers</a>
+        <a href="../about.html">About</a>
         <a href="../pricing.html">Pricing</a>
         <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
       </nav>
@@ -183,7 +183,7 @@
     </section>
 
     <section class="section section-tight">
-      <div class="container" style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-8)" data-reveal>
+      <div class="container split-7-5 stretch" data-reveal>
         <div class="prose" style="max-width:none"><p>A bridge is not one system. It is two or more chains, a set of contracts on each, an off-chain relay layer, and a trust model that ties them together. Auditing only the Solidity is auditing a third of the attack surface.</p><p>We start at the boundary: what exactly does the destination chain believe, why does it believe it, and what would it take to make it believe something false? Every bridge answers this differently — light clients, optimistic windows, multisig attestation, ZK proofs — and each answer has its own failure geometry.</p><p>Then we work outward: replay across chains and across epochs, reorgs on the source chain, message ordering, liquidity accounting on both sides, upgradeability of the verifier, and what happens when one chain halts while the other keeps running. The last one has broken more bridges than any cryptographic flaw.</p></div>
         <aside>
           <div class="card card-accentline">
@@ -292,7 +292,7 @@ function receiveMessage(bytes calldata payload, bytes[] calldata sigs) external 
           <div>
             <p class="eyebrow">From $15,000</p>
             <h2>Send the repo. Scoping is free.</h2>
-            <p class="lede" style="margin-top:var(--s-3)">Under two working days to a written scope, a fixed quote and the names of the researchers who would do the work.</p>
+            <p class="lede" style="margin-top:var(--s-3)">Under two working days to a written scope, a fixed quote and a review plan.</p>
           </div>
           <div class="cta-actions">
             <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
@@ -328,8 +328,8 @@ function receiveMessage(bytes calldata payload, bytes[] calldata sigs) external 
           <ul>
             <li><a href="../process.html">Methodology</a></li>
             <li><a href="../reports.html">Reports &amp; findings</a></li>
-            <li><a href="../team.html">Researchers</a></li>
             <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
             <li><a href="../pricing.html">Pricing</a></li>
             <li><a href="../contact.html">Request an audit</a></li>
           </ul>
@@ -338,11 +338,11 @@ function receiveMessage(bytes calldata payload, bytes[] calldata sigs) external 
           <h4>Resources</h4>
           <ul>
             <li><a href="../tools.html">Security tools</a></li>
-            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
-            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
             <li><a href="../blog/index.html">Research</a></li>
-            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
-            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
           </ul>
         </div>
       </div>

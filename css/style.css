@@ -162,7 +162,8 @@ code, kbd, pre, .mono { font-family: var(--font-mono); font-feature-settings: "l
 .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
 .grid-12 { grid-template-columns: repeat(12, minmax(0,1fr)); }
 .stack > * + * { margin-top: var(--s-4); }
-.grid > *, .hero-inner > *, .vuln-layout > *, .finding-layout > *, .team-layout > *, .cta-band > *, .section-head > *, .services-grid > * { min-width: 0; }
+.grid > *, .hero-inner > *, .vuln-layout > *, .finding-layout > *, .team-layout > *, .cta-band > *, .section-head > *, .services-grid > *,
+.split-7-5 > *, .split-7-4 > *, .faq-layout > *, .tool-hero > * { min-width: 0; }
 .flow > * + * { margin-top: 1em; }
 .text-center { text-align: center; }
 .muted { color: var(--ink-2); }
@@ -638,6 +639,14 @@ body.is-ready .load-seq > :nth-child(6) { animation-delay: 520ms; }
 .faq-layout { display: grid; grid-template-columns: minmax(0,4fr) minmax(0,8fr); gap: var(--s-7); }
 @media (max-width: 1023px) { .faq-layout { grid-template-columns: 1fr; gap: var(--s-5); } }
 
+/* --- Prose + aside two-column layouts. Single column below tablet, otherwise
+   the aside is squeezed to ~90px on a phone and its contents spill out. --- */
+.split-7-5, .split-7-4 { display: grid; gap: var(--s-8); align-items: start; }
+.split-7-5 { grid-template-columns: minmax(0,7fr) minmax(0,5fr); }
+.split-7-4 { grid-template-columns: minmax(0,7fr) minmax(0,4fr); }
+.split-7-5.stretch, .split-7-4.stretch { align-items: stretch; }
+@media (max-width: 899px) { .split-7-5, .split-7-4 { grid-template-columns: 1fr; gap: var(--s-6); } }
+
 /* ==========================================================================
    CTA band
    ========================================================================== */
@@ -986,3 +995,97 @@ body.reduced-motion .cursor, body.reduced-motion .cursor-glow { display: none !i
 .matrix thead th, .matrix tbody th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: var(--bg-1); }
 .matrix td { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
 .matrix td[data-sev] { color: var(--sev); background: var(--sev-soft); }
+
+/* ==========================================================================
+   TOOLS — storage layout, diff, access matrix, utilities
+   ========================================================================== */
+
+/* --- Storage slot visualiser --- */
+.slot-grid { display: grid; gap: 6px; margin-top: var(--s-4); }
+.slot-row { display: grid; grid-template-columns: 92px minmax(0,1fr) minmax(0,300px); gap: var(--s-4); align-items: center; padding: 10px; border: 1px solid var(--line-1); border-radius: var(--r-2); background: var(--bg-2); transition: border-color var(--d-fast); }
+.slot-row:hover { border-color: var(--line-3); }
+.slot-no { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); text-transform: uppercase; }
+.slot-bar { display: flex; height: 34px; border-radius: var(--r-1); overflow: hidden; background: var(--bg-4); border: 1px solid var(--line-2); }
+.slot-seg { display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; border-right: 1px solid rgba(8,9,11,0.55); }
+.slot-seg:last-child { border-right: 0; }
+.slot-seg b { font-family: var(--font-mono); font-size: 10px; color: #14100a; font-weight: 600; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slot-seg.is-free { background: repeating-linear-gradient(45deg, rgba(255,255,255,0.045), rgba(255,255,255,0.045) 5px, transparent 5px, transparent 10px); }
+.slot-seg.is-free b { color: var(--ink-3); }
+.slot-meta { font-size: var(--text-xs); color: var(--ink-2); line-height: 1.55; }
+.slot-meta code { font-family: var(--font-mono); color: var(--accent-2); font-size: 11px; }
+@media (max-width: 900px) {
+  .slot-row { grid-template-columns: 1fr; gap: 8px; }
+  .slot-no { color: var(--accent); }
+}
+
+/* --- Upgrade diff --- */
+.verdict { border: 1px solid var(--line-2); border-left-width: 3px; border-radius: var(--r-3); padding: var(--s-5); }
+.verdict h3 { font-size: 1.4rem; margin: 6px 0 8px; }
+.verdict p { color: var(--ink-1); font-size: var(--text-sm); margin: 0; max-width: 80ch; }
+.diff-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); min-width: 760px; }
+.diff-table th, .diff-table td { padding: 12px 14px; border-bottom: 1px solid var(--line-2); text-align: left; vertical-align: top; }
+.diff-table thead th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: var(--bg-1); position: sticky; top: 0; z-index: 1; }
+.diff-table code { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent-2); }
+.diff-table tr[data-sev] { background: var(--sev-soft); }
+.diff-table tr[data-sev] td:first-child { border-left: 3px solid var(--sev); }
+.diff-table tr.ds-unchanged { opacity: 0.62; }
+.diff-table tr.ds-added td { color: var(--sev-fixed); }
+
+/* --- Access control matrix --- */
+.acl-table th[scope="row"] { min-width: 190px; }
+.acl-table td { text-align: center; }
+.acl-table td:first-of-type { text-align: left; }
+.acl-table tr[data-sev="critical"] th[scope="row"] { border-left: 3px solid var(--sev-critical); }
+.acl-table tr[data-sev="medium"] th[scope="row"] { border-left: 3px solid var(--sev-medium); }
+
+/* --- Utility panels --- */
+.util-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--s-4); }
+.util-pane { animation: fadeUp 400ms var(--ease-out) both; }
+.util-pane[hidden] { display: none; }
+
+/* --- Tool page hero strip --- */
+.tool-hero { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,4fr); gap: var(--s-7); align-items: start; }
+.tool-facts { border: 1px solid var(--line-2); border-radius: var(--r-3); background: var(--bg-1); padding: var(--s-5); }
+.tool-facts h3 { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-mono); text-transform: uppercase; color: var(--ink-3); font-weight: 500; margin-bottom: var(--s-4); }
+@media (max-width: 900px) { .tool-hero { grid-template-columns: 1fr; } }
+
+/* --- Related tools strip --- */
+.tool-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: var(--s-3); }
+.tool-strip a { display: block; padding: var(--s-4); border: 1px solid var(--line-2); border-radius: var(--r-2); background: var(--bg-2); color: var(--ink-1); transition: border-color var(--d-fast), background var(--d-fast); }
+.tool-strip a:hover { border-color: var(--accent); background: var(--bg-3); color: var(--ink-0); }
+.tool-strip b { display: block; font-family: var(--font-display); font-size: 0.98rem; color: var(--ink-0); margin-bottom: 4px; }
+.tool-strip span { font-size: var(--text-xs); color: var(--ink-2); }
+
+/* --- Glossary --- */
+.glossary-nav { position: sticky; top: calc(var(--header-h) + 12px); z-index: 5; background: rgba(8,9,11,0.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); padding: 10px 0; border-bottom: 1px solid var(--line-1); margin-bottom: var(--s-6); }
+.alpha-index { display: flex; flex-wrap: wrap; gap: 4px; }
+.alpha-index a, .alpha-index span { display: inline-grid; place-items: center; min-width: 30px; height: 30px; border-radius: var(--r-1); font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--line-2); color: var(--ink-2); }
+.alpha-index a:hover { border-color: var(--accent); color: var(--accent); }
+.alpha-index span { opacity: 0.32; }
+.gloss-group { margin-bottom: var(--s-8); scroll-margin-top: calc(var(--header-h) + 70px); }
+.gloss-group > h2 { font-size: 2.2rem; color: var(--accent); margin-bottom: var(--s-4); }
+.gloss-list { display: grid; gap: 1px; background: var(--line-1); border: 1px solid var(--line-1); border-radius: var(--r-3); overflow: hidden; }
+.gloss-item { background: var(--bg-1); padding: var(--s-5); scroll-margin-top: calc(var(--header-h) + 70px); }
+.gloss-item:target { background: var(--accent-soft); }
+.gloss-item h3 { font-size: 1.1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.gloss-item p { font-size: var(--text-sm); color: var(--ink-1); margin: 0; max-width: 85ch; }
+.gloss-item .gloss-see { margin-top: 10px; font-size: var(--text-xs); color: var(--ink-3); }
+.gloss-item .gloss-see a { color: var(--accent-2); }
+
+/* --- Comparison page --- */
+.vs-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: var(--s-4); }
+.vs-card { display: flex; flex-direction: column; }
+.vs-card.is-us { border-color: rgba(255,166,26,0.4); box-shadow: var(--glow-accent); }
+.vs-card h3 { font-size: 1.1rem; margin-bottom: 6px; }
+.vs-card .vs-price { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent); letter-spacing: 0.06em; margin-bottom: var(--s-4); }
+.vs-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; font-size: var(--text-sm); color: var(--ink-2); flex: 1; }
+.vs-card li { display: grid; grid-template-columns: 15px 1fr; gap: 8px; align-items: start; }
+.vs-card li i { font-style: normal; line-height: 1.4; }
+.vs-card li.good i { color: var(--sev-fixed); }
+.vs-card li.bad i { color: var(--sev-high); }
+@media (max-width: 1023px) { .vs-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 599px) { .vs-grid { grid-template-columns: 1fr; } }
+
+/* --- Careers --- */
+.role-card { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--s-5); align-items: center; }
+@media (max-width: 719px) { .role-card { grid-template-columns: 1fr; } }

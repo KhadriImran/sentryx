@@ -102,12 +102,12 @@ Also replace `audits@sentryx.example` with your real address.
 | `data/site.js` | Brand name, parent line, domain, email, socials, chain and tooling lists | Everywhere |
 | `data/pricing.js` | **All prices**, tier contents, LOC ranges, timelines, deliverables, comparison table | `pricing.html` |
 | `data/services.js` | The 50+ service catalogue, grouped, each tagged `inhouse` or `partner` | `services.html` |
-| `data/team.js` | Researcher bios, specialisations, links, contest handles, photo paths | `team.html`, homepage |
 | `data/stats.js` | The homepage stats band | `index.html` |
 | `data/severity.js` | Severity definitions, examples, remediation | Homepage band, Severity Explorer, report viewer |
-| `data/findings.js` | The sample audit report (illustrative) | `tools.html#report-viewer` |
+| `data/findings.js` | The sample audit report (illustrative) | `tools/sample-audit-report.html` |
 | `data/reports.js` | Published report portfolio | `reports.html` |
 | `data/blog.js` | Research index cards | `blog/index.html` |
+| `data/glossary.js` | 46 glossary terms, aliases, tags and cross-links | `glossary.html` |
 
 They are plain `.js` files (`window.SENTRYX_X = {...}`) rather than JSON so the
 site also works when opened directly from the filesystem, with no server and no
@@ -140,12 +140,24 @@ chain / urgency multipliers, the quoted range width and the floor.
 
 `delivery` is the honest-capability tag rendered on every card. Keep it accurate.
 
-### Team
+### Researcher profiles — deliberately absent
 
-`data/team.js`. To add a real photo, drop it in `assets/team/` and set
-`photo: "assets/team/imran.jpg"` — the initials placeholder disappears
-automatically. Add `contests: [{ platform, handle, url }]` when there are real,
-linkable handles; until then the page says so explicitly rather than inventing any.
+There is no team page and no researcher profiles anywhere on the site. This is a
+positioning choice (the same one CertiK, Trail of Bits' marketing site and most
+established firms make): the firm is the unit of credibility, not the individual.
+
+What replaces it is a **staffing promise made in private**, stated in three places
+and worth keeping accurate:
+
+- `index.html` → the *How engagements run* section (`#staffing`, `#review-model`)
+- `about.html` → the *How we staff* section (`#staffing`)
+- `services.html` → the capability note (`inhouse` vs `partner` tags)
+
+All three say the same thing: profiles are not published, but the scope document
+names the reviewers assigned to the engagement before the client signs. If you
+later decide to publish profiles, the CSS is still there — `.team-layout`,
+`.team-card`, `.team-card .avatar` and `.team-card .socials` in `css/style.css`
+are unused but intact, and the homepage section already uses that grid.
 
 ### Findings, stats and reports
 
@@ -202,7 +214,7 @@ and shows the email address — it never silently pretends to have sent.
 
 ```
 sentryx/
-├── index.html                    Home (hero canvas, services, process, severity, team, FAQ)
+├── index.html                    Home (hero canvas, services, process, severity, engagements, FAQ)
 ├── services.html                 Full catalogue, filterable, with the capability note
 ├── services/
 │   ├── smart-contract-security-audit.html
@@ -213,14 +225,36 @@ sentryx/
 │   └── continuous-security-retainer.html
 ├── process.html                  Six-stage methodology + severity matrix
 ├── reports.html                  Portfolio + disclosure policy
-├── tools.html                    All four interactive tools
+├── tools.html                    Tool index (11 tools)
 ├── pricing.html                  Tiers + comparison table
-├── team.html                     Researcher profiles
 ├── about.html                    Positioning, principles, entity
 ├── contact.html                  Multi-step audit request form
+├── glossary.html                 46 security terms, A–Z index + live filter
+├── compare.html                  How to compare audit firms (buyer's guide)
+├── careers.html                  Open roles and how we assess
+├── case-study-template.html      noindex template for publishing an engagement
+├── tools/
+│   ├── contract-risk-precheck.html        20 heuristic rules, browser-only
+│   ├── ai-deep-scan.html                  Model-assisted review via a proxy
+│   ├── storage-layout-visualizer.html     solc slot packing + upgrade diff
+│   ├── gas-optimization-analyzer.html     12 rules, EIP-2929 costs
+│   ├── access-control-matrix.html         External functions × guards
+│   ├── contract-source-fetcher.html       Verified source, flattened
+│   ├── proxy-detector.html                EIP-1967/1822/1167/beacon/diamond
+│   ├── audit-cost-estimator.html          Scope → price range + timeline
+│   ├── severity-explorer.html             Severity definitions and examples
+│   ├── sample-audit-report.html           Illustrative report, diffs + PoCs
+│   └── web3-unit-converter.html           Wei, keccak256, EIP-55, selectors
 ├── blog/
 │   ├── index.html                Research index, filterable by topic
+│   ├── rss.xml                   RSS 2.0 feed, regenerate when you add a post
 │   └── <6 articles>.html
+├── functions/                    Netlify Functions (see section 6)
+│   ├── _lib/                     Shared handlers — the actual logic
+│   ├── deep-scan.js
+│   └── explorer-source.js
+├── api/                          Vercel wrappers over the same _lib handlers
+├── netlify.toml  vercel.json
 ├── 404.html                      Terminal-style
 ├── css/style.css                 Entire design system + every rule (one file)
 ├── js/
@@ -235,7 +269,15 @@ sentryx/
 │   ├── contact-form.js           Multi-step form
 │   ├── filters.js                Services / reports / blog filtering, article TOC
 │   ├── pricing.js                Pricing page renderer
-│   └── team.js                   Team page renderer
+│   ├── keccak.js                 Hand-written keccak256 (no dependency)
+│   ├── solidity-parse.js         Shared "AST-lite" Solidity parser
+│   ├── storage-layout.js         Storage layout + upgrade diff
+│   ├── gas-analyzer.js           12 gas rules
+│   ├── access-matrix.js          18 guard patterns
+│   ├── utilities.js              Unit converter panels (BigInt)
+│   ├── chain-tools.js            Source fetcher + proxy detector
+│   ├── deep-scan.js              AI deep scan client
+│   └── glossary.js               Glossary renderer + filter
 ├── data/                         All editable content (see the table above)
 ├── assets/og/                    One 1200×630 Open Graph image per page
 ├── sitemap.xml  robots.txt  llms.txt
@@ -325,7 +367,9 @@ RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [L,R=301]
 
 - [ ] Replace `sentryx.example` everywhere (section 3).
 - [ ] Set `FORM_ENDPOINT` in `js/contact-form.js` and send a test submission.
-- [ ] Replace the `PLACEHOLDER-` GitHub / X / LinkedIn handles.
+- [ ] Replace the `PLACEHOLDER-` GitHub / X handles in the footer and `data/site.js`.
+- [ ] If you want the on-chain tools keyless, deploy the functions and set the two constants (section 6).
+- [ ] Regenerate `blog/rss.xml` whenever you publish an article.
 - [ ] Submit `sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 - [ ] Check the OG cards render: <https://cards-dev.twitter.com/validator> and the LinkedIn Post Inspector.
 - [ ] Validate the structured data: <https://search.google.com/test/rich-results>.
@@ -333,7 +377,67 @@ RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [L,R=301]
 
 ---
 
-## 6. Regenerating the OG images
+## 6. The serverless layer (optional)
+
+Two of the eleven tools can do more when a server holds a secret key. **Both work
+without one** — they say so in the UI rather than failing silently — so you can
+ship the site first and add this later.
+
+| Tool | Without a key | With the function deployed |
+|---|---|---|
+| Contract source fetcher / Proxy detector | Visitor pastes their own Etherscan key; it is stored in *their* `localStorage` and sent straight to Etherscan. You never see it. | Keyless for the visitor. The function holds your key. |
+| AI Deep Scan | Runs the deterministic analysers only, and shows "AI layer: not configured" | Adds the model-assisted reasoning pass |
+
+### What ships
+
+```
+functions/_lib/explorer-source.js   the real handler        ← shared
+functions/_lib/deep-scan.js         the real handler        ← shared
+functions/explorer-source.js        Netlify wrapper
+functions/deep-scan.js              Netlify wrapper
+api/explorer-source.js              Vercel wrapper
+api/deep-scan.js                    Vercel wrapper
+netlify.toml  vercel.json           already wired
+```
+
+The logic lives once, in `_lib/`. The four wrappers are a few lines each, so
+Netlify and Vercel cannot drift apart.
+
+### Environment variables
+
+Set these in the host's dashboard (Netlify → *Site configuration → Environment
+variables*; Vercel → *Settings → Environment Variables*):
+
+| Variable | Required for | Notes |
+|---|---|---|
+| `ETHERSCAN_API_KEY` | Source fetcher, proxy detector | One key covers every chain — the tools use the Etherscan V2 multichain API with a `chainid` parameter |
+| `ANTHROPIC_API_KEY` | AI Deep Scan | |
+| `DEEP_SCAN_MODEL` | optional | Defaults to `claude-sonnet-4-5` |
+| `MAX_SOURCE_CHARS` | optional | Defaults to `60000`; source above this is rejected with a 413 |
+| `ALLOWED_ORIGIN` | optional | CORS origin, defaults to `*` |
+
+### Then point the client at it
+
+Two one-line constants, both near the top of their file:
+
+```js
+// js/chain-tools.js
+var SOURCE_PROXY = "/.netlify/functions/explorer-source";   // or "/api/explorer-source"
+
+// js/deep-scan.js
+var AI_ENDPOINT  = "/.netlify/functions/deep-scan";         // or "/api/deep-scan"
+```
+
+Leave them as `""` and both tools stay in their no-key mode.
+
+> **Never put an API key in anything under `js/` — that directory is public.**
+> The whole point of `functions/` is that the key stays on the server. This is
+> also why the deep-scan handler validates the request body *before* it looks at
+> credentials: a misconfigured deploy returns a clear 400, not a confusing 500.
+
+---
+
+## 7. Regenerating the OG images
 
 `assets/og/*.png` are 1200×630 cards rendered from a template so they use the real
 brand fonts. If you change the palette, the brand name or a page headline, they are
@@ -343,7 +447,7 @@ editor is entirely fine. Each page references its own file via
 
 ---
 
-## 7. Design and engineering notes
+## 8. Design and engineering notes
 
 **Motion.** GSAP + ScrollTrigger from cdnjs handle only the pinned horizontal
 process section; everything else is hand-written (IntersectionObserver reveals,
@@ -361,7 +465,7 @@ tab is hidden, the canvas scrolls out of view, or the Battery API reports
 discharging below 20%.
 
 **Accessibility.** Every text colour passes WCAG AA (≥4.5:1) on every surface it is
-used on — verified programmatically across all 23 pages. Keyboard navigation works
+used on — verified programmatically across all 37 pages. Keyboard navigation works
 throughout with visible focus rings, tabs and accordions carry correct ARIA, and
 the custom cursor is disabled for touch, coarse pointers and reduced-motion users.
 

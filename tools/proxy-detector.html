@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>EIP-1967 Proxy Detector — Implementation, Admin &amp; Upgrade Risk | SENTRYX</title>
+  <meta name="description" content="Read the standard proxy storage slots for any deployed contract: implementation, admin and beacon addresses, minimal-proxy targets and diamond facets — plus whether the admin is an EOA.">
+  <link rel="canonical" href="https://sentryx.example/tools/proxy-detector.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="EIP-1967 Proxy Detector — Implementation, Admin &amp; Upgrade Risk | SENTRYX">
+  <meta property="og:description" content="Read the standard proxy storage slots for any deployed contract: implementation, admin and beacon addresses, minimal-proxy targets and diamond facets — plus whether the admin is an EOA.">
+  <meta property="og:url" content="https://sentryx.example/tools/proxy-detector.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/tool-proxy-detector.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EIP-1967 Proxy Detector — Implementation, Admin &amp; Upgrade Risk | SENTRYX">
+  <meta name="twitter:description" content="Read the standard proxy storage slots for any deployed contract: implementation, admin and beacon addresses, minimal-proxy targets and diamond facets — plus whether the admin is an EOA.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/tool-proxy-detector.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://sentryx.example/tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Proxy Detector",
+          "item": "https://sentryx.example/tools/proxy-detector.html"
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "SENTRYX Proxy Detector",
+      "url": "https://sentryx.example/tools/proxy-detector.html",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Read the standard proxy storage slots for any deployed contract: implementation, admin and beacon addresses, minimal-proxy targets and diamond facets — plus whether the admin is an EOA.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is EIP-1967?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard that fixes the storage slots a proxy uses for its implementation, admin and beacon addresses. The slots are derived from hashed strings minus one, so they cannot collide with variables the implementation declares. It is why tools like this one can inspect any proxy without an ABI."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it mean if the admin is an EOA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That a single private key can replace the contract's entire code. No multisig threshold, no timelock, no exit window for users. It is one of the most consequential facts about any upgradeable protocol and one of the least documented, which is why this tool checks it explicitly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Transparent proxy or UUPS &mdash; how do I tell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If both an implementation and an admin slot are set, it is almost certainly a transparent proxy, where upgrade logic lives in the proxy. If only the implementation slot is set, it is likely UUPS, where the upgrade function lives in the implementation &mdash; which means a future implementation that omits _authorizeUpgrade would freeze the proxy permanently."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this need an API key?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It reads chain state through public RPC endpoints directly from your browser. Nothing is logged by us and no account is required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "It says no proxy detected. Is it definitely not upgradeable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It means none of the standard slots hold an address, the code is not a minimal proxy, and the diamond loupe did not respond. A custom, non-standard proxy would not be detected &mdash; so treat a negative result as strong evidence, not proof."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../about.html">About</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../tools.html">Tools</a></li><li aria-current="page">Proxy Detector</li></ol>
+        <div class="tool-hero">
+          <div>
+            <p class="eyebrow">Tool 07 · On-chain · Free</p>
+            <h1 data-scramble="900">Proxy Detector</h1>
+            <p class="lede" style="margin-top:var(--s-4)">Read the standard proxy slots straight from chain state: implementation, admin and beacon. It also tells you the thing that actually matters &mdash; whether a single private key can replace the code holding user funds.</p>
+          </div>
+          <div class="tool-facts">
+            <h3>At a glance</h3>
+            <div class="est-rows" style="border:0;padding:0"><div class="est-row"><span>Detects</span><span>EIP-1967, 1822, 1167, beacon, diamond</span></div><div class="est-row"><span>Reads</span><span>Chain state via public RPC</span></div><div class="est-row"><span>Chains</span><span>9 supported</span></div><div class="est-row"><span>Cost</span><span>Free, no key</span></div><div class="est-row"><span>Best for</span><span>Due diligence in 10 seconds</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool-panel" id="proxy-tool" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Proxy Detector</p>
+              <h2 style="font-size:1.3rem">Run it</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn btn-primary btn-sm" id="px-run" type="button">Inspect address</button></div>
+          </div>
+          <div class="tool-body">
+            
+      <div class="tool-split wide-left">
+        <div>
+          <div class="form-row">
+            <div class="field">
+              <label for="px-addr">Contract address</label>
+              <input class="input mono" id="px-addr" placeholder="0x…" spellcheck="false" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="px-chain">Chain</label>
+              <select class="select" id="px-chain"></select>
+            </div>
+          </div>
+          <p class="hint" style="margin-top:var(--s-3)">Reads are made directly from your browser to a public RPC endpoint. No key required, nothing logged by us.</p>
+          <div style="margin-top:var(--s-5);border-top:1px solid var(--line-2);padding-top:var(--s-4)">
+            <p class="mono-label" style="margin-bottom:10px">What it checks</p>
+            <ul style="margin:0;padding-left:18px;font-size:var(--text-sm);color:var(--ink-2);display:grid;gap:6px">
+              <li>EIP-1967 implementation, admin and beacon slots</li>
+              <li>EIP-1822 (UUPS legacy) proxiable slot</li>
+              <li>OpenZeppelin legacy implementation and admin slots</li>
+              <li>EIP-1167 minimal proxy target, read from runtime bytecode</li>
+              <li>EIP-2535 diamond, via the loupe <code>facets()</code> selector</li>
+              <li>Whether the admin address is an EOA or a contract</li>
+              <li>Runtime code size against the 24,576-byte limit</li>
+            </ul>
+          </div>
+        </div>
+        <div id="px-out" aria-live="polite"></div>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="how-t">
+      <div class="container split-7-5">
+        <div data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-t" style="font-size:var(--text-xl)">What this tool does, and what it can't.</h2>
+          <div class="prose" style="max-width:none;margin-top:var(--s-5)"><p>EIP-1967 defines fixed, pseudorandom storage slots for a proxy's implementation, admin and beacon addresses &mdash; chosen so they cannot collide with normal contract storage. Reading those slots with <code>eth_getStorageAt</code> tells you what a proxy points at without needing any ABI or verified source.</p><p>Minimal proxies (EIP-1167) work differently: the target is hard-coded in the runtime bytecode, so the tool reads the code and extracts it from the standard clone pattern. Diamonds are detected by calling the loupe's <code>facets()</code> selector.</p><p>The finding that matters most is not which pattern is in use. It is whether the admin slot holds an externally-owned account. If it does, one private key can replace the implementation instantly, with no timelock and no warning &mdash; which means user funds are custodial in practice, whatever the documentation says.</p></div>
+        </div>
+        <div data-reveal="right">
+          <div class="card card-accentline">
+            <span class="card-index">Other tools</span>
+            <div class="tool-strip" style="grid-template-columns:1fr;margin-top:var(--s-4)"><a href="storage-layout-visualizer.html"><b>Storage Layout &amp; Upgrade Safety</b><span>See slot-by-slot packing with wasted space highlighted, or diff two versions to catch the layout…</span></a><a href="contract-source-fetcher.html"><b>Verified Source Fetcher</b><span>Pull verified source for any deployed contract across nine chains, flattened and ready &mdash; t…</span></a><a href="access-control-matrix.html"><b>Access Control Matrix</b><span>Generates the roles &times; functions table from your source, flags unguarded privileged functio…</span></a></div>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <a class="link-arrow" href="../tools.html">All tools <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions about this tool.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a> and the <a href="../glossary.html" class="u-line" style="color:var(--ink-0)">glossary</a>.</p>
+        </div>
+        <div class="accordion" id="tf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-0">What is EIP-1967?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-0"><div><p>A standard that fixes the storage slots a proxy uses for its implementation, admin and beacon addresses. The slots are derived from hashed strings minus one, so they cannot collide with variables the implementation declares. It is why tools like this one can inspect any proxy without an ABI.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-1">What does it mean if the admin is an EOA?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-1"><div><p>That a single private key can replace the contract's entire code. No multisig threshold, no timelock, no exit window for users. It is one of the most consequential facts about any upgradeable protocol and one of the least documented, which is why this tool checks it explicitly.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-2">Transparent proxy or UUPS &mdash; how do I tell?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-2"><div><p>If both an implementation and an admin slot are set, it is almost certainly a transparent proxy, where upgrade logic lives in the proxy. If only the implementation slot is set, it is likely UUPS, where the upgrade function lives in the implementation &mdash; which means a future implementation that omits <code>_authorizeUpgrade</code> would freeze the proxy permanently.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-3">Does this need an API key?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-3"><div><p>No. It reads chain state through public RPC endpoints directly from your browser. Nothing is logged by us and no account is required.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-4">It says no proxy detected. Is it definitely not upgradeable?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-4"><div><p>It means none of the standard slots hold an address, the code is not a minimal proxy, and the diamond loupe did not respond. A custom, non-standard proxy would not be detected &mdash; so treat a negative result as strong evidence, not proof.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Beyond automation</p>
+            <h2>No tool reads your specification. We do.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The findings that drain protocols come from state assumptions, economic design and cross-contract interaction &mdash; none of which a scanner sees. Free scoping in under two working days.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../process.html" data-magnetic="0.3"><span>How we work</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="../data/findings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/keccak.js" defer></script>
+  <script src="../js/solidity-parse.js" defer></script>
+  <script src="../js/chain-tools.js" defer></script>
+</body>
+</html>

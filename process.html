@@ -114,7 +114,7 @@
           "name": "Why two independent reviewers?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two researchers reading independently and comparing notes afterwards catches materially more than two researchers reading together, which is why our standard audit budgets for both reads."
+            "text": "Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two reviewers reading independently and comparing notes afterwards catches materially more than two reading together, which is why our standard audit budgets for both reads."
           }
         },
         {
@@ -172,7 +172,7 @@
         <a href="reports.html">Reports</a>
         <a href="tools.html">Tools</a>
         <a href="blog/index.html">Research</a>
-        <a href="team.html">Researchers</a>
+        <a href="about.html">About</a>
         <a href="pricing.html">Pricing</a>
         <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
       </nav>
@@ -206,7 +206,7 @@
           </div>
           <div class="method-side">
             <h4>Output</h4>
-            <ul><li>Scope document at a fixed commit</li><li>Trust-boundary map and actor list</li><li>Assumptions register</li><li>Fixed quote and named researchers</li></ul>
+            <ul><li>Scope document at a fixed commit</li><li>Trust-boundary map and actor list</li><li>Assumptions register</li><li>Fixed quote and review plan</li></ul>
           </div>
         </article>
         <article class="method-item" data-reveal>
@@ -324,7 +324,7 @@
         </div>
         <div class="accordion" id="pfaq">
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-0">What do you need from us before day one?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-0"><div><p>The repository at a fixed commit, a list of the contracts in scope, whatever documentation or spec exists, the external integrations (oracles, AMMs, bridges, tokens you do not control), the list of privileged roles and who holds them, and your deployment target. If documentation is thin we will write our understanding back to you &mdash; the disagreements that surfaces are often the first finding.</p></div></div></div>
-      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-1">Why two independent reviewers?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-1"><div><p>Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two researchers reading independently and comparing notes afterwards catches materially more than two researchers reading together, which is why our standard audit budgets for both reads.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-1">Why two independent reviewers?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-1"><div><p>Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two reviewers reading independently and comparing notes afterwards catches materially more than two reading together, which is why our standard audit budgets for both reads.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-2">What happens if you find a Critical mid-review?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-2"><div><p>We stop and tell you the same day, before the report exists. If the code is live we help you evaluate containment &mdash; pause, parameter change, migration &mdash; before anything is written down or shared. Unfixed Criticals on live systems are never published.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-3">How is severity decided?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-3"><div><p>Impact times likelihood, applied consistently, with the reasoning written out. If we cannot demonstrate a finding with a proof of concept, we downgrade it and say so. Where you disagree with a rating we record your position in the report rather than quietly changing ours.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-4">What is remediation verification?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-4"><div><p>After you fix, we re-review every changed line (not just the diff you point us at), re-run the proof of concept for each finding and the invariant suite, and mark each finding Fixed, Acknowledged or Open. That final report is the one you publish, and it is included in every audit &mdash; not an upsell.</p></div></div></div>
@@ -339,7 +339,7 @@
           <div>
             <p class="eyebrow">Ready when you are</p>
             <h2>Stage one is free and takes two days.</h2>
-            <p class="lede" style="margin-top:var(--s-3)">Send the repo. You get a written scope, a threat-boundary sketch, a fixed quote and the names of the researchers who would do the work.</p>
+            <p class="lede" style="margin-top:var(--s-3)">Send the repo. You get a written scope, a threat-boundary sketch, a fixed quote and a review plan.</p>
           </div>
           <div class="cta-actions">
             <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Start scoping <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
@@ -375,8 +375,8 @@
           <ul>
             <li><a href="process.html">Methodology</a></li>
             <li><a href="reports.html">Reports &amp; findings</a></li>
-            <li><a href="team.html">Researchers</a></li>
             <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
             <li><a href="pricing.html">Pricing</a></li>
             <li><a href="contact.html">Request an audit</a></li>
           </ul>
@@ -385,11 +385,11 @@
           <h4>Resources</h4>
           <ul>
             <li><a href="tools.html">Security tools</a></li>
-            <li><a href="tools.html#precheck">Contract risk pre-check</a></li>
-            <li><a href="tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="tools/ai-deep-scan.html">AI deep scan</a></li>
             <li><a href="blog/index.html">Research</a></li>
-            <li><a href="blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
-            <li><a href="blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+            <li><a href="glossary.html">Security glossary</a></li>
+            <li><a href="compare.html">Compare audit firms</a></li>
           </ul>
         </div>
       </div>

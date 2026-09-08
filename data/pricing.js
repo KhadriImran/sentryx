@@ -58,8 +58,8 @@ window.SENTRYX_PRICING = {
     },
     {
       id: "retainer", name: "Security retainer", from: 3000, unit: "/ month",
-      tagline: "A named researcher embedded with your team, every month.",
-      loc: "Priced by PR volume", timeline: "Monthly, cancel with 30 days' notice", researchers: "1 named researcher (+ backup)",
+      tagline: "A dedicated reviewer embedded with your team, every month.",
+      loc: "Priced by PR volume", timeline: "Monthly, cancel with 30 days' notice", researchers: "1 dedicated reviewer (+ briefed backup)",
       includes: ["Review of every PR touching value flows", "Invariant suite maintenance", "Dependency and upgrade monitoring", "Priority incident response", "Quarterly threat model refresh"],
       deliverables: ["PR review comments", "Monthly security summary", "Updated invariant suite"],
       cta: "Start a retainer"

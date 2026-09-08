@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fetch Verified Contract Source by Address — Multichain | SENTRYX</title>
+  <meta name="description" content="Pull verified Solidity source for any deployed contract across nine chains, flattened and ready to analyse. Hands the code straight to the risk pre-check in one click.">
+  <link rel="canonical" href="https://sentryx.example/tools/contract-source-fetcher.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Fetch Verified Contract Source by Address — Multichain | SENTRYX">
+  <meta property="og:description" content="Pull verified Solidity source for any deployed contract across nine chains, flattened and ready to analyse. Hands the code straight to the risk pre-check in one click.">
+  <meta property="og:url" content="https://sentryx.example/tools/contract-source-fetcher.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/tool-contract-source-fetcher.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fetch Verified Contract Source by Address — Multichain | SENTRYX">
+  <meta name="twitter:description" content="Pull verified Solidity source for any deployed contract across nine chains, flattened and ready to analyse. Hands the code straight to the risk pre-check in one click.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/tool-contract-source-fetcher.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://sentryx.example/tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Verified Source Fetcher",
+          "item": "https://sentryx.example/tools/contract-source-fetcher.html"
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "SENTRYX Verified Source Fetcher",
+      "url": "https://sentryx.example/tools/contract-source-fetcher.html",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Pull verified Solidity source for any deployed contract across nine chains, flattened and ready to analyse. Hands the code straight to the risk pre-check in one click.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do I need my own API key?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The site is static, so there is no server to hold a shared key &mdash; and embedding one in public JavaScript would let anyone burn its rate limit. A free key from etherscan.io/apis takes a minute, works across all supported chains on the V2 API, and stays in your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which chains are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ethereum, Arbitrum, Optimism, Base, Polygon, BNB Chain, Avalanche, Linea and Scroll &mdash; all through the unified explorer API, so one key covers them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The contract is a proxy. Which source do I get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The proxy's own source, which is usually a few dozen lines of delegation logic. The tool detects this and offers a button to fetch the implementation instead &mdash; that is the code you actually want to review. The proxy detector will show you the full picture including the admin."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if the source is not verified?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then there is nothing to fetch, and that is itself a finding. An unverified contract holding user funds cannot be reviewed by anyone outside the team, which is a reason for users to be cautious and for you to verify it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the fetched source exactly what is deployed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is what the deployer submitted and the explorer's compiler reproduced to match the deployed bytecode &mdash; which is a strong guarantee, but verify the compiler version and optimizer settings shown, because those affect the result."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../about.html">About</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../tools.html">Tools</a></li><li aria-current="page">Verified Source Fetcher</li></ol>
+        <div class="tool-hero">
+          <div>
+            <p class="eyebrow">Tool 06 · On-chain · Free</p>
+            <h1 data-scramble="900">Verified Source Fetcher</h1>
+            <p class="lede" style="margin-top:var(--s-4)">Paste a contract address, get its verified source flattened and ready to analyse &mdash; then send it straight into the risk pre-check without a round trip through your clipboard.</p>
+          </div>
+          <div class="tool-facts">
+            <h3>At a glance</h3>
+            <div class="est-rows" style="border:0;padding:0"><div class="est-row"><span>Chains</span><span>9 supported</span></div><div class="est-row"><span>Source</span><span>Block explorer verified source</span></div><div class="est-row"><span>Handles</span><span>Multi-file and standard-json</span></div><div class="est-row"><span>Cost</span><span>Free</span></div><div class="est-row"><span>Needs</span><span>A free explorer key, or a proxy</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool-panel" id="fetch-tool" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Verified Source Fetcher</p>
+              <h2 style="font-size:1.3rem">Run it</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn btn-primary btn-sm" id="cf-run" type="button">Fetch source</button></div>
+          </div>
+          <div class="tool-body">
+            
+      <div class="tool-split wide-left">
+        <div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cf-addr">Contract address</label>
+              <input class="input mono" id="cf-addr" placeholder="0x…" spellcheck="false" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="cf-chain">Chain</label>
+              <select class="select" id="cf-chain"></select>
+            </div>
+          </div>
+          <div class="field" id="cf-key-wrap" style="margin-top:var(--s-4)">
+            <label for="cf-key">Your explorer API key</label>
+            <input class="input mono" id="cf-key" placeholder="Free key from etherscan.io/apis" autocomplete="off" spellcheck="false">
+            <p class="hint">Stored only in your browser's localStorage and sent directly to the explorer. We never receive it. A site owner can remove this step by configuring a server-side proxy &mdash; see the README.</p>
+          </div>
+          <div class="field" style="margin-top:var(--s-4)">
+            <label for="cf-source">Fetched source</label>
+            <textarea class="textarea mono" id="cf-source" rows="16" spellcheck="false" placeholder="// verified source appears here" style="min-height:360px"></textarea>
+          </div>
+        </div>
+        <div id="cf-out" aria-live="polite"></div>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="how-t">
+      <div class="container split-7-5">
+        <div data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-t" style="font-size:var(--text-xl)">What this tool does, and what it can't.</h2>
+          <div class="prose" style="max-width:none;margin-top:var(--s-5)"><p>Block explorers return verified source in three different shapes: raw Solidity for single-file contracts, a JSON map of paths to contents for multi-file projects, and a double-brace-wrapped standard-json-input for compiler settings. This tool flattens all three into one readable file with path markers, so you can paste it into any analyser.</p><p>It also surfaces the compiler version, optimizer settings and license, and tells you whether the explorer flagged the address as a proxy &mdash; in which case you almost certainly want the implementation's source rather than the proxy's, and there is a button to fetch it.</p><p>Because this site has no backend by default, the request goes from your browser directly to the explorer using a free key you provide, stored only in your own localStorage. A site owner who deploys the included serverless function can hold the key server-side and remove that step for every visitor.</p></div>
+        </div>
+        <div data-reveal="right">
+          <div class="card card-accentline">
+            <span class="card-index">Other tools</span>
+            <div class="tool-strip" style="grid-template-columns:1fr;margin-top:var(--s-4)"><a href="proxy-detector.html"><b>Proxy Detector</b><span>Read the standard proxy slots for any deployed contract &mdash; implementation, admin, beacon &m…</span></a><a href="contract-risk-precheck.html"><b>Contract Risk Pre-Check</b><span>Paste Solidity and get an indicative scan for twenty known vulnerability patterns, with severity…</span></a><a href="ai-deep-scan.html"><b>AI Deep Scan</b><span>Runs every analyser at once &mdash; patterns, access control, gas and storage &mdash; then adds …</span></a></div>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <a class="link-arrow" href="../tools.html">All tools <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions about this tool.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a> and the <a href="../glossary.html" class="u-line" style="color:var(--ink-0)">glossary</a>.</p>
+        </div>
+        <div class="accordion" id="tf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-0">Why do I need my own API key?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-0"><div><p>The site is static, so there is no server to hold a shared key &mdash; and embedding one in public JavaScript would let anyone burn its rate limit. A free key from <a href='https://etherscan.io/apis' rel='noopener' target='_blank'>etherscan.io/apis</a> takes a minute, works across all supported chains on the V2 API, and stays in your browser.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-1">Which chains are supported?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-1"><div><p>Ethereum, Arbitrum, Optimism, Base, Polygon, BNB Chain, Avalanche, Linea and Scroll &mdash; all through the unified explorer API, so one key covers them.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-2">The contract is a proxy. Which source do I get?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-2"><div><p>The proxy's own source, which is usually a few dozen lines of delegation logic. The tool detects this and offers a button to fetch the implementation instead &mdash; that is the code you actually want to review. The <a href='proxy-detector.html'>proxy detector</a> will show you the full picture including the admin.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-3">What if the source is not verified?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-3"><div><p>Then there is nothing to fetch, and that is itself a finding. An unverified contract holding user funds cannot be reviewed by anyone outside the team, which is a reason for users to be cautious and for you to verify it.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-4">Is the fetched source exactly what is deployed?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-4"><div><p>It is what the deployer submitted and the explorer's compiler reproduced to match the deployed bytecode &mdash; which is a strong guarantee, but verify the compiler version and optimizer settings shown, because those affect the result.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Beyond automation</p>
+            <h2>No tool reads your specification. We do.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The findings that drain protocols come from state assumptions, economic design and cross-contract interaction &mdash; none of which a scanner sees. Free scoping in under two working days.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../process.html" data-magnetic="0.3"><span>How we work</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="../data/findings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/keccak.js" defer></script>
+  <script src="../js/solidity-parse.js" defer></script>
+  <script src="../js/chain-tools.js" defer></script>
+</body>
+</html>

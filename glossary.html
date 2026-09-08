@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart Contract Security Glossary — 45 Terms Defined | SENTRYX</title>
+  <meta name="description" content="Reentrancy, oracle manipulation, storage collisions, MEV, invariants, EIP-1967 and 40 more smart contract security terms, defined precisely with links to deeper research.">
+  <link rel="canonical" href="https://sentryx.example/glossary.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Smart Contract Security Glossary — 45 Terms Defined | SENTRYX">
+  <meta property="og:description" content="Reentrancy, oracle manipulation, storage collisions, MEV, invariants, EIP-1967 and 40 more smart contract security terms, defined precisely with links to deeper research.">
+  <meta property="og:url" content="https://sentryx.example/glossary.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/glossary.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Contract Security Glossary — 45 Terms Defined | SENTRYX">
+  <meta name="twitter:description" content="Reentrancy, oracle manipulation, storage collisions, MEV, invariants, EIP-1967 and 40 more smart contract security terms, defined precisely with links to deeper research.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/glossary.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Glossary",
+          "item": "https://sentryx.example/glossary.html"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "SENTRYX Smart Contract Security Glossary",
+      "url": "https://sentryx.example/glossary.html",
+      "description": "Definitions of smart contract security terms as used in SENTRYX audit reports."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between reentrancy and read-only reentrancy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Classic reentrancy re-enters a state-changing function while state is stale. Read-only reentrancy changes nothing at all &mdash; a view function is queried during a callback while the contract sits in an intermediate state, and returns a value that is simply wrong. The victim is usually a different protocol that integrated with it and has no guard, because it never writes anything."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between an audit and a bug bounty?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An audit is a time-boxed adversarial review of a fixed commit by a dedicated security team, producing a report. A bounty is an open, ongoing offer to pay for findings. They search differently: an audit covers the whole scope systematically, a bounty optimises for whatever is cheapest to find. Use both."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does &ldquo;impact times likelihood&rdquo; actually mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Impact is what happens if the flaw is exploited &mdash; total loss, bounded loss, degraded function. Likelihood accounts for preconditions: capital required, privileged access needed, market conditions, and whether it is one transaction or a sequence someone can interrupt. A catastrophic impact with negligible likelihood is not a Critical."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do so many terms here involve rounding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because integer arithmetic has no fractions, so every division discards something, and every discarded fraction goes to one side of a trade. Over enough operations, and on a chain where a transaction costs a fraction of a cent, &ldquo;it is only a wei&rdquo; stops being true."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are these definitions standard across the industry?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The concepts are; the exact wording is ours. Where a term has a formal standard behind it &mdash; EIP-1967, ERC-4626, EIP-55 &mdash; we follow the standard. Where the industry uses a term loosely, we say how we use it, which is more useful than pretending there is a canonical definition."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="about.html">About</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Glossary</li></ol>
+        <p class="eyebrow">Reference</p>
+        <h1 data-scramble="900">Smart contract security glossary</h1>
+        <p class="lede">Every term we use in a report, defined the way we actually use it &mdash; with a link to the research or the tool that goes deeper. Written for engineers who need the mechanism, not a dictionary entry.</p>
+        <div class="field" style="max-width:460px;margin-top:var(--s-6)">
+          <label class="sr-only" for="gloss-search">Search the glossary</label>
+          <input class="input" id="gloss-search" type="search" placeholder="Search terms, definitions or tags…" autocomplete="off">
+          <p class="hint" id="gloss-count"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="glossary-nav">
+          <div class="alpha-index" id="gloss-index" aria-label="Jump to letter"></div>
+        </div>
+        <div id="glossary-root"></div>
+        <p class="filter-empty" id="gloss-empty" hidden>No term matches that search.</p>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="gfaq">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Definitions people argue about</p>
+          <h2 id="gfaq" style="font-size:var(--text-xl)">Distinctions worth getting right.</h2>
+        </div>
+        <div class="accordion" id="gfq">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="gfq-0">What is the difference between reentrancy and read-only reentrancy?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="gfq-0"><div><p>Classic reentrancy re-enters a state-changing function while state is stale. Read-only reentrancy changes nothing at all &mdash; a view function is queried during a callback while the contract sits in an intermediate state, and returns a value that is simply wrong. The victim is usually a different protocol that integrated with it and has no guard, because it never writes anything.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="gfq-1">What is the difference between an audit and a bug bounty?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="gfq-1"><div><p>An audit is a time-boxed adversarial review of a fixed commit by a dedicated security team, producing a report. A bounty is an open, ongoing offer to pay for findings. They search differently: an audit covers the whole scope systematically, a bounty optimises for whatever is cheapest to find. Use both.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="gfq-2">What does &ldquo;impact times likelihood&rdquo; actually mean?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="gfq-2"><div><p>Impact is what happens if the flaw is exploited &mdash; total loss, bounded loss, degraded function. Likelihood accounts for preconditions: capital required, privileged access needed, market conditions, and whether it is one transaction or a sequence someone can interrupt. A catastrophic impact with negligible likelihood is not a Critical.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="gfq-3">Why do so many terms here involve rounding?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="gfq-3"><div><p>Because integer arithmetic has no fractions, so every division discards something, and every discarded fraction goes to one side of a trade. Over enough operations, and on a chain where a transaction costs a fraction of a cent, &ldquo;it is only a wei&rdquo; stops being true.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="gfq-4">Are these definitions standard across the industry?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="gfq-4"><div><p>The concepts are; the exact wording is ours. Where a term has a formal standard behind it &mdash; EIP-1967, ERC-4626, EIP-55 &mdash; we follow the standard. Where the industry uses a term loosely, we say how we use it, which is more useful than pretending there is a canonical definition.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">From definitions to findings</p>
+            <h2>Knowing the terms is the easy half.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Recognising them in a codebase you did not write, under time pressure, is the job. That is what an engagement buys.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="blog/index.html" data-magnetic="0.3"><span>Read the research</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="glossary.html">Security glossary</a></li>
+            <li><a href="compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="data/glossary.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+</body>
+</html>

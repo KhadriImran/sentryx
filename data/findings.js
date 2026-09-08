@@ -19,7 +19,7 @@ window.SENTRYX_SAMPLE_REPORT = {
   loc: 1184,
   commit: "0xdeadbeef (illustrative)",
   dates: { start: "2026-01-12", end: "2026-01-30", verified: "2026-02-06" },
-  researchers: ["Imran Khadri", "Jagruti"],
+  reviewers: "Two independent reviewers (names withheld in this illustrative example)",
   summary: "Aurora Vault is an ERC-4626-style vault that accepts a single ERC-20, deploys it into an external yield strategy and mints shares against the strategy's reported value. Our review found one Critical reentrancy in the withdrawal path, one High oracle dependency on a spot price, and a series of Medium and Low accounting and hygiene issues. All Critical and High findings were fixed and verified. The team also adopted the invariant suite delivered with this report.",
   threatModel: {
     actors: ["Owner (multisig) — can set strategy and fees", "Keeper — can call harvest()", "User — deposit / withdraw / redeem", "Strategy — external, trusted for accounting", "Price router — reads an AMM pool"],

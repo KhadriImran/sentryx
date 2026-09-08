@@ -19,7 +19,6 @@
 (function () {
   "use strict";
   const root = document.getElementById("precheck");
-  if (!root) return;
 
   const ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 
@@ -185,7 +184,12 @@
     return { loc, fns, contracts, ext, pragma };
   }
 
+  /* ------------------------------------------------ exported engine */
+  // Reused by the Deep Scan tool, which runs every analyser in one pass.
+  window.SENTRYX_precheck = { RULES: RULES, scan: scan, metrics: metrics, sanitise: sanitise, SEV_ORDER: SEV_ORDER };
+
   /* ------------------------------------------------------------- render */
+  if (!root) return;
   const ta = root.querySelector("#pc-input");
   const out = root.querySelector("#pc-out");
   const runBtn = root.querySelector("#pc-run");

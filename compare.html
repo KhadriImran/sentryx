@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Audit vs Contest vs Bug Bounty vs Big Firm — Honest Comparison | SENTRYX</title>
+  <meta name="description" content="Four smart contract security instruments compared honestly: boutique audit, brand-name firm, audit contest and bug bounty — including the cases where you should not hire us.">
+  <link rel="canonical" href="https://sentryx.example/compare.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Audit vs Contest vs Bug Bounty vs Big Firm — Honest Comparison | SENTRYX">
+  <meta property="og:description" content="Four smart contract security instruments compared honestly: boutique audit, brand-name firm, audit contest and bug bounty — including the cases where you should not hire us.">
+  <meta property="og:url" content="https://sentryx.example/compare.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/compare.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Audit vs Contest vs Bug Bounty vs Big Firm — Honest Comparison | SENTRYX">
+  <meta name="twitter:description" content="Four smart contract security instruments compared honestly: boutique audit, brand-name firm, audit contest and bug bounty — including the cases where you should not hire us.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/compare.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Compare",
+          "item": "https://sentryx.example/compare.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should I get an audit or run a contest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Different instruments. An audit gives you named accountability, a threat model, a walkthrough and someone who will answer the phone in six months. A contest gives you many eyes for a fixed prize pool and is excellent at finding what is findable quickly. If you can only afford one before launch, take the audit &mdash; then run a contest or a bounty as ongoing coverage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a big-name audit worth the premium?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sometimes, and be honest about which reason applies. If you need the brand on your landing page for investors or an exchange listing, that is a real commercial reason and a large firm delivers it. If you need the code read carefully, firm size does not predict that &mdash; the individual researchers assigned to you do, and at a large firm you usually cannot choose them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a bug bounty actually cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Whatever is cheap enough to find relative to the payout. Bounty hunters are rational: they look where the expected value is highest. That makes bounties excellent standing coverage and poor systematic coverage, because nobody is paid to read the boring parts of your codebase."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I skip the audit if my code is a fork?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and forks deserve particular care. The base is well-tested, so teams assume the whole thing is safe and the diff gets less scrutiny than a greenfield build would. Every assumption the original design relied on may have been broken by your changes, and nobody has checked."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the cheapest responsible option?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A pre-deployment assessment on the contracts that hold funds, plus an invariant suite in CI, plus a bug bounty at launch. That combination costs less than a full audit and covers more ground than any single instrument. We will tell you if that is the right shape for your budget rather than quoting for something larger."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="about.html">About</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Compare</li></ol>
+        <p class="eyebrow">Choosing a security approach</p>
+        <h1 data-scramble="900">Audit, contest, bounty or big firm?</h1>
+        <p class="lede">Four different instruments that get confused with each other, compared honestly &mdash; including the cases where you should not hire us. Most protocols need two of these, not one.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="vs-grid" data-reveal-stagger>
+
+          <article class="card vs-card is-us">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">Boutique audit</span>
+            <h3>Specialist firm</h3>
+            <p class="vs-price">$3k&ndash;$30k &middot; 1&ndash;5 weeks</p>
+            <ul>
+              <li class="good"><i>+</i><span>Methodology and a full sample report you can evaluate before signing</span></li>
+              <li class="good"><i>+</i><span>Written threat model and systematic coverage</span></li>
+              <li class="good"><i>+</i><span>Direct access to the person reading your code</span></li>
+              <li class="good"><i>+</i><span>Remediation verification included</span></li>
+              <li class="bad"><i>&minus;</i><span>Small bench &mdash; calendar is a real constraint</span></li>
+              <li class="bad"><i>&minus;</i><span>Less brand recognition for investors</span></li>
+            </ul>
+            <a class="btn btn-primary" href="contact.html" style="width:100%;margin-top:var(--s-4)"><span>Request an audit</span></a>
+          </article>
+
+          <article class="card vs-card">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">Large firm</span>
+            <h3>Brand-name audit</h3>
+            <p class="vs-price">$30k&ndash;$200k+ &middot; 3&ndash;10 weeks</p>
+            <ul>
+              <li class="good"><i>+</i><span>Recognisable badge for investors and listings</span></li>
+              <li class="good"><i>+</i><span>Deep bench across many chains and languages</span></li>
+              <li class="good"><i>+</i><span>Formal verification and specialist teams in-house</span></li>
+              <li class="bad"><i>&minus;</i><span>You rarely choose your researchers</span></li>
+              <li class="bad"><i>&minus;</i><span>Long lead times, less direct contact</span></li>
+              <li class="bad"><i>&minus;</i><span>Quality varies by who was available that month</span></li>
+            </ul>
+          </article>
+
+          <article class="card vs-card">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">Contest</span>
+            <h3>Audit competition</h3>
+            <p class="vs-price">$20k&ndash;$100k prize pool &middot; 1&ndash;3 weeks</p>
+            <ul>
+              <li class="good"><i>+</i><span>Dozens of independent researchers at once</span></li>
+              <li class="good"><i>+</i><span>Pay for outcomes, not hours</span></li>
+              <li class="good"><i>+</i><span>Excellent at the findable-quickly classes</span></li>
+              <li class="bad"><i>&minus;</i><span>Duplicate-heavy; deep areas get less attention</span></li>
+              <li class="bad"><i>&minus;</i><span>No threat model, no walkthrough, no relationship</span></li>
+              <li class="bad"><i>&minus;</i><span>Triage burden lands on your team</span></li>
+            </ul>
+          </article>
+
+          <article class="card vs-card">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">Bounty</span>
+            <h3>Bug bounty</h3>
+            <p class="vs-price">Payout on finding &middot; ongoing</p>
+            <ul>
+              <li class="good"><i>+</i><span>Standing coverage after launch</span></li>
+              <li class="good"><i>+</i><span>Only pay when something real is found</span></li>
+              <li class="good"><i>+</i><span>Covers the code you shipped last week</span></li>
+              <li class="bad"><i>&minus;</i><span>Coverage is opportunistic, never systematic</span></li>
+              <li class="bad"><i>&minus;</i><span>Needs real budget to attract real researchers</span></li>
+              <li class="bad"><i>&minus;</i><span>You are learning about the bug after deployment</span></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="capability-note" style="margin-top:var(--s-7)" data-reveal>
+          <span class="mono-label accent">Where we would tell you to go elsewhere</span>
+          <h3 style="margin-top:8px">Three cases where SENTRYX is the wrong choice.</h3>
+          <p><strong style="color:var(--ink-0)">You need a badge more than a review.</strong> If an exchange listing or an investor term sheet names a specific firm, hire that firm. We cannot give you their logo and it would be dishonest to pretend the review substitutes for the requirement.</p>
+          <p style="margin-top:var(--s-3)"><strong style="color:var(--ink-0)">Your system is primarily non-EVM.</strong> A Solana-first or Move-first protocol should hire a firm whose core team lives in that ecosystem. We deliver those engagements with partner researchers and we will say so &mdash; but if the whole protocol is Rust, the partners should be the principals.</p>
+          <p style="margin-top:var(--s-3)"><strong style="color:var(--ink-0)">You need ten researchers next Monday.</strong> We are small on purpose. If your launch date requires a bench we do not have, an overbooked auditor is worse than a different auditor.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="section-head split" data-reveal>
+          <div><p class="eyebrow">What we would actually do</p><h2>Most protocols need two of these.</h2></div>
+          <p class="lede">Security is layered, not chosen. Here is the sequence we recommend most often, and roughly what it costs.</p>
+        </div>
+        <div class="grid grid-4" data-reveal-stagger>
+          <div class="card"><span class="card-index">Stage 1 &middot; pre-launch</span><h3>Audit the contracts that hold funds</h3><p>Systematic coverage of the code where loss is possible, with a threat model you keep. Narrow the scope before you narrow the depth.</p></div>
+          <div class="card"><span class="card-index">Stage 2 &middot; pre-launch</span><h3>Invariant suite in CI</h3><p>The highest-leverage artefact from any engagement. It keeps testing every commit long after the report is filed.</p></div>
+          <div class="card"><span class="card-index">Stage 3 &middot; at launch</span><h3>Bug bounty</h3><p>Standing coverage with real payout bands. Complements the audit; does not replace it.</p></div>
+          <div class="card card-accentline"><span class="card-index">Stage 4 &middot; ongoing</span><h3>Retainer or re-audit</h3><p>Because the code you audited is not the code you are running three months later.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cfaq">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">Deciding</p>
+          <h2 id="cfaq" style="font-size:var(--text-xl)">Questions teams ask us before choosing.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">See also <a href="pricing.html" class="u-line" style="color:var(--ink-0)">pricing</a> and the <a href="process.html" class="u-line" style="color:var(--ink-0)">methodology</a>.</p>
+        </div>
+        <div class="accordion" id="cmpf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="cmpf-0">Should I get an audit or run a contest?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="cmpf-0"><div><p>Different instruments. An audit gives you named accountability, a threat model, a walkthrough and someone who will answer the phone in six months. A contest gives you many eyes for a fixed prize pool and is excellent at finding what is findable quickly. If you can only afford one before launch, take the audit &mdash; then run a contest or a bounty as ongoing coverage.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="cmpf-1">Is a big-name audit worth the premium?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="cmpf-1"><div><p>Sometimes, and be honest about which reason applies. If you need the brand on your landing page for investors or an exchange listing, that is a real commercial reason and a large firm delivers it. If you need the code read carefully, firm size does not predict that &mdash; the individual researchers assigned to you do, and at a large firm you usually cannot choose them.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="cmpf-2">What does a bug bounty actually cover?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="cmpf-2"><div><p>Whatever is cheap enough to find relative to the payout. Bounty hunters are rational: they look where the expected value is highest. That makes bounties excellent standing coverage and poor systematic coverage, because nobody is paid to read the boring parts of your codebase.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="cmpf-3">Can I skip the audit if my code is a fork?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="cmpf-3"><div><p>No, and forks deserve particular care. The base is well-tested, so teams assume the whole thing is safe and the diff gets less scrutiny than a greenfield build would. Every assumption the original design relied on may have been broken by your changes, and nobody has checked.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="cmpf-4">What is the cheapest responsible option?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="cmpf-4"><div><p>A pre-deployment assessment on the contracts that hold funds, plus an invariant suite in CI, plus a bug bounty at launch. That combination costs less than a full audit and covers more ground than any single instrument. We will tell you if that is the right shape for your budget rather than quoting for something larger.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Not sure which you need?</p>
+            <h2>Tell us the constraint, not the product.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Budget, launch date, what the code does. We will tell you the shape that fits &mdash; including when it is not us.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html" data-magnetic="0.3"><span>Start scoping <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="tools/audit-cost-estimator.html" data-magnetic="0.3"><span>Estimate cost</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="glossary.html">Security glossary</a></li>
+            <li><a href="compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="data/severity.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+</body>
+</html>

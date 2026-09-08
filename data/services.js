@@ -21,7 +21,7 @@ window.SENTRYX_SERVICES = {
     { group: "core", name: "Protocol & architecture security review", delivery: "inhouse", desc: "System-level review of contracts, off-chain components, keepers and upgrade paths before code is final. Finds design flaws that no per-function audit catches." },
     { group: "core", name: "Re-audit & remediation verification", delivery: "inhouse", desc: "Every changed line re-reviewed, PoCs re-run, invariants re-executed. Each finding marked Fixed, Acknowledged or Open in a publishable final report." },
     { group: "core", name: "Pre-deployment security assessment", delivery: "inhouse", desc: "Time-boxed review of a small contract set immediately before mainnet: access control, external calls, arithmetic, initialisation and deployment scripts." },
-    { group: "core", name: "Private / solo audit engagements", delivery: "inhouse", desc: "A single named researcher embedded with your team for confidential review of unreleased code, under NDA, with direct Slack or Telegram access." },
+    { group: "core", name: "Private / solo audit engagements", delivery: "inhouse", desc: "A single dedicated reviewer embedded with your team for confidential review of unreleased code, under NDA, with direct Slack or Telegram access." },
     { group: "core", name: "Second-opinion audits", delivery: "inhouse", desc: "Independent review after another firm's audit. Focused on the classes the first report did not cover and on verifying that reported fixes are real." },
 
     // Chain & Language Specialisations
@@ -75,7 +75,7 @@ window.SENTRYX_SERVICES = {
     { group: "offensive", name: "White-hat recovery advisory", delivery: "inhouse", desc: "Negotiation support, safe-harbour terms and technical coordination when funds can still be recovered." },
 
     // Advisory & Retainers
-    { group: "advisory", name: "Continuous security retainer", delivery: "inhouse", flagship: "services/continuous-security-retainer.html", desc: "A named researcher reviewing every value-touching pull request, maintaining your invariant suite and on call for incidents." },
+    { group: "advisory", name: "Continuous security retainer", delivery: "inhouse", flagship: "services/continuous-security-retainer.html", desc: "A dedicated reviewer on every value-touching pull request, maintaining your invariant suite and on call for incidents." },
     { group: "advisory", name: "Continuous auditing for fast-shipping teams", delivery: "inhouse", desc: "Weekly review cadence aligned to your sprints so audits stop being a launch gate." },
     { group: "advisory", name: "Security roadmap & threat modelling", delivery: "inhouse", desc: "A written threat model and a prioritised roadmap: what to test, monitor, insure and re-audit, and when." },
     { group: "advisory", name: "Secure development training for protocol teams", delivery: "inhouse", desc: "Hands-on workshops built from real exploit classes — reentrancy, oracle manipulation, access control, upgrade safety — using your own codebase." },

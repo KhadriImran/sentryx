@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Free Smart Contract Risk Pre-Check — Scan Solidity in Your Browser | SENTRYX</title>
+  <meta name="description" content="Paste Solidity and get an instant heuristic scan for reentrancy shape, tx.origin auth, delegatecall, missing access control, unbounded loops, spot-price oracles and 14 more patterns. Runs locally — your code is never uploaded.">
+  <link rel="canonical" href="https://sentryx.example/tools/contract-risk-precheck.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Free Smart Contract Risk Pre-Check — Scan Solidity in Your Browser | SENTRYX">
+  <meta property="og:description" content="Paste Solidity and get an instant heuristic scan for reentrancy shape, tx.origin auth, delegatecall, missing access control, unbounded loops, spot-price oracles and 14 more patterns. Runs locally — your code is never uploaded.">
+  <meta property="og:url" content="https://sentryx.example/tools/contract-risk-precheck.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/tool-contract-risk-precheck.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Smart Contract Risk Pre-Check — Scan Solidity in Your Browser | SENTRYX">
+  <meta name="twitter:description" content="Paste Solidity and get an instant heuristic scan for reentrancy shape, tx.origin auth, delegatecall, missing access control, unbounded loops, spot-price oracles and 14 more patterns. Runs locally — your code is never uploaded.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/tool-contract-risk-precheck.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://sentryx.example/tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Contract Risk Pre-Check",
+          "item": "https://sentryx.example/tools/contract-risk-precheck.html"
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "SENTRYX Contract Risk Pre-Check",
+      "url": "https://sentryx.example/tools/contract-risk-precheck.html",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Paste Solidity and get an instant heuristic scan for reentrancy shape, tx.origin auth, delegatecall, missing access control, unbounded loops, spot-price oracles and 14 more patterns. Runs locally — your code is never uploaded.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my code uploaded anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Every rule runs in JavaScript in your browser. You can confirm this by opening the network tab while you scan, or by reading js/precheck.js &mdash; the whole rule set is in that one file."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the pre-check actually detect?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reentrancy shape (external call before state update), tx.origin authorisation, delegatecall, missing access control on privileged functions, unchecked low-level call returns, spot-price oracle reads, unvalidated Chainlink answers, unbounded loops, ERC-4626 first-deposit exposure, missing slippage and deadline protection, raw ERC-20 calls, block-value randomness, unchecked blocks, division-before-multiplication, floating pragmas, missing zero-address checks, single-step ownership, selfdestruct, missing events on setters, and storage reads inside loop conditions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I paste a contract address instead?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The pre-check itself works on source. To pull verified source straight from a block explorer, use the source fetcher &mdash; it hands the code to this tool in one click."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did it flag something that is obviously fine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because it is a pattern matcher without context. A delegatecall to an immutable, audited library is safe; the rule cannot tell that from a user-supplied target. Treat every hit as a question to answer, not a verdict."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "It found nothing. Is my contract safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and the tool says so. A clean result means none of the twenty shapes are present. Flawed accounting, broken incentive design and cross-contract state assumptions are all invisible to it &mdash; and those are what drain protocols."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../about.html">About</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../tools.html">Tools</a></li><li aria-current="page">Contract Risk Pre-Check</li></ol>
+        <div class="tool-hero">
+          <div>
+            <p class="eyebrow">Tool 01 · Analysis · Free</p>
+            <h1 data-scramble="900">Contract Risk Pre-Check</h1>
+            <p class="lede" style="margin-top:var(--s-4)">Paste Solidity, get an indicative scan against twenty known vulnerability patterns in under a second. It runs entirely in your browser — the source never leaves the page, and there is no sign-up.</p>
+          </div>
+          <div class="tool-facts">
+            <h3>At a glance</h3>
+            <div class="est-rows" style="border:0;padding:0"><div class="est-row"><span>Runs</span><span>Entirely client-side</span></div><div class="est-row"><span>Rules</span><span>20 patterns</span></div><div class="est-row"><span>Uploads</span><span>None — ever</span></div><div class="est-row"><span>Cost</span><span>Free, no account</span></div><div class="est-row"><span>Best for</span><span>A first look before you scope an audit</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool-panel" id="precheck" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Contract Risk Pre-Check</p>
+              <h2 style="font-size:1.3rem">Run it</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn btn-ghost btn-sm" id="pc-sample" type="button">Load vulnerable sample</button>
+              <button class="btn btn-ghost btn-sm" id="pc-clear" type="button">Clear</button>
+              <button class="btn btn-primary btn-sm" id="pc-run" type="button">Run pre-check</button></div>
+          </div>
+          <div class="tool-body">
+            
+      <div class="disclaimer" style="margin-bottom:var(--s-5)">
+        <strong>Indicative pre-check &mdash; not an audit.</strong> This is regex and light structural matching against about twenty known patterns. It cannot follow cross-contract state, reason about your specification, or model economic attacks &mdash; which is where most Critical findings actually come from. A clean result means the obvious shapes are absent, not that the code is safe.
+      </div>
+      <div class="tool-split wide-left">
+        <div class="field">
+          <label for="pc-input">Solidity source or contract address</label>
+          <textarea class="textarea mono" id="pc-input" rows="24" spellcheck="false" placeholder="// paste Solidity here, or a 0x… address&#10;pragma solidity 0.8.24;&#10;&#10;contract MyVault { … }" style="min-height:560px"></textarea>
+          <p class="hint">Press <kbd class="mono">⌘/Ctrl + Enter</kbd> to scan. Nothing is transmitted.</p>
+        </div>
+        <div id="pc-out" aria-live="polite" aria-busy="false"></div>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="how-t">
+      <div class="container split-7-5">
+        <div data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-t" style="font-size:var(--text-xl)">What this tool does, and what it can't.</h2>
+          <div class="prose" style="max-width:none;margin-top:var(--s-5)"><p>The scanner strips comments and string literals first, so it never fires on prose or a URL inside a comment. It then runs twenty rules &mdash; some line-by-line, some against the whole file with lookahead &mdash; and reports each hit with a line number, the matching source, why it matters and what to do about it.</p><p>Results use the same severity scale as our audit reports, so a Critical here means the same thing it would mean in an engagement: direct loss of funds, exploitable by anyone, no special preconditions.</p><p>What it cannot do is the important part. It has no notion of your protocol's intended behaviour, cannot follow value across contracts, and cannot evaluate whether an economic incentive is exploitable. Every large exploit in this industry involved at least one of those three.</p></div>
+        </div>
+        <div data-reveal="right">
+          <div class="card card-accentline">
+            <span class="card-index">Other tools</span>
+            <div class="tool-strip" style="grid-template-columns:1fr;margin-top:var(--s-4)"><a href="ai-deep-scan.html"><b>AI Deep Scan</b><span>Runs every analyser at once &mdash; patterns, access control, gas and storage &mdash; then adds …</span></a><a href="access-control-matrix.html"><b>Access Control Matrix</b><span>Generates the roles &times; functions table from your source, flags unguarded privileged functio…</span></a><a href="contract-source-fetcher.html"><b>Verified Source Fetcher</b><span>Pull verified source for any deployed contract across nine chains, flattened and ready &mdash; t…</span></a></div>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <a class="link-arrow" href="../tools.html">All tools <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions about this tool.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a> and the <a href="../glossary.html" class="u-line" style="color:var(--ink-0)">glossary</a>.</p>
+        </div>
+        <div class="accordion" id="tf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-0">Is my code uploaded anywhere?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-0"><div><p>No. Every rule runs in JavaScript in your browser. You can confirm this by opening the network tab while you scan, or by reading <code>js/precheck.js</code> &mdash; the whole rule set is in that one file.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-1">What does the pre-check actually detect?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-1"><div><p>Reentrancy shape (external call before state update), <code>tx.origin</code> authorisation, <code>delegatecall</code>, missing access control on privileged functions, unchecked low-level call returns, spot-price oracle reads, unvalidated Chainlink answers, unbounded loops, ERC-4626 first-deposit exposure, missing slippage and deadline protection, raw ERC-20 calls, block-value randomness, <code>unchecked</code> blocks, division-before-multiplication, floating pragmas, missing zero-address checks, single-step ownership, <code>selfdestruct</code>, missing events on setters, and storage reads inside loop conditions.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-2">Can I paste a contract address instead?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-2"><div><p>The pre-check itself works on source. To pull verified source straight from a block explorer, use the <a href='contract-source-fetcher.html'>source fetcher</a> &mdash; it hands the code to this tool in one click.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-3">Why did it flag something that is obviously fine?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-3"><div><p>Because it is a pattern matcher without context. A <code>delegatecall</code> to an immutable, audited library is safe; the rule cannot tell that from a user-supplied target. Treat every hit as a question to answer, not a verdict.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-4">It found nothing. Is my contract safe?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-4"><div><p>No, and the tool says so. A clean result means none of the twenty shapes are present. Flawed accounting, broken incentive design and cross-contract state assumptions are all invisible to it &mdash; and those are what drain protocols.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Beyond automation</p>
+            <h2>No tool reads your specification. We do.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The findings that drain protocols come from state assumptions, economic design and cross-contract interaction &mdash; none of which a scanner sees. Free scoping in under two working days.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../process.html" data-magnetic="0.3"><span>How we work</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="../data/findings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/keccak.js" defer></script>
+  <script src="../js/solidity-parse.js" defer></script>
+  <script src="../js/precheck.js" defer></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Access Control Failures in Smart Contracts — Modifiers, Initializers &amp; tx.origin | SENTRYX</title>
+  <title>Access Control Failures in Smart Contracts — Modifiers &amp; Initializers | SENTRYX</title>
   <meta name="description" content="Missing modifiers, callable initializers, tx.origin authentication and over-powered admin keys. How access control actually fails in production and how to design roles that survive upgrades.">
   <link rel="canonical" href="https://sentryx.example/blog/access-control-failures.html">
   <meta name="theme-color" content="#08090b">
@@ -11,14 +11,14 @@
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="SENTRYX">
-  <meta property="og:title" content="Access Control Failures in Smart Contracts — Modifiers, Initializers &amp; tx.origin | SENTRYX">
+  <meta property="og:title" content="Access Control Failures in Smart Contracts — Modifiers &amp; Initializers | SENTRYX">
   <meta property="og:description" content="Missing modifiers, callable initializers, tx.origin authentication and over-powered admin keys. How access control actually fails in production and how to design roles that survive upgrades.">
   <meta property="og:url" content="https://sentryx.example/blog/access-control-failures.html">
   <meta property="og:image" content="https://sentryx.example/assets/og/access-control-failures.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Access Control Failures in Smart Contracts — Modifiers, Initializers &amp; tx.origin | SENTRYX">
+  <meta name="twitter:title" content="Access Control Failures in Smart Contracts — Modifiers &amp; Initializers | SENTRYX">
   <meta name="twitter:description" content="Missing modifiers, callable initializers, tx.origin authentication and over-powered admin keys. How access control actually fails in production and how to design roles that survive upgrades.">
   <meta name="twitter:image" content="https://sentryx.example/assets/og/access-control-failures.png">
 
@@ -72,9 +72,9 @@
       "datePublished": "2026-02-18",
       "dateModified": "2026-02-18",
       "author": {
-        "@type": "Person",
-        "name": "Imran Khadri",
-        "url": "https://sentryx.example/team.html#imran-khadri"
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
       },
       "publisher": {
         "@type": "Organization",
@@ -107,7 +107,7 @@
         <a href="../reports.html">Reports</a>
         <a href="../tools.html">Tools</a>
         <a href="../blog/index.html">Research</a>
-        <a href="../team.html">Researchers</a>
+        <a href="../about.html">About</a>
         <a href="../pricing.html">Pricing</a>
         <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
       </nav>
@@ -129,7 +129,7 @@
               <h1>Access control failures: the simplest bug class, and the most expensive</h1>
               <p class="lede" style="margin-top:var(--s-4)">Missing modifiers, callable initializers, tx.origin authentication and admin keys that can do more than anyone realised. Plus how to design roles that survive an upgrade.</p>
               <div class="article-meta">
-                <span>18 February 2026</span><span>11 min read</span><span>By Imran Khadri</span>
+                <span>18 February 2026</span><span>11 min read</span><span>By SENTRYX Research</span>
                 <span>Vulnerability classes · Solidity · Access control</span>
               </div>
             </header>
@@ -295,8 +295,8 @@ function setFee(uint256 newFeeBps) external onlyOwner {
           <ul>
             <li><a href="../process.html">Methodology</a></li>
             <li><a href="../reports.html">Reports &amp; findings</a></li>
-            <li><a href="../team.html">Researchers</a></li>
             <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
             <li><a href="../pricing.html">Pricing</a></li>
             <li><a href="../contact.html">Request an audit</a></li>
           </ul>
@@ -305,11 +305,11 @@ function setFee(uint256 newFeeBps) external onlyOwner {
           <h4>Resources</h4>
           <ul>
             <li><a href="../tools.html">Security tools</a></li>
-            <li><a href="../tools.html#precheck">Contract risk pre-check</a></li>
-            <li><a href="../tools.html#estimator">Audit quote estimator</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
             <li><a href="../blog/index.html">Research</a></li>
-            <li><a href="../blog/reentrancy-attacks-explained.html">Reentrancy explained</a></li>
-            <li><a href="../blog/oracle-manipulation-attacks.html">Oracle manipulation</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
           </ul>
         </div>
       </div>

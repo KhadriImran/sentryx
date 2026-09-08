@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Solidity Storage Layout Visualizer &amp; Upgrade Safety Checker | SENTRYX</title>
+  <meta name="description" content="See your contract's storage slot-by-slot with packing and wasted space, or diff two versions to catch the layout changes that break an upgradeable proxy. Free, runs in your browser.">
+  <link rel="canonical" href="https://sentryx.example/tools/storage-layout-visualizer.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Solidity Storage Layout Visualizer &amp; Upgrade Safety Checker | SENTRYX">
+  <meta property="og:description" content="See your contract's storage slot-by-slot with packing and wasted space, or diff two versions to catch the layout changes that break an upgradeable proxy. Free, runs in your browser.">
+  <meta property="og:url" content="https://sentryx.example/tools/storage-layout-visualizer.html">
+  <meta property="og:image" content="https://sentryx.example/assets/og/tool-storage-layout-visualizer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solidity Storage Layout Visualizer &amp; Upgrade Safety Checker | SENTRYX">
+  <meta name="twitter:description" content="See your contract's storage slot-by-slot with packing and wasted space, or diff two versions to catch the layout changes that break an upgradeable proxy. Free, runs in your browser.">
+  <meta name="twitter:image" content="https://sentryx.example/assets/og/tool-storage-layout-visualizer.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sentryx.example/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://sentryx.example/tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Storage Layout & Upgrade Safety",
+          "item": "https://sentryx.example/tools/storage-layout-visualizer.html"
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "SENTRYX Storage Layout & Upgrade Safety",
+      "url": "https://sentryx.example/tools/storage-layout-visualizer.html",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "See your contract's storage slot-by-slot with packing and wasted space, or diff two versions to catch the layout changes that break an upgradeable proxy. Free, runs in your browser.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SENTRYX",
+        "url": "https://sentryx.example/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What breaks an upgradeable contract's storage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Inserting a variable anywhere except the end, removing one, reordering them, changing a type's size, changing inheritance order, or unpacking a slot by widening a type. Any of these shifts every variable after it, and the new implementation then reads the wrong bytes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a storage gap and how much should I reduce it by?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A uint256[50] private __gap; at the end of an upgradeable base contract reserves slots so children can grow without collision. When you add N slots of state above it, reduce the gap by exactly N. The tool flags a gap whose size changed so you can check the arithmetic."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this handle inheritance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for contracts present in the same paste &mdash; parent variables are laid out first, in most-base-first order, exactly as solc does. If a parent is missing the tool says so explicitly rather than producing a confidently wrong slot number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this a substitute for the OpenZeppelin upgrades plugin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and you should run that too &mdash; it validates against the actual deployed implementation, which a browser tool cannot. This is for the moment before that: reviewing a proposed change, or understanding a layout you did not write."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I reduce storage costs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Group small types together so they share slots: an address (20 bytes) plus a uint96 fills exactly one slot. Put bool next to an address rather than alone. And check whether a variable is ever reassigned &mdash; if not, immutable removes the storage access entirely."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="../services.html">Services</a>
+        <a href="../process.html">Process</a>
+        <a href="../reports.html">Reports</a>
+        <a href="../tools.html">Tools</a>
+        <a href="../blog/index.html">Research</a>
+        <a href="../about.html">About</a>
+        <a href="../pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="../contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="../contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="../index.html">Home</a></li><li><a href="../tools.html">Tools</a></li><li aria-current="page">Storage Layout &amp; Upgrade Safety</li></ol>
+        <div class="tool-hero">
+          <div>
+            <p class="eyebrow">Tool 03 · Upgrades · Free</p>
+            <h1 data-scramble="900">Storage Layout Visualizer</h1>
+            <p class="lede" style="margin-top:var(--s-4)">See exactly how solc packs your state variables into slots &mdash; then diff two versions to catch the layout changes that silently corrupt an upgradeable proxy. Both modes run in your browser.</p>
+          </div>
+          <div class="tool-facts">
+            <h3>At a glance</h3>
+            <div class="est-rows" style="border:0;padding:0"><div class="est-row"><span>Modes</span><span>Layout · Upgrade diff</span></div><div class="est-row"><span>Handles</span><span>Packing, gaps, structs, inheritance</span></div><div class="est-row"><span>Uploads</span><span>None</span></div><div class="est-row"><span>Cost</span><span>Free</span></div><div class="est-row"><span>Best for</span><span>Any upgradeable contract</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool-panel" id="storage-tool" data-reveal>
+          <div class="tool-head">
+            <div>
+              <p class="mono-label accent">Storage Layout &amp; Upgrade Safety</p>
+              <h2 style="font-size:1.3rem">Run it</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
+          </div>
+          <div class="tool-body">
+            
+      <div class="tabs" role="tablist" aria-label="Tool mode" style="margin-bottom:var(--s-5)">
+        <button class="tab" role="tab" data-mode="layout" aria-selected="true">Single contract layout</button>
+        <button class="tab" role="tab" data-mode="upgrade" aria-selected="false">Upgrade diff (V1 vs V2)</button>
+      </div>
+
+      <div id="mode-layout">
+        <div class="tool-split wide-left">
+          <div class="field">
+            <label for="sl-single">Contract source</label>
+            <textarea class="textarea mono" id="sl-single" rows="22" spellcheck="false" placeholder="// paste a contract — include its parents for an accurate layout" style="min-height:520px"></textarea>
+            <p class="hint">Parent contracts occupy the first slots. Paste the flattened source, or the tool will tell you what is missing.</p>
+            <div style="display:flex;gap:8px;margin-top:var(--s-3)">
+              <button class="btn btn-ghost btn-sm" id="sl-sample-single" type="button">Load sample</button>
+              <button class="btn btn-primary btn-sm" id="sl-run-single" type="button">Show layout</button>
+            </div>
+          </div>
+          <div id="sl-out-single" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div id="mode-upgrade" hidden>
+        <div class="disclaimer" style="margin-bottom:var(--s-5)">
+          <strong>Storage layout is a contract the compiler does not check for you.</strong> If V2 inserts, reorders, removes or resizes a variable, the new implementation reads bytes written by a different variable &mdash; with no revert and no warning.
+        </div>
+        <div class="tool-split">
+          <div class="field">
+            <label for="sl-a">V1 &mdash; the currently deployed implementation</label>
+            <textarea class="textarea mono" id="sl-a" rows="16" spellcheck="false" style="min-height:340px"></textarea>
+          </div>
+          <div class="field">
+            <label for="sl-b">V2 &mdash; the proposed implementation</label>
+            <textarea class="textarea mono" id="sl-b" rows="16" spellcheck="false" style="min-height:340px"></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin:var(--s-4) 0">
+          <button class="btn btn-ghost btn-sm" id="sl-sample-diff" type="button">Load an unsafe example</button>
+          <button class="btn btn-primary btn-sm" id="sl-run-diff" type="button">Compare layouts</button>
+        </div>
+        <div id="sl-out-diff" aria-live="polite"></div>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" aria-labelledby="how-t">
+      <div class="container split-7-5">
+        <div data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-t" style="font-size:var(--text-xl)">What this tool does, and what it can't.</h2>
+          <div class="prose" style="max-width:none;margin-top:var(--s-5)"><p>Solidity packs state variables into 32-byte slots left to right, starting a new slot whenever the next variable does not fit in the remaining bytes. Mappings, dynamic arrays, fixed arrays, structs, <code>string</code> and <code>bytes</code> always begin a fresh slot. <code>constant</code> and <code>immutable</code> variables take no slot at all &mdash; they live in bytecode.</p><p>The layout view renders each slot as a bar, showing which variables share it and how many bytes are unused. That wasted space is real money: a variable in its own slot costs 20,000 gas on first write and 2,100 on every cold read, where a packed one may cost nothing extra at all.</p><p>The upgrade diff compares the two layouts position by position and classifies every difference. Type changes, insertions, removals and moves are Critical, because the new code will read data written by a different variable. Appending at the end is safe. Renaming with an identical type and position is safe but flagged, so you can confirm it was deliberate.</p></div>
+        </div>
+        <div data-reveal="right">
+          <div class="card card-accentline">
+            <span class="card-index">Other tools</span>
+            <div class="tool-strip" style="grid-template-columns:1fr;margin-top:var(--s-4)"><a href="gas-optimization-analyzer.html"><b>Gas Optimization Analyzer</b><span>Twelve rules that find real gas waste, each with an estimated saving and an honest note on wheth…</span></a><a href="proxy-detector.html"><b>Proxy Detector</b><span>Read the standard proxy slots for any deployed contract &mdash; implementation, admin, beacon &m…</span></a><a href="ai-deep-scan.html"><b>AI Deep Scan</b><span>Runs every analyser at once &mdash; patterns, access control, gas and storage &mdash; then adds …</span></a></div>
+            <div class="card-foot" style="border-top:1px solid var(--line-2);padding-top:var(--s-4);margin-top:var(--s-5)">
+              <a class="link-arrow" href="../tools.html">All tools <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-t">
+      <div class="container faq-layout" data-reveal>
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-t" style="font-size:var(--text-xl)">Questions about this tool.</h2>
+          <p class="muted" style="margin-top:var(--s-3)">More in the <a href="../process.html" class="u-line" style="color:var(--ink-0)">methodology</a> and the <a href="../glossary.html" class="u-line" style="color:var(--ink-0)">glossary</a>.</p>
+        </div>
+        <div class="accordion" id="tf">
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-0">What breaks an upgradeable contract's storage?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-0"><div><p>Inserting a variable anywhere except the end, removing one, reordering them, changing a type's size, changing inheritance order, or unpacking a slot by widening a type. Any of these shifts every variable after it, and the new implementation then reads the wrong bytes.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-1">What is a storage gap and how much should I reduce it by?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-1"><div><p>A <code>uint256[50] private __gap;</code> at the end of an upgradeable base contract reserves slots so children can grow without collision. When you add N slots of state above it, reduce the gap by exactly N. The tool flags a gap whose size changed so you can check the arithmetic.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-2">Does this handle inheritance?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-2"><div><p>Yes, for contracts present in the same paste &mdash; parent variables are laid out first, in most-base-first order, exactly as solc does. If a parent is missing the tool says so explicitly rather than producing a confidently wrong slot number.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-3">Is this a substitute for the OpenZeppelin upgrades plugin?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-3"><div><p>No, and you should run that too &mdash; it validates against the actual deployed implementation, which a browser tool cannot. This is for the moment before that: reviewing a proposed change, or understanding a layout you did not write.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="tf-4">How do I reduce storage costs?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="tf-4"><div><p>Group small types together so they share slots: an <code>address</code> (20 bytes) plus a <code>uint96</code> fills exactly one slot. Put <code>bool</code> next to an address rather than alone. And check whether a variable is ever reassigned &mdash; if not, <code>immutable</code> removes the storage access entirely.</p></div></div></div>
+    </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">Beyond automation</p>
+            <h2>No tool reads your specification. We do.</h2>
+            <p class="lede" style="margin-top:var(--s-3)">The findings that drain protocols come from state assumptions, economic design and cross-contract interaction &mdash; none of which a scanner sees. Free scoping in under two working days.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="../contact.html" data-magnetic="0.3"><span>Request an audit <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+            <a class="btn btn-ghost btn-lg" href="../process.html" data-magnetic="0.3"><span>How we work</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="../services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="../services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="../services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="../services/incident-response.html">Incident response</a></li>
+            <li><a href="../services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="../services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../process.html">Methodology</a></li>
+            <li><a href="../reports.html">Reports &amp; findings</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../careers.html">Careers</a></li>
+            <li><a href="../pricing.html">Pricing</a></li>
+            <li><a href="../contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../tools.html">Security tools</a></li>
+            <li><a href="../tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="../tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="../blog/index.html">Research</a></li>
+            <li><a href="../glossary.html">Security glossary</a></li>
+            <li><a href="../compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/PLACEHOLDER-sentryx" rel="noopener" target="_blank">X</a> &middot; <a href="mailto:audits@sentryx.example">audits@sentryx.example</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="../data/site.js"></script>
+  <script src="../data/severity.js"></script>
+  <script src="../data/findings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/assistant.js" defer></script>
+  <script src="../js/keccak.js" defer></script>
+  <script src="../js/solidity-parse.js" defer></script>
+  <script src="../js/storage-layout.js" defer></script>
+</body>
+</html>
