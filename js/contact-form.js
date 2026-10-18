@@ -12,8 +12,8 @@
   const form = document.getElementById("audit-form");
   if (!form) return;
 
-  const FORM_ENDPOINT = "";                       // <-- paste your endpoint here
-  const WEB3FORMS_ACCESS_KEY = "";                // <-- only if using Web3Forms
+  const FORM_ENDPOINT = "https://api.web3forms.com/submit";                       // <-- paste your endpoint here
+  const WEB3FORMS_ACCESS_KEY = "0d00bebb-de87-49e0-8087-1b3022d08331";                // <-- only if using Web3Forms
   const FALLBACK_EMAIL = "sentryxaudit@gmail.com";
 
   const steps = Array.from(form.querySelectorAll(".form-step"));
@@ -154,6 +154,8 @@
     if (!validateStep(i)) return;
     const data = Object.fromEntries(new FormData(form).entries());
     data._subject = "Audit request — " + (data.project_name || "unnamed project");
+    data.subject = data._subject;                 // Web3Forms reads "subject"
+    data.from_name = "Sentryx website";
     data.page = location.href;
 
     status.hidden = false;
