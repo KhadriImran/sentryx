@@ -14,7 +14,7 @@
 
   const FORM_ENDPOINT = "";                       // <-- paste your endpoint here
   const WEB3FORMS_ACCESS_KEY = "";                // <-- only if using Web3Forms
-  const FALLBACK_EMAIL = "audits@sentryx.example";
+  const FALLBACK_EMAIL = "sentryxaudit@gmail.com";
 
   const steps = Array.from(form.querySelectorAll(".form-step"));
   const bar = form.querySelector(".steps-bar");

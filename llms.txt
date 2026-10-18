@@ -24,24 +24,24 @@ verifiable data behind them yet.
 - Smart contract security audit — from $3,000, 1-3 weeks. Two independent manual
   reviews against a written threat model, static analysis, targeted fuzzing, a
   runnable Foundry proof of concept for every Critical and High finding, and
-  remediation verification. https://sentryx.example/services/smart-contract-security-audit.html
+  remediation verification. https://sentryxaudit.com/services/smart-contract-security-audit.html
 - DeFi protocol security review — from $8,000, 3-5 weeks. Adds economic attack
   analysis, oracle dependency mapping, liquidation review and a Foundry invariant
-  suite. https://sentryx.example/services/defi-protocol-audit.html
+  suite. https://sentryxaudit.com/services/defi-protocol-audit.html
 - Bridge and cross-chain security audit — from $15,000, 4-8 weeks. Message
   verification, relayer and validator trust, replay/reorg/finality failure modes,
-  off-chain components. https://sentryx.example/services/bridge-cross-chain-audit.html
+  off-chain components. https://sentryxaudit.com/services/bridge-cross-chain-audit.html
 - Invariant and fuzz suite development — from $4,000, 1-3 weeks. Property
   elicitation, Foundry invariants with handlers and ghost state, Echidna/Medusa
-  campaigns, CI integration. https://sentryx.example/services/invariant-fuzz-testing.html
+  campaigns, CI integration. https://sentryxaudit.com/services/invariant-fuzz-testing.html
 - Incident response and post-exploit forensics — from $5,000, emergency rate for
   same-day start. Live triage, root-cause reconstruction, fund tracing, public
-  post-mortem. https://sentryx.example/services/incident-response.html
+  post-mortem. https://sentryxaudit.com/services/incident-response.html
 - Continuous security retainer — from $3,000/month. A dedicated reviewer on
   every PR that touches value flows, maintaining the invariant suite, on call for
-  incidents. https://sentryx.example/services/continuous-security-retainer.html
+  incidents. https://sentryxaudit.com/services/continuous-security-retainer.html
 - Full catalogue of 50+ services (chain specialisations, formal verification, MEV
-  analysis, governance, RWA, restaking, due diligence, training): https://sentryx.example/services.html
+  analysis, governance, RWA, restaking, due diligence, training): https://sentryxaudit.com/services.html
 
 ## Pricing
 
@@ -51,7 +51,7 @@ and fuzz suite from $4,000. Incident response from $5,000 (emergency rate applie
 Security retainer from $3,000/month. Enterprise and large protocols are custom.
 Scope drives price and every engagement is quoted after a free scoping review that
 takes under two working days. Remediation verification is included in every audit
-tier and is never billed separately. Full detail: https://sentryx.example/pricing.html
+tier and is never billed separately. Full detail: https://sentryxaudit.com/pricing.html
 
 ## Methodology
 
@@ -66,7 +66,7 @@ Six stages, each producing a named artefact:
 5. Report and walkthrough — PDF and Markdown, findings register as JSON, a call.
 6. Remediation verification — every changed line re-reviewed, PoCs and invariants
    re-run, each finding marked Fixed, Acknowledged or Open.
-Full methodology: https://sentryx.example/process.html
+Full methodology: https://sentryxaudit.com/process.html
 
 ## Severity classification
 
@@ -84,71 +84,71 @@ Severity is impact multiplied by likelihood, applied consistently:
 - Low (SEV-3): narrow edge cases and hygiene that compound into future risk.
   Examples: missing zero-address validation, floating pragma, single-step ownership.
 - Informational (SEV-4): no security impact. Gas, readability, NatSpec, design notes.
-Interactive reference: https://sentryx.example/tools/severity-explorer.html
+Interactive reference: https://sentryxaudit.com/tools/severity-explorer.html
 
 ## Free tools
 
-Eleven browser-based tools, no account and no usage limit. Index: https://sentryx.example/tools.html
+Eleven browser-based tools, no account and no usage limit. Index: https://sentryxaudit.com/tools.html
 
 Client-side only — source never leaves the browser:
 - Contract risk pre-check — heuristic scan of pasted Solidity for twenty known
   patterns (reentrancy shape, tx.origin auth, delegatecall, missing access control,
   unbounded loops, spot-price oracles, unchecked calls, ERC-4626 inflation, floating
-  pragma). Explicitly not an audit. https://sentryx.example/tools/contract-risk-precheck.html
+  pragma). Explicitly not an audit. https://sentryxaudit.com/tools/contract-risk-precheck.html
 - Storage layout visualizer — computes the solc storage layout (slot packing,
   whole-slot types, constants and immutables excluded, storage gaps) and diffs two
-  versions for upgrade-safety collisions. https://sentryx.example/tools/storage-layout-visualizer.html
+  versions for upgrade-safety collisions. https://sentryxaudit.com/tools/storage-layout-visualizer.html
 - Gas optimization analyzer — twelve gas rules with EIP-2929 cold/warm SLOAD and
-  SSTORE costs and estimated savings. https://sentryx.example/tools/gas-optimization-analyzer.html
+  SSTORE costs and estimated savings. https://sentryxaudit.com/tools/gas-optimization-analyzer.html
 - Access control matrix — extracts every externally reachable function and the guard
   protecting it, flagging unguarded state-changing functions and privileged
-  capabilities. https://sentryx.example/tools/access-control-matrix.html
+  capabilities. https://sentryxaudit.com/tools/access-control-matrix.html
 - Web3 unit converter — wei/gwei/ether conversion, keccak256, EIP-55 checksums,
   4-byte function selectors with collision detection, ABI type and integer bounds.
-  https://sentryx.example/tools/web3-unit-converter.html
+  https://sentryxaudit.com/tools/web3-unit-converter.html
 - Audit scope and quote estimator — lines of code, contract count, chain, complexity,
   urgency and re-audit produce a price range and timeline.
-  https://sentryx.example/tools/audit-cost-estimator.html
+  https://sentryxaudit.com/tools/audit-cost-estimator.html
 - Severity explorer — definitions, example finding classes and typical remediation
-  per severity level. https://sentryx.example/tools/severity-explorer.html
+  per severity level. https://sentryxaudit.com/tools/severity-explorer.html
 - Sample audit report viewer — a complete illustrative report with expandable
   findings, severity filters, vulnerable-versus-fixed diffs and Foundry PoCs. The
   report content ("Aurora Vault") is a constructed teaching example, not a client
-  engagement. https://sentryx.example/tools/sample-audit-report.html
+  engagement. https://sentryxaudit.com/tools/sample-audit-report.html
 
 Read public chain state or a server-side proxy:
 - Contract source fetcher — pulls verified source for a deployed address across EVM
   chains and flattens multi-file and standard-JSON sources.
-  https://sentryx.example/tools/contract-source-fetcher.html
+  https://sentryxaudit.com/tools/contract-source-fetcher.html
 - Proxy detector — identifies EIP-1967, EIP-1822, EIP-1167, beacon and EIP-2535
   diamond proxies from on-chain storage slots and reports the implementation and
-  admin. https://sentryx.example/tools/proxy-detector.html
+  admin. https://sentryxaudit.com/tools/proxy-detector.html
 - AI deep scan — sends pasted source to a server-side proxy for model-assisted
   review, only where the site operator has configured that layer. The tool states
-  which mode it is in before any code is submitted. https://sentryx.example/tools/ai-deep-scan.html
+  which mode it is in before any code is submitted. https://sentryxaudit.com/tools/ai-deep-scan.html
 
 ## Reference pages
 
 - Security glossary — 46 defined terms linked to the articles and tools that cover
-  them. https://sentryx.example/glossary.html
+  them. https://sentryxaudit.com/glossary.html
 - How to compare audit firms — the questions worth asking any firm, including us.
-  https://sentryx.example/compare.html
-- Careers — open roles and how we assess. https://sentryx.example/careers.html
+  https://sentryxaudit.com/compare.html
+- Careers — open roles and how we assess. https://sentryxaudit.com/careers.html
 
 ## Research articles
 
 - Reentrancy attacks explained: single-function, cross-function, cross-contract and
-  read-only variants. https://sentryx.example/blog/reentrancy-attacks-explained.html
+  read-only variants. https://sentryxaudit.com/blog/reentrancy-attacks-explained.html
 - Oracle manipulation: flash loans, spot prices versus TWAP, Chainlink integration
-  checks. https://sentryx.example/blog/oracle-manipulation-attacks.html
+  checks. https://sentryxaudit.com/blog/oracle-manipulation-attacks.html
 - Access control failures: missing modifiers, callable initializers, tx.origin,
-  admin capability analysis. https://sentryx.example/blog/access-control-failures.html
+  admin capability analysis. https://sentryxaudit.com/blog/access-control-failures.html
 - Share price inflation and rounding: first-depositor attacks, donation attacks,
-  rounding direction. https://sentryx.example/blog/erc4626-inflation-and-rounding.html
+  rounding direction. https://sentryxaudit.com/blog/erc4626-inflation-and-rounding.html
 - MEV and front-running: sandwich attacks, liquidation races, commit-reveal design.
-  https://sentryx.example/blog/mev-and-front-running-defi.html
+  https://sentryxaudit.com/blog/mev-and-front-running-defi.html
 - Upgradeable contract security: storage collisions, uninitialised proxies, admin risk.
-  https://sentryx.example/blog/upgradeable-proxy-security.html
+  https://sentryxaudit.com/blog/upgradeable-proxy-security.html
 
 ## Common questions
 
@@ -167,8 +167,8 @@ Read public chain state or a server-side proxy:
 
 ## Contact
 
-Request an audit: https://sentryx.example/contact.html
-Email: audits@sentryx.example
+Request an audit: https://sentryxaudit.com/contact.html
+Email: sentryxaudit@gmail.com
 Scoping is free and takes under two working days, and returns a written scope, a
 fixed quote and a review plan for the codebase.
 

@@ -1,211 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sentryx.example/</loc>
+    <loc>https://sentryxaudit.com/</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services.html</loc>
+    <loc>https://sentryxaudit.com/services.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/smart-contract-security-audit.html</loc>
+    <loc>https://sentryxaudit.com/services/smart-contract-security-audit.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/defi-protocol-audit.html</loc>
+    <loc>https://sentryxaudit.com/services/defi-protocol-audit.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/bridge-cross-chain-audit.html</loc>
+    <loc>https://sentryxaudit.com/services/bridge-cross-chain-audit.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/invariant-fuzz-testing.html</loc>
+    <loc>https://sentryxaudit.com/services/invariant-fuzz-testing.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/incident-response.html</loc>
+    <loc>https://sentryxaudit.com/services/incident-response.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/services/continuous-security-retainer.html</loc>
+    <loc>https://sentryxaudit.com/services/continuous-security-retainer.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/process.html</loc>
+    <loc>https://sentryxaudit.com/process.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/pricing.html</loc>
+    <loc>https://sentryxaudit.com/pricing.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools.html</loc>
+    <loc>https://sentryxaudit.com/tools.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/reports.html</loc>
+    <loc>https://sentryxaudit.com/reports.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/about.html</loc>
+    <loc>https://sentryxaudit.com/about.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/contact.html</loc>
+    <loc>https://sentryxaudit.com/contact.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/index.html</loc>
+    <loc>https://sentryxaudit.com/blog/index.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/reentrancy-attacks-explained.html</loc>
+    <loc>https://sentryxaudit.com/blog/reentrancy-attacks-explained.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/oracle-manipulation-attacks.html</loc>
+    <loc>https://sentryxaudit.com/blog/oracle-manipulation-attacks.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/access-control-failures.html</loc>
+    <loc>https://sentryxaudit.com/blog/access-control-failures.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/erc4626-inflation-and-rounding.html</loc>
+    <loc>https://sentryxaudit.com/blog/erc4626-inflation-and-rounding.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/mev-and-front-running-defi.html</loc>
+    <loc>https://sentryxaudit.com/blog/mev-and-front-running-defi.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/blog/upgradeable-proxy-security.html</loc>
+    <loc>https://sentryxaudit.com/blog/upgradeable-proxy-security.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/contract-risk-precheck.html</loc>
+    <loc>https://sentryxaudit.com/tools/contract-risk-precheck.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/ai-deep-scan.html</loc>
+    <loc>https://sentryxaudit.com/tools/ai-deep-scan.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/storage-layout-visualizer.html</loc>
+    <loc>https://sentryxaudit.com/tools/storage-layout-visualizer.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/gas-optimization-analyzer.html</loc>
+    <loc>https://sentryxaudit.com/tools/gas-optimization-analyzer.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/access-control-matrix.html</loc>
+    <loc>https://sentryxaudit.com/tools/access-control-matrix.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/contract-source-fetcher.html</loc>
+    <loc>https://sentryxaudit.com/tools/contract-source-fetcher.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/proxy-detector.html</loc>
+    <loc>https://sentryxaudit.com/tools/proxy-detector.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/audit-cost-estimator.html</loc>
+    <loc>https://sentryxaudit.com/tools/audit-cost-estimator.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/severity-explorer.html</loc>
+    <loc>https://sentryxaudit.com/tools/severity-explorer.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/sample-audit-report.html</loc>
+    <loc>https://sentryxaudit.com/tools/sample-audit-report.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/tools/web3-unit-converter.html</loc>
+    <loc>https://sentryxaudit.com/tools/web3-unit-converter.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/glossary.html</loc>
+    <loc>https://sentryxaudit.com/glossary.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/compare.html</loc>
+    <loc>https://sentryxaudit.com/compare.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sentryx.example/careers.html</loc>
+    <loc>https://sentryxaudit.com/careers.html</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

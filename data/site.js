@@ -8,13 +8,13 @@
 window.SENTRYX_SITE = {
   name: "SENTRYX",
   parent: "A brand of Avanteia Private Limited",
-  domain: "https://sentryx.example",            // <- set to the live domain (used for canonicals / OG in markup too)
-  email: "audits@sentryx.example",              // <- placeholder
+  domain: "https://sentryxaudit.com",            // <- set to the live domain (used for canonicals / OG in markup too)
+  email: "sentryxaudit@gmail.com",              // <- placeholder
   bookingUrl: "contact.html",
   social: {
-    github: "https://github.com/PLACEHOLDER-sentryx",
-    x: "https://x.com/PLACEHOLDER-sentryx",
-    linkedin: "https://www.linkedin.com/company/PLACEHOLDER"
+    github: "https://github.com/KhadriImran",
+    x: "https://x.com/sentryxaudit",
+    linkedin: "https://www.linkedin.com/company/sentryxaudit"
   },
   chains: ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "BNB Chain", "Avalanche", "zkSync", "Scroll", "Linea", "Solana", "Aptos", "Sui", "Starknet"],
   tooling: ["Foundry", "Hardhat", "Slither", "Echidna", "Medusa", "Certora", "Halmos", "Tenderly", "Aderyn", "Semgrep", "Mythril", "Wake"]

@@ -82,7 +82,7 @@ The parent line — *"A brand of Avanteia Private Limited"* — is in `data/site
 
 ### The domain
 
-Replace `https://sentryx.example` everywhere. It appears in:
+Replace `https://sentryxaudit.com` everywhere. It appears in:
 
 - `<link rel="canonical">` and Open Graph tags in every `.html`
 - every JSON-LD block
@@ -90,10 +90,10 @@ Replace `https://sentryx.example` everywhere. It appears in:
 - `data/site.js` → `domain`
 
 ```bash
-grep -rl "sentryx.example" . | xargs sed -i '' 's|https://sentryx.example|https://yourdomain.com|g'
+grep -rl "sentryx.example" . | xargs sed -i '' 's|https://sentryxaudit.com|https://yourdomain.com|g'
 ```
 
-Also replace `audits@sentryx.example` with your real address.
+Also replace `sentryxaudit@gmail.com` with your real address.
 
 ### Content data files — edit these, not the markup
 

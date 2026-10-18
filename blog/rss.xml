@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>SENTRYX Research</title>
-    <link>https://sentryx.example/blog/index.html</link>
-    <atom:link href="https://sentryx.example/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <link>https://sentryxaudit.com/blog/index.html</link>
+    <atom:link href="https://sentryxaudit.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <description>Long-form smart contract security research: the vulnerability classes behind real losses, with vulnerable code, fixes and tests.</description>
     <language>en</language>
     <copyright>SENTRYX, a brand of Avanteia Private Limited</copyright>
-    <managingEditor>audits@sentryx.example (SENTRYX Research)</managingEditor>
-    <webMaster>audits@sentryx.example (SENTRYX)</webMaster>
+    <managingEditor>sentryxaudit@gmail.com (SENTRYX Research)</managingEditor>
+    <webMaster>sentryxaudit@gmail.com (SENTRYX)</webMaster>
     <lastBuildDate>Wed, 11 Mar 2026 00:00:00 +0000</lastBuildDate>
     <ttl>1440</ttl>
     <image>
-      <url>https://sentryx.example/assets/og/research.png</url>
+      <url>https://sentryxaudit.com/assets/og/research.png</url>
       <title>SENTRYX Research</title>
-      <link>https://sentryx.example/blog/index.html</link>
+      <link>https://sentryxaudit.com/blog/index.html</link>
     </image>
     <item>
       <title>Reentrancy attacks explained: every variant, and why guards aren't enough</title>
-      <link>https://sentryx.example/blog/reentrancy-attacks-explained.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/reentrancy-attacks-explained.html</guid>
+      <link>https://sentryxaudit.com/blog/reentrancy-attacks-explained.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/reentrancy-attacks-explained.html</guid>
       <pubDate>Wed, 04 Feb 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>Single-function, cross-function, cross-contract and read-only reentrancy — with the code that breaks, the code that fixes it, and the cases where a nonReentrant modifier gives you false confidence.</description>
@@ -27,8 +27,8 @@
     </item>
     <item>
       <title>Oracle manipulation: how a flash loan turns a price feed into an exploit</title>
-      <link>https://sentryx.example/blog/oracle-manipulation-attacks.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/oracle-manipulation-attacks.html</guid>
+      <link>https://sentryxaudit.com/blog/oracle-manipulation-attacks.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/oracle-manipulation-attacks.html</guid>
       <pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>Why spot prices from AMM reserves are not prices, what TWAP actually protects against, and the Chainlink integration checks that most teams skip.</description>
@@ -36,8 +36,8 @@
     </item>
     <item>
       <title>Access control failures: the simplest bug class, and the most expensive</title>
-      <link>https://sentryx.example/blog/access-control-failures.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/access-control-failures.html</guid>
+      <link>https://sentryxaudit.com/blog/access-control-failures.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/access-control-failures.html</guid>
       <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>Missing modifiers, callable initializers, tx.origin authentication and admin keys that can do more than anyone realised. Plus how to design roles that survive an upgrade.</description>
@@ -45,8 +45,8 @@
     </item>
     <item>
       <title>Share price inflation and rounding: how vaults leak value one wei at a time</title>
-      <link>https://sentryx.example/blog/erc4626-inflation-and-rounding.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/erc4626-inflation-and-rounding.html</guid>
+      <link>https://sentryxaudit.com/blog/erc4626-inflation-and-rounding.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/erc4626-inflation-and-rounding.html</guid>
       <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>The first-depositor attack, donation attacks, rounding direction, and why 'it's only a wei' stops being true when an attacker can repeat it a million times.</description>
@@ -54,8 +54,8 @@
     </item>
     <item>
       <title>MEV and front-running: when correct code still loses users money</title>
-      <link>https://sentryx.example/blog/mev-and-front-running-defi.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/mev-and-front-running-defi.html</guid>
+      <link>https://sentryxaudit.com/blog/mev-and-front-running-defi.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/mev-and-front-running-defi.html</guid>
       <pubDate>Wed, 04 Mar 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>Sandwich attacks, liquidation races, weak commit-reveal and the protocol design decisions that decide how much value leaks to searchers before a user's transaction lands.</description>
@@ -63,8 +63,8 @@
     </item>
     <item>
       <title>Upgradeable contracts: storage collisions, uninitialised proxies and admin risk</title>
-      <link>https://sentryx.example/blog/upgradeable-proxy-security.html</link>
-      <guid isPermaLink="true">https://sentryx.example/blog/upgradeable-proxy-security.html</guid>
+      <link>https://sentryxaudit.com/blog/upgradeable-proxy-security.html</link>
+      <guid isPermaLink="true">https://sentryxaudit.com/blog/upgradeable-proxy-security.html</guid>
       <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
       <dc:creator>SENTRYX Research</dc:creator>
       <description>Transparent, UUPS and diamond patterns compared by failure mode — storage layout rules, initializer safety, and why your upgrade path is part of your attack surface.</description>

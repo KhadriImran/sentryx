@@ -62,7 +62,7 @@
     { k: ["invariant", "fuzz", "echidna", "medusa", "foundry", "test", "testing", "property"], a:
       "We build invariant and fuzz suites as a standalone engagement (from $4,000) or as part of a protocol audit: property elicitation, Foundry invariant tests with handlers and ghost variables, Echidna or Medusa campaigns, and CI integration so they keep running after we leave. See <a href='services/invariant-fuzz-testing.html'>invariant &amp; fuzz testing</a>." },
     { k: ["incident", "hacked", "exploit happening", "drained", "emergency", "attack right now", "being attacked"], a:
-      "If you are being exploited right now, contact us immediately at <a href='mailto:audits@sentryx.example'>audits@sentryx.example</a> and mark it URGENT — do not wait for this chat. We run live triage, containment options, root-cause analysis, fund tracing and white-hat / exchange coordination. Incident response starts from $5,000 with an emergency rate for same-day engagement." },
+      "If you are being exploited right now, contact us immediately at <a href='mailto:sentryxaudit@gmail.com'>sentryxaudit@gmail.com</a> and mark it URGENT — do not wait for this chat. We run live triage, containment options, root-cause analysis, fund tracing and white-hat / exchange coordination. Incident response starts from $5,000 with an emergency rate for same-day engagement." },
     { k: ["retainer", "continuous", "ongoing", "monthly", "subscription"], a:
       "The retainer puts a dedicated reviewer on your team from $3,000/month: review of every PR that touches value flows, invariant-suite maintenance, dependency and upgrade monitoring, priority incident response and a quarterly threat-model refresh. Built for teams shipping weekly." },
     { k: ["who", "team", "researcher", "founder", "experience", "background", "staffing"], a:
@@ -70,7 +70,7 @@
     { k: ["nda", "confidential", "private", "disclosure", "publish"], a:
       "We sign NDAs and run private engagements as standard. Nothing is published without your written approval — you decide whether the final report becomes public. Unfixed Critical findings are never disclosed publicly." },
     { k: ["start", "book", "hire", "engage", "contact", "get started", "talk"], a:
-      "Send the repo and we'll tell you what it needs. <a href='contact.html'>Request an audit</a> — the multi-step form takes about two minutes — or email <a href='mailto:audits@sentryx.example'>audits@sentryx.example</a>. Scoping is free." },
+      "Send the repo and we'll tell you what it needs. <a href='contact.html'>Request an audit</a> — the multi-step form takes about two minutes — or email <a href='mailto:sentryxaudit@gmail.com'>sentryxaudit@gmail.com</a>. Scoping is free." },
     { k: ["re-audit", "reaudit", "remediation", "verify", "fix", "second opinion"], a:
       "Remediation verification is included in every audit: we re-review every changed line, re-run the PoCs and the invariant suite, then mark each finding Fixed, Acknowledged or Open in a publishable final report. Standalone re-audits and second-opinion reviews after another firm's audit are also available." },
     { k: ["tool", "tools", "pre-check", "precheck", "scan", "estimator", "calculator"], a:
