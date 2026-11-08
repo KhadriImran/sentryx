@@ -12,7 +12,7 @@ window.SENTRYX_SITE = {
   email: "audits@sentryxaudit.com",              // <- placeholder
   bookingUrl: "https://calendly.com/sentryxaudit/30min",
   social: {
-    github: "https://github.com/KhadriImran",
+    github: "https://github.com/sentryxaudit",
     x: "https://x.com/sentryxaudit",
     linkedin: "https://www.linkedin.com/company/sentryxaudit"
   },
