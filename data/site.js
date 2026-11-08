@@ -9,7 +9,7 @@ window.SENTRYX_SITE = {
   name: "SENTRYX",
   parent: "A brand of Avanteia Private Limited",
   domain: "https://sentryxaudit.com",            // <- set to the live domain (used for canonicals / OG in markup too)
-  email: "sentryxaudit@gmail.com",              // <- placeholder
+  email: "audits@sentryxaudit.com",              // <- placeholder
   bookingUrl: "contact.html",
   social: {
     github: "https://github.com/KhadriImran",

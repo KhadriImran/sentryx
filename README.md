@@ -93,7 +93,7 @@ Replace `https://sentryxaudit.com` everywhere. It appears in:
 grep -rl "sentryx.example" . | xargs sed -i '' 's|https://sentryxaudit.com|https://yourdomain.com|g'
 ```
 
-Also replace `sentryxaudit@gmail.com` with your real address.
+Also replace `audits@sentryxaudit.com` with your real address.
 
 ### Content data files — edit these, not the markup
 

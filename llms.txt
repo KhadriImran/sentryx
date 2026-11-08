@@ -168,7 +168,7 @@ Read public chain state or a server-side proxy:
 ## Contact
 
 Request an audit: https://sentryxaudit.com/contact.html
-Email: sentryxaudit@gmail.com
+Email: audits@sentryxaudit.com
 Scoping is free and takes under two working days, and returns a written scope, a
 fixed quote and a review plan for the codebase.
 
