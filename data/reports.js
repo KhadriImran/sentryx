@@ -23,6 +23,20 @@ window.SENTRYX_REPORTS = [
     tags: ["ERC-4626", "Reentrancy", "Oracle", "Vault"],
     illustrative: true
   }
+  ,{
+    id: "SNTX-PA-SAMPLE-01",
+    title: "Harbor Staking: 48h Pre-Audit (sample report)",
+    client: "Harbor Staking (illustrative)",
+    chain: "Ethereum",
+    type: "Staking",
+    date: "2026-11-18",
+    severities: { critical: 0, high: 1, medium: 1, low: 2, info: 2 },
+    summary: "A sample $499 pre-audit report: a reward-accounting High with a Foundry PoC, what was ruled out, and fix verification. Fictional project, not a client engagement.",
+    url: "sample-report.html",
+    repo: null,
+    tags: ["Staking", "Reward accounting", "Pre-audit"],
+    illustrative: true
+  }
   // Real reports go here. Example (delete when adding real ones):
   // { id: "SNTX-2026-001", title: "Protocol X — Lending Market Audit", client: "Protocol X", chain: "Arbitrum", type: "DeFi", date: "2026-03-15",
   //   severities: { critical: 0, high: 1, medium: 3, low: 4, info: 6 }, summary: "...", url: "https://github.com/ORG/audits/blob/main/protocol-x.pdf", repo: "https://github.com/ORG/audits", tags: ["Lending", "Liquidations"], illustrative: false }

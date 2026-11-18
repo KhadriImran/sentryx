@@ -34,6 +34,7 @@
   const params = new URLSearchParams(location.search);
   // Pricing-tier ids (data/pricing.js) -> option text in the service <select>
   const TIER_TO_SERVICE = {
+    preaudit: "48h pre-audit ($499)",
     predeploy: "Pre-deployment assessment",
     standard: "Smart contract security audit",
     defi: "DeFi protocol security review",

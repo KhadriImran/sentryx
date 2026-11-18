@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sample Pre-Audit Report: Harbor Staking (illustrative) | SENTRYX</title>
+  <meta name="description" content="A sample SENTRYX 48h pre-audit report: summary, scope, findings with a Foundry proof of concept, what was ruled out, and fix verification.">
+  <link rel="canonical" href="https://sentryxaudit.com/sample-report.html">
+  <meta name="theme-color" content="#08090b">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SENTRYX">
+  <meta property="og:title" content="Sample Pre-Audit Report: Harbor Staking (illustrative) | SENTRYX">
+  <meta property="og:description" content="A sample SENTRYX 48h pre-audit report: summary, scope, findings with a Foundry proof of concept, what was ruled out, and fix verification.">
+  <meta property="og:url" content="https://sentryxaudit.com/sample-report.html">
+  <meta property="og:image" content="https://sentryxaudit.com/assets/og/pricing.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sample Pre-Audit Report: Harbor Staking (illustrative) | SENTRYX">
+  <meta name="twitter:description" content="A sample SENTRYX 48h pre-audit report: summary, scope, findings with a Foundry proof of concept, what was ruled out, and fix verification.">
+  <meta name="twitter:image" content="https://sentryxaudit.com/assets/og/pricing.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    html{background:#08090b}body{margin:0;background:#08090b;color:#d2d0c8;font-family:"Instrument Sans",system-ui,sans-serif}
+    .page-veil{position:fixed;inset:0;z-index:9995;background:#08090b}
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sentryxaudit.com/index.html"},{"@type":"ListItem","position":2,"name":"Reports","item":"https://sentryxaudit.com/reports.html"},{"@type":"ListItem","position":3,"name":"Sample pre-audit report","item":"https://sentryxaudit.com/sample-report.html"}]}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="SENTRYX home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg>
+        <span>Sentryx</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="process.html">Process</a>
+        <a href="reports.html">Reports</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog/index.html">Research</a>
+        <a href="about.html">About</a>
+        <a href="pricing.html">Pricing</a>
+        <a class="nav-mobile-cta btn btn-primary" href="contact.html">Request an audit</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm header-cta" href="contact.html" data-magnetic="0.25"><span>Request an audit</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="gridlines" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="breadcrumbs"><li><a href="index.html">Home</a></li><li><a href="reports.html">Reports</a></li><li aria-current="page">Sample pre-audit report</li></ol>
+        <p class="illustrative">Sample report · fictional project · not a client engagement</p>
+        <h1 style="margin-top:var(--s-4)">Harbor Staking: 48h pre-audit report</h1>
+        <p class="lede">This is the format you get from a <a href="pre-audit.html" class="u-line" style="color:var(--ink-0)">$499 pre-audit</a>. The project, code and findings are made up to show the format. The bugs are real bug classes that we see in staking contracts.</p>
+        <div class="rv-meta" style="display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-6);margin-top:var(--s-5);font-family:var(--font-mono);font-size:var(--text-sm);color:var(--ink-2)">
+          <span>Report ID · <b style="color:var(--ink-0)">SNTX-PA-SAMPLE-01</b></span>
+          <span>Commit · <b style="color:var(--ink-0)">a3f9c1e</b></span>
+          <span>Scope · <b style="color:var(--ink-0)">HarborStaking.sol, 212 nSLOC</b></span>
+          <span>Window · <b style="color:var(--ink-0)">48 hours</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="prose" style="max-width:none">
+          <h2 id="summary" style="margin-top:0">1. Summary</h2>
+          <p>HarborStaking lets users stake <code>HBR</code> and earn <code>rUSD</code> at a fixed rate per second, split pro rata by stake. We found <b>one High</b>, which lets a new staker take rewards that were earned by existing stakers. We also found one Medium, two Low and two informational issues. The High is proven with a Foundry test, included below.</p>
+        </div>
+        <div class="table-wrap" style="margin-top:var(--s-4)">
+          <table class="cmp-table">
+            <thead><tr><th scope="col">ID</th><th scope="col">Title</th><th scope="col">Severity</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">H-01</th><td>stake() does not settle rewards, so a new staker takes rewards earned by others</td><td><span class="sev sev-high">High</span></td><td>Fixed · verified</td></tr>
+              <tr><th scope="row">M-01</th><td>setRewardRate() applies the new rate to time that has already passed, and is not checked against funding</td><td><span class="sev sev-medium">Medium</span></td><td>Fixed · verified</td></tr>
+              <tr><th scope="row">L-01</th><td>Unchecked ERC-20 return values</td><td><span class="sev sev-low">Low</span></td><td>Fixed · verified</td></tr>
+              <tr><th scope="row">L-02</th><td>No zero-address checks in the constructor</td><td><span class="sev sev-low">Low</span></td><td>Acknowledged</td></tr>
+              <tr><th scope="row">I-01</th><td>Floating pragma</td><td><span class="sev sev-info">Info</span></td><td>Fixed</td></tr>
+              <tr><th scope="row">I-02</th><td>No events on stake, withdraw, claim and rate changes</td><td><span class="sev sev-info">Info</span></td><td>Fixed</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised">
+      <div class="container">
+        <div class="prose">
+          <h2 style="margin-top:0">2. Scope and method</h2>
+          <ul>
+            <li><b>In scope:</b> <code>src/HarborStaking.sol</code> at commit <code>a3f9c1e</code> (212 nSLOC). Tokens are standard OpenZeppelin ERC-20s. The owner is a 2-of-3 multisig.</li>
+            <li><b>Out of scope:</b> token contracts, deployment scripts, frontend and off-chain keepers.</li>
+            <li><b>Method:</b> two manual passes (one for access control and state, one for reward math), Slither and Aderyn with every result triaged, and a Foundry test for each High or Critical candidate. Anything we couldn't prove with a test was downgraded or dropped.</li>
+            <li><b>Severity:</b> impact × likelihood, using our <a href="process.html">published scale</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="prose">
+          <h2 style="margin-top:0">3. Findings</h2>
+
+          <h3 id="h-01"><span class="sev sev-high">High</span>&nbsp; H-01 · stake() does not settle rewards, so a new staker takes rewards earned by others</h3>
+          <p><b>Location:</b> <code>HarborStaking.sol#L58-L63</code></p>
+          <p><code>withdraw()</code> and <code>claim()</code> use the <code>updateReward</code> modifier, but <code>stake()</code> does not. This causes two problems:</p>
+          <ol>
+            <li><code>totalStaked</code> goes up before <code>rewardPerTokenStored</code> is updated. All the time since the last update is then shared over the <i>new</i>, larger total, and the newcomer gets part of rewards that were earned before they arrived.</li>
+            <li>A first-time staker's <code>userRewardPerTokenPaid</code> stays at 0. Their first claim therefore pays them as if they had staked since the contract began.</li>
+          </ol>
+        </div>
+        <pre class="code"><code><span class="diff-line">function stake(uint256 amount) external {            // no updateReward(msg.sender)</span><span class="diff-line">    stakeToken.transferFrom(msg.sender, address(this), amount);</span><span class="diff-line">    balanceOf[msg.sender] += amount;</span><span class="diff-line">    totalStaked += amount;</span><span class="diff-line">}</span></code></pre>
+        <div class="prose" style="margin-top:var(--s-5)">
+          <p><b>Impact:</b> anyone can stake right before a claim and walk away with a share of rewards that belong to existing stakers. In our test, Bob stakes for <b>0 seconds</b> and receives <b>half of 30 days of emissions</b>. Alice loses the same amount.</p>
+          <p><b>Proof of concept</b> (passes on commit <code>a3f9c1e</code>, fails after the fix):</p>
+        </div>
+        <pre class="code"><code><span class="diff-line">function test_H01_lateStakerTakesAccruedRewards() public {</span><span class="diff-line">    vm.prank(alice); staking.stake(100e18);          // t0: Alice is the only staker</span><span class="diff-line">    vm.warp(block.timestamp + 30 days);              // 30 days of rewards are Alice's</span><span class="diff-line"></span><span class="diff-line">    vm.prank(bob); staking.stake(100e18);            // no settlement before totalStaked doubles</span><span class="diff-line">    vm.prank(bob); staking.claim();                  // same block</span><span class="diff-line"></span><span class="diff-line">    uint256 accrued = 30 days * RATE;</span><span class="diff-line">    assertApproxEqRel(rewardToken.balanceOf(bob), accrued / 2, 1e15); // Bob gets 50%</span><span class="diff-line">    assertApproxEqRel(staking.earned(alice),        accrued / 2, 1e15); // Alice lost 50%</span><span class="diff-line">}</span></code></pre>
+        <div class="prose" style="margin-top:var(--s-5)">
+          <p><b>Fix:</b> add <code>updateReward(msg.sender)</code> to <code>stake()</code>. Also add a test asserting that someone who stakes and claims in the same block receives 0.</p>
+        </div>
+        <pre class="code"><code><span class="diff-line diff-add">function stake(uint256 amount) external updateReward(msg.sender) {</span><span class="diff-line diff-add">    stakeToken.safeTransferFrom(msg.sender, address(this), amount);</span><span class="diff-line">    balanceOf[msg.sender] += amount;</span><span class="diff-line">    totalStaked += amount;</span><span class="diff-line">}</span></code></pre>
+
+        <div class="prose" style="margin-top:var(--s-8)">
+          <h3 id="m-01"><span class="sev sev-medium">Medium</span>&nbsp; M-01 · setRewardRate() applies the new rate to time that has already passed, and is not checked against funding</h3>
+          <p><b>Location:</b> <code>HarborStaking.sol#L91-L94</code></p>
+          <p><code>setRewardRate()</code> writes <code>rewardRate</code> without settling <code>rewardPerTokenStored</code> first. The new rate is then applied back to <code>lastUpdate</code>. If the rate goes down, stakers lose rewards they had already earned. If it goes up, they are paid for time that was never funded. The function also doesn't check that the contract holds enough <code>rUSD</code> to pay <code>rate × remaining duration</code>, so the last people to claim can find the contract empty.</p>
+          <p><b>Likelihood:</b> only the owner can call this, and the owner is trusted, so this is Medium rather than High. It still happens without any bad intent on a normal rate change.</p>
+          <p><b>Fix:</b> add <code>updateReward(address(0))</code> to the function, and require <code>rewardToken.balanceOf(address(this)) - owed &gt;= newRate * (periodFinish - block.timestamp)</code>.</p>
+
+          <h3 id="l-01"><span class="sev sev-low">Low</span>&nbsp; L-01 · Unchecked ERC-20 return values</h3>
+          <p><code>transfer</code> and <code>transferFrom</code> are called without checking what they return. This is safe for the current tokens, but becomes a silent failure if either token is ever replaced by one that returns <code>false</code>. <b>Fix:</b> use OpenZeppelin <code>SafeERC20</code>.</p>
+
+          <h3 id="l-02"><span class="sev sev-low">Low</span>&nbsp; L-02 · No zero-address checks in the constructor</h3>
+          <p>The token addresses are <code>immutable</code>. A zero address passed at deploy time means redeploying and migrating. <b>Fix:</b> <code>require(_stake != address(0) &amp;&amp; _reward != address(0))</code>. <i>Team response: the deploy script checks this. Acknowledged.</i></p>
+
+          <h3 id="i-01"><span class="sev sev-info">Info</span>&nbsp; I-01 · Floating pragma</h3>
+          <p><code>pragma solidity ^0.8.0;</code>: pin the compiler version you tested with (for example <code>0.8.24</code>).</p>
+
+          <h3 id="i-02"><span class="sev sev-info">Info</span>&nbsp; I-02 · No events on state changes</h3>
+          <p>Without events, monitoring and indexers can't track stakes, claims or rate changes. Emit <code>Staked</code>, <code>Withdrawn</code>, <code>RewardPaid</code> and <code>RewardRateUpdated</code>.</p>
+
+          <h2>4. What we checked and ruled out</h2>
+          <ul>
+            <li><b>Reentrancy:</b> state is updated before the external calls in <code>withdraw()</code> and <code>claim()</code>, and both tokens are plain ERC-20s with no hooks. Not exploitable.</li>
+            <li><b>Rounding:</b> reward math is scaled by 1e18. The rounding loss is &lt;1 wei per user per update, so it can't be farmed.</li>
+            <li><b>Division by zero:</b> <code>rewardPerToken()</code> returns the stored value when <code>totalStaked == 0</code>. Safe.</li>
+            <li><b>Access control:</b> <code>setRewardRate</code> and <code>recoverERC20</code> are <code>onlyOwner</code>. <code>recoverERC20</code> blocks the stake token, so the owner can't take user deposits.</li>
+          </ul>
+
+          <h2>5. Fix verification</h2>
+          <p>Fix commit <code>7be20d4</code> reviewed: H-01, M-01, L-01, I-01 and I-02 are resolved. The H-01 test now fails as expected (Bob receives 0), and the team added it to their suite as a regression test. L-02 is acknowledged.</p>
+
+          <h2>6. Limits of this review</h2>
+          <p class="muted">This was a 48-hour, time-boxed review of one commit and the files listed above. It reduces risk but doesn't guarantee there are no bugs. Contracts that will hold significant value should also get a full audit, invariant tests and a bug bounty.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band" data-reveal="scale">
+          <div>
+            <p class="eyebrow">$499 · 48 hours</p>
+            <h2>Want this report for your contracts?</h2>
+            <p class="lede" style="margin-top:var(--s-3)">Up to 500 nSLOC of Solidity. Every serious finding comes with a test you can run.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="contact.html?service=preaudit" data-magnetic="0.3"><span>Book a pre-audit</span></a>
+            <a class="btn btn-ghost btn-lg" href="pre-audit.html"><span>How it works</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="SENTRYX home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14L16 30 3 23V9z"/><rect class="core" x="11" y="11" width="10" height="10" transform="rotate(45 16 16)"/></svg><span>Sentryx</span></a>
+          <p>Specialist smart contract security. Manual adversarial review, invariant testing and verified remediation for protocols that cannot afford a second chance.</p>
+          <p class="dim" style="margin-top:var(--s-4);font-size:var(--text-xs)">A brand of Avanteia Private Limited</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="pre-audit.html">48h pre-audit ($499)</a></li>
+            <li><a href="services/smart-contract-security-audit.html">Smart contract audit</a></li>
+            <li><a href="services/defi-protocol-audit.html">DeFi protocol review</a></li>
+            <li><a href="services/bridge-cross-chain-audit.html">Bridge &amp; cross-chain</a></li>
+            <li><a href="services/invariant-fuzz-testing.html">Invariant &amp; fuzz suites</a></li>
+            <li><a href="services/incident-response.html">Incident response</a></li>
+            <li><a href="services/continuous-security-retainer.html">Security retainer</a></li>
+            <li><a href="services.html">All services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="process.html">Methodology</a></li>
+            <li><a href="reports.html">Reports &amp; findings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Request an audit</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="tools.html">Security tools</a></li>
+            <li><a href="tools/contract-risk-precheck.html">Contract risk pre-check</a></li>
+            <li><a href="tools/ai-deep-scan.html">AI deep scan</a></li>
+            <li><a href="blog/index.html">Research</a></li>
+            <li><a href="glossary.html">Security glossary</a></li>
+            <li><a href="compare.html">Compare audit firms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> SENTRYX &middot; Avanteia Private Limited</span>
+        <span><a href="https://github.com/sentryxaudit" rel="noopener" target="_blank">GitHub</a> &middot; <a href="https://x.com/sentryxaudit" rel="noopener" target="_blank">X</a> &middot; <a href="https://t.me/sentryxaudit" rel="noopener" target="_blank">Telegram</a> &middot; <a href="mailto:audits@sentryxaudit.com">audits@sentryxaudit.com</a></span>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">SENTRYX</div>
+  </footer>
+
+  <script src="data/site.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/assistant.js" defer></script>
+</body>
+</html>
