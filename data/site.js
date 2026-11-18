@@ -14,7 +14,8 @@ window.SENTRYX_SITE = {
   social: {
     github: "https://github.com/sentryxaudit",
     x: "https://x.com/sentryxaudit",
-    linkedin: "https://www.linkedin.com/company/sentryxaudit"
+    linkedin: "https://www.linkedin.com/company/sentryxaudit",
+    telegram: "https://t.me/sentryxaudit"
   },
   chains: ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "BNB Chain", "Avalanche", "zkSync", "Scroll", "Linea", "Solana", "Aptos", "Sui", "Starknet"],
   tooling: ["Foundry", "Hardhat", "Slither", "Echidna", "Medusa", "Certora", "Halmos", "Tenderly", "Aderyn", "Semgrep", "Mythril", "Wake"]
