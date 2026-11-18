@@ -21,12 +21,12 @@ window.SENTRYX_TEAM = [
   {
     id: "jagruti",
     name: "Jagruti",
-    role: "Co-founder · Client Relations",
+    role: "Co-founder · Security Auditor",
     initials: "J",
     photo: null,
-    bio: "Jagruti is a co-founder of SENTRYX and runs client relations: first contact, scoping calls, scheduling and follow-up through every engagement. She does not review code; every line is read by the lead auditor.",
-    specialisations: ["Client relations", "Scheduling and scoping intake", "Community and outreach"],
-    focus: ["Fast, clear replies to founders", "Keeping engagements on schedule", "Making sure fixes get re-checked"],
+    bio: "Jagruti is a co-founder of SENTRYX and the second auditor on every engagement. She does her own separate read of the in-scope code after Imran, so every report has two sets of eyes and two names on it. She also runs client relations: first contact, scheduling and follow-up.",
+    specialisations: ["Solidity / EVM", "Second-read code review", "Client relations"],
+    focus: ["Access control and state checks", "Fix re-checks", "Keeping engagements on schedule"],
     links: { github: "", x: "", linkedin: "" },
     contests: []
   }

@@ -19,7 +19,7 @@ window.SENTRYX_PRICING = {
     {
       id: "standard", name: "Standard smart contract audit", from: 3000, unit: "",
       tagline: "Full manual audit of a contract system with tooling and PoCs.",
-      loc: "~500 – 2,500 LoC", timeline: "1–3 weeks", researchers: "1 lead auditor (two passes)",
+      loc: "~500 – 2,500 LoC", timeline: "1–3 weeks", researchers: "2 auditors (lead + second read)",
       includes: ["Written threat model and trust-boundary map", "Two-pass manual review of all in-scope code", "Static analysis + targeted fuzzing", "Runnable PoC for every Critical and High", "Remediation guidance per finding"],
       deliverables: ["Full report (PDF + Markdown)", "Findings JSON", "Walkthrough call", "Remediation verification and final report"],
       cta: "Request an audit", featured: true
@@ -27,7 +27,7 @@ window.SENTRYX_PRICING = {
     {
       id: "defi", name: "DeFi protocol audit", from: 8000, unit: "",
       tagline: "Economic and code-level review of AMMs, lending, vaults, perps and yield systems.",
-      loc: "~2,500 – 8,000 LoC", timeline: "3–5 weeks", researchers: "1 lead auditor (two passes)",
+      loc: "~2,500 – 8,000 LoC", timeline: "3–5 weeks", researchers: "2 auditors (lead + second read)",
       includes: ["Everything in Standard", "Economic attack and MEV analysis", "Oracle dependency and manipulation review", "Liquidation, accounting and share-maths invariants", "Foundry invariant suite for core properties"],
       deliverables: ["Full report + threat model", "Invariant suite (CI-ready)", "Findings JSON", "Remediation verification"],
       cta: "Scope a DeFi audit"

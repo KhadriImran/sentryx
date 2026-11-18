@@ -66,7 +66,7 @@
     { k: ["retainer", "continuous", "ongoing", "monthly", "subscription"], a:
       "The retainer puts a dedicated reviewer on your team from $3,000/month: review of every PR that touches value flows, invariant-suite maintenance, dependency and upgrade monitoring, priority incident response and a quarterly threat-model refresh. Built for teams shipping weekly." },
     { k: ["who", "team", "researcher", "founder", "experience", "background", "staffing"], a:
-      "SENTRYX is a small, specialist practice operating under Avanteia Private Limited (Goa, India). One lead auditor, Imran Khadri, reads every line of every engagement and signs the report; no subcontracting. Every High needs a working PoC before it is reported. More on <a href='about.html'>how we staff</a>." },
+      "SENTRYX is a small, specialist practice operating under Avanteia Private Limited (Goa, India). Two auditors, Imran Khadri (lead) and Jagruti, read the code on every engagement and sign the report; no subcontracting. Every High needs a working PoC before it is reported. More on <a href='about.html'>how we staff</a>." },
     { k: ["nda", "confidential", "private", "disclosure", "publish"], a:
       "We sign NDAs and run private engagements as standard. Nothing is published without your written approval — you decide whether the final report becomes public. Unfixed Critical findings are never disclosed publicly." },
     { k: ["start", "book", "hire", "engage", "contact", "get started", "talk"], a:
