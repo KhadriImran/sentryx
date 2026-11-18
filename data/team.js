@@ -9,7 +9,7 @@ window.SENTRYX_TEAM = [
   {
     id: "imran-khadri",
     name: "Imran Khadri",
-    role: "Founder · Lead Security Researcher",
+    role: "Founder · Lead Auditor",
     initials: "IK",
     photo: null,
     bio: "Imran is a smart contract security researcher and the founder of SENTRYX. He works on EVM and DeFi systems: manual adversarial review, threat modelling and exploit reproduction, alongside independent web3 bug-bounty research. He also builds the firm's AI-assisted audit tooling and leads scoping and the manual review on every engagement. He is a founder of Avanteia Private Limited, the Goa-based technology company that SENTRYX operates under.",
@@ -21,12 +21,12 @@ window.SENTRYX_TEAM = [
   {
     id: "jagruti",
     name: "Jagruti",
-    role: "Co-founder · Security Researcher",
+    role: "Co-founder · Client Relations",
     initials: "J",
     photo: null,
-    bio: "Jagruti is a smart contract security researcher and co-founder of SENTRYX. She is the second, independent reviewer on every engagement: a full read of the in-scope code, tooling and static-analysis triage, invariant-suite development and the remediation verification pass that turns a findings list into a publishable final report.",
-    specialisations: ["Solidity / EVM", "Invariant and fuzz testing", "Static analysis triage", "Remediation verification"],
-    focus: ["Property-based testing (Foundry, Echidna, Medusa)", "Accounting and share-maths invariants", "Token behaviour edge cases", "Report quality and reproducibility"],
+    bio: "Jagruti is a co-founder of SENTRYX and runs client relations: first contact, scoping calls, scheduling and follow-up through every engagement. She does not review code; every line is read by the lead auditor.",
+    specialisations: ["Client relations", "Scheduling and scoping intake", "Community and outreach"],
+    focus: ["Fast, clear replies to founders", "Keeping engagements on schedule", "Making sure fixes get re-checked"],
     links: { github: "", x: "", linkedin: "" },
     contests: []
   }

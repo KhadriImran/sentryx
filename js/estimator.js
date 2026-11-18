@@ -40,9 +40,9 @@
       evm:      { m: 1.00, label: "Ethereum / EVM L1",   note: "Core in-house strength." },
       l2:       { m: 1.10, label: "EVM L2 or rollup",    note: "Adds sequencer, bridge and fee-model surface." },
       multi:    { m: 1.45, label: "Multi-chain / bridge", note: "Every chain in the path must be modelled." },
-      solana:   { m: 1.40, label: "Solana (Rust)",       note: "Delivered with vetted partner researchers." },
-      move:     { m: 1.40, label: "Aptos / Sui (Move)",  note: "Delivered with vetted partner researchers." },
-      cairo:    { m: 1.45, label: "Starknet (Cairo)",    note: "Delivered with vetted partner researchers." }
+      solana:   { m: 1.40, label: "Solana (Rust)",       note: "Not offered today." },
+      move:     { m: 1.40, label: "Aptos / Sui (Move)",  note: "Not offered today." },
+      cairo:    { m: 1.45, label: "Starknet (Cairo)",    note: "Not offered today." }
     },
     urgency: {
       standard: { m: 1.00, d: 1.00, label: "Standard",  note: "Scheduled into the next available slot." },
@@ -87,7 +87,7 @@
     let days = Math.ceil((mid / CONFIG.DAY_RATE) * cx.d * ur.d);
     days = Math.max(CONFIG.MIN_DAYS, Math.min(CONFIG.MAX_DAYS, days));
     const daysHigh = Math.min(CONFIG.MAX_DAYS + 10, Math.ceil(days * 1.4));
-    const researchers = mid > 12000 ? 3 : mid > 4000 ? 2 : 1;
+    const researchers = 1;
 
     return { loc, n, cx, ch, ur, reaudit, low, high, days, daysHigh, researchers, countFactor };
   }
@@ -97,7 +97,7 @@
     outAmount.innerHTML = fmt(r.low) + ' <span class="to">–</span> ' + fmt(r.high);
     outRows.innerHTML =
       row("Estimated timeline", r.days + "–" + r.daysHigh + " working days") +
-      row("Reviewers", r.researchers + (r.researchers > 1 ? " reviewers" : " reviewer")) +
+      row("Reviewer", "1 lead auditor (two passes)") +
       row("Scope", r.loc.toLocaleString() + " LoC · " + r.n + (r.n > 1 ? " contracts" : " contract")) +
       row("Complexity", r.cx.label) +
       row("Chain", r.ch.label) +
@@ -112,7 +112,7 @@
     const partner = ["solana", "move", "cairo", "multi"].indexOf(pick("chain")) !== -1;
     outNote.innerHTML =
       "This is an indicative range generated in your browser, not a quote. " +
-      (partner ? "This chain is delivered with vetted partner researchers — we name them before you sign. " : "") +
+      (partner ? "We do not take non-EVM work today; this range is for reference only. " : "") +
       "Final pricing follows a free scoping review of the repository, which takes under two working days.";
   }
   function row(k, v) { return '<div class="est-row"><span>' + k + "</span><span>" + v + "</span></div>"; }

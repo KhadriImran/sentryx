@@ -17,6 +17,6 @@ window.SENTRYX_SITE = {
     linkedin: "https://www.linkedin.com/company/sentryxaudit",
     telegram: "https://t.me/sentryxaudit"
   },
-  chains: ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "BNB Chain", "Avalanche", "zkSync", "Scroll", "Linea", "Solana", "Aptos", "Sui", "Starknet"],
+  chains: ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "BNB Chain", "Avalanche", "zkSync", "Scroll", "Linea"],
   tooling: ["Foundry", "Hardhat", "Slither", "Echidna", "Medusa", "Certora", "Halmos", "Tenderly", "Aderyn", "Semgrep", "Mythril", "Wake"]
 };

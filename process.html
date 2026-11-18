@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Smart Contract Audit Process &amp; Methodology — How SENTRYX Works</title>
-  <meta name="description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <meta name="description" content="The full SENTRYX audit methodology: scoping and threat modelling, a two-pass manual review, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
   <link rel="canonical" href="https://sentryxaudit.com/process.html">
   <meta name="theme-color" content="#08090b">
   <meta name="color-scheme" content="dark">
@@ -12,14 +12,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SENTRYX">
   <meta property="og:title" content="Smart Contract Audit Process &amp; Methodology — How SENTRYX Works">
-  <meta property="og:description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <meta property="og:description" content="The full SENTRYX audit methodology: scoping and threat modelling, a two-pass manual review, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
   <meta property="og:url" content="https://sentryxaudit.com/process.html">
   <meta property="og:image" content="https://sentryxaudit.com/assets/og/process.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Smart Contract Audit Process &amp; Methodology — How SENTRYX Works">
-  <meta name="twitter:description" content="The full SENTRYX audit methodology: scoping and threat modelling, two independent manual reviews, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
+  <meta name="twitter:description" content="The full SENTRYX audit methodology: scoping and threat modelling, a two-pass manual review, invariant and fuzz testing, proof-of-concept development, reporting and remediation verification. Includes our severity matrix.">
   <meta name="twitter:image" content="https://sentryxaudit.com/assets/og/process.png">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
@@ -70,7 +70,7 @@
           "@type": "HowToStep",
           "position": 2,
           "name": "Manual adversarial review",
-          "text": "Two researchers read every in-scope line independently. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry."
+          "text": "The lead auditor reads every in-scope line, then does a second pass days later against a checklist. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry."
         },
         {
           "@type": "HowToStep",
@@ -111,10 +111,10 @@
         },
         {
           "@type": "Question",
-          "name": "Why two independent reviewers?",
+          "name": "Why two passes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two reviewers reading independently and comparing notes afterwards catches materially more than two reading together, which is why our standard audit budgets for both reads."
+            "text": "Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. A second pass days later, against a fixed checklist and starting from a different contract, breaks that anchor. Combined with the rule that every High needs a working PoC, it is how a small shop stays honest."
           }
         },
         {
@@ -214,7 +214,7 @@
           <div>
             <h3>Manual adversarial review</h3>
             <p class="mono-label" style="margin-bottom:10px">40&ndash;60% of the engagement</p>
-            <p>Two researchers read every in-scope line independently. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry.</p>
+            <p>The lead auditor reads every in-scope line, then does a second pass days later against a checklist. We trace value flows end to end, walk each state machine through its transitions, and follow every external call to ask what a malicious implementation on the other side could do. We are looking for the assumption that holds in normal operation and breaks under an attacker's ordering. This is where the Critical findings come from &mdash; no tool found the bugs behind the largest exploits in this industry.</p>
           </div>
           <div class="method-side">
             <h4>Output</h4>
@@ -254,7 +254,7 @@
           </div>
           <div class="method-side">
             <h4>Output</h4>
-            <ul><li>Report as PDF and Markdown</li><li>Findings register as JSON</li><li>Walkthrough call with the researchers</li></ul>
+            <ul><li>Report as PDF and Markdown</li><li>Findings register as JSON</li><li>Walkthrough call with the auditor</li></ul>
           </div>
         </article>
         <article class="method-item" data-reveal>
@@ -324,7 +324,7 @@
         </div>
         <div class="accordion" id="pfaq">
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-0">What do you need from us before day one?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-0"><div><p>The repository at a fixed commit, a list of the contracts in scope, whatever documentation or spec exists, the external integrations (oracles, AMMs, bridges, tokens you do not control), the list of privileged roles and who holds them, and your deployment target. If documentation is thin we will write our understanding back to you &mdash; the disagreements that surfaces are often the first finding.</p></div></div></div>
-      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-1">Why two independent reviewers?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-1"><div><p>Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. Two reviewers reading independently and comparing notes afterwards catches materially more than two reading together, which is why our standard audit budgets for both reads.</p></div></div></div>
+      <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-1">Why two passes?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-1"><div><p>Because reviewers anchor. Once you have read a contract with one mental model of what it does, you stop seeing the paths that model excludes. A second pass days later, against a fixed checklist and starting from a different contract, breaks that anchor. Combined with the rule that every High needs a working PoC, it is how a small shop stays honest.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-2">What happens if you find a Critical mid-review?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-2"><div><p>We stop and tell you the same day, before the report exists. If the code is live we help you evaluate containment &mdash; pause, parameter change, migration &mdash; before anything is written down or shared. Unfixed Criticals on live systems are never published.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-3">How is severity decided?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-3"><div><p>Impact times likelihood, applied consistently, with the reasoning written out. If we cannot demonstrate a finding with a proof of concept, we downgrade it and say so. Where you disagree with a rating we record your position in the report rather than quietly changing ours.</p></div></div></div>
       <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="pfaq-4">What is remediation verification?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="pfaq-4"><div><p>After you fix, we re-review every changed line (not just the diff you point us at), re-run the proof of concept for each finding and the invariant suite, and mark each finding Fixed, Acknowledged or Open. That final report is the one you publish, and it is included in every audit &mdash; not an upsell.</p></div></div></div>

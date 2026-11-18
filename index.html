@@ -20,7 +20,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SENTRYX — Smart Contract Security Audits">
-  <meta name="twitter:description" content="Manual adversarial review of EVM and DeFi protocols. Two independent reads, a PoC with every finding, remediation verified.">
+  <meta name="twitter:description" content="Manual adversarial review of EVM and DeFi protocols. One named lead auditor, a PoC with every High, remediation verified.">
   <meta name="twitter:image" content="https://sentryxaudit.com/assets/og/home.png">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9z' fill='none' stroke='%23ffa61a' stroke-width='2'/%3E%3Crect x='11' y='11' width='10' height='10' transform='rotate(45 16 16)' fill='%23ffa61a'/%3E%3C/svg%3E">
@@ -77,7 +77,7 @@
           { "@type": "Question", "name": "How long does a smart contract audit take?", "acceptedAnswer": { "@type": "Answer", "text": "Typically one to four weeks depending on lines of code, complexity and the number of external integrations. A focused pre-deployment assessment can be delivered in under a week; a lending protocol with oracle and liquidation logic usually needs three to four weeks including remediation verification." } },
           { "@type": "Question", "name": "What does a SENTRYX audit report include?", "acceptedAnswer": { "@type": "Answer", "text": "An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, a proof-of-concept where applicable, and specific remediation guidance. After fixes, we verify each remediation and publish the final status per finding." } },
           { "@type": "Question", "name": "Do you provide a proof of concept for findings?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every Critical and High finding ships with a runnable proof of concept, usually a Foundry test against a fork, so your team can reproduce the issue and confirm the fix." } },
-          { "@type": "Question", "name": "Which chains and languages do you audit?", "acceptedAnswer": { "@type": "Answer", "text": "Core in-house strength is Solidity and the EVM across Ethereum and L2s such as Arbitrum, Optimism, Base and Polygon. Vyper, Rust (Solana), Move (Aptos, Sui) and Cairo (Starknet) engagements are delivered with vetted partner researchers." } },
+          { "@type": "Question", "name": "Which chains and languages do you audit?", "acceptedAnswer": { "@type": "Answer", "text": "Solidity on Ethereum and EVM L2s (Arbitrum, Optimism, Base, Polygon and others). We do not take Rust, Move, Cairo or other non-EVM work today; if that is what you need, we will tell you so and point you to someone who does." } },
           { "@type": "Question", "name": "Is an audit a guarantee that the code is safe?", "acceptedAnswer": { "@type": "Answer", "text": "No audit can guarantee the absence of bugs. An audit is a time-boxed adversarial review that materially reduces risk. We recommend layering it with invariant tests, a bug bounty and monitoring, and re-auditing after any significant change." } }
         ]
       }
@@ -130,7 +130,7 @@
           </div>
           <ul class="hero-proof" aria-label="How we work">
             <li class="chip chip-dot">Manual-first review</li>
-            <li class="chip chip-dot">Two independent reads</li>
+            <li class="chip chip-dot">PoC for every High</li>
             <li class="chip chip-dot">PoC with every C/H finding</li>
             <li class="chip chip-dot">Remediation verified</li>
           </ul>
@@ -254,7 +254,7 @@
             <div class="card-glow" aria-hidden="true"></div>
             <span class="card-index">01 / Core</span>
             <h3>Smart Contract Security Audit</h3>
-            <p>Line-by-line manual review of your Solidity or Vyper codebase against a written threat model. We enumerate trust assumptions, trace every external call and state transition, and then run static analysis and fuzzing to cover what humans miss. Findings are classified Critical to Informational, each with impact, likelihood and a PoC.</p>
+            <p>Line-by-line manual review of your Solidity codebase against a written threat model. We enumerate trust assumptions, trace every external call and state transition, and then run static analysis and fuzzing to cover what humans miss. Findings are classified Critical to Informational, each with impact, likelihood and a PoC.</p>
             <div class="card-foot"><span class="mono-label">From $3,000 · 1–3 weeks</span><span class="link-arrow">Details <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
           </a>
           <a class="card card-link service-card" href="services/defi-protocol-audit.html" data-tilt="4">
@@ -393,15 +393,15 @@
           <div class="card-glow" aria-hidden="true"></div>
           <p class="role">Staffing</p>
           <h3>Named to you, not to the internet</h3>
-          <p>We do not publish researcher profiles, and we do not hand you an anonymous &ldquo;audit team&rdquo; either. Before you sign, the scope document names the reviewers assigned to your codebase, what they have worked on, and any partner specialist involved. Nobody joins the engagement without you knowing.</p>
-          <div class="tags"><span class="chip">Named in the scope doc</span><span class="chip">No silent subcontracting</span><span class="chip">NDA as standard</span></div>
+          <p>We do not publish researcher profiles, and we do not hand you an anonymous &ldquo;audit team&rdquo; either. Before you sign, the scope document names the auditor on your codebase: Imran Khadri, the founder, reads every line himself. Nobody else touches your code without your written OK.</p>
+          <div class="tags"><span class="chip">Named in the scope doc</span><span class="chip">No subcontracting</span><span class="chip">NDA as standard</span></div>
         </article>
         <article class="card team-card" data-reveal data-tilt="3" id="review-model">
           <div class="card-glow" aria-hidden="true"></div>
           <p class="role">Review model</p>
-          <h3>Two independent reads, reconciled</h3>
-          <p>Every standard audit gets two complete, separate readings of the full scope &mdash; not a junior pass with a senior sign-off. Independence is what makes a second read worth anything, and reconciling the two is where the disagreements that matter surface.</p>
-          <div class="tags"><span class="chip">Two full reads</span><span class="chip">PoC per Critical &amp; High</span><span class="chip">Remediation verified</span></div>
+          <h3>One reader, two passes, proof required</h3>
+          <p>The lead auditor reads the full scope, then does a second pass days later against a checklist with fresh eyes. Every High or Critical must come with a Foundry test that actually runs the exploit; if we can&rsquo;t prove it, it doesn&rsquo;t ship as High.</p>
+          <div class="tags"><span class="chip">Two passes</span><span class="chip">PoC per Critical &amp; High</span><span class="chip">Remediation verified</span></div>
         </article>
       </div>
     </section>
@@ -435,7 +435,7 @@
           <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-2">How long does a smart contract audit take?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-2"><div><p>Typically one to four weeks depending on lines of code, complexity and external dependencies. A focused pre-deployment assessment can be delivered in under a week; a lending protocol with oracle and liquidation logic usually needs three to four weeks including remediation verification. Urgent timelines are possible at a premium if researcher capacity allows.</p></div></div></div>
           <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-3">What does the report include?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-3"><div><p>An executive summary, the threat model and trust assumptions, every finding with severity, impact, likelihood, a proof of concept where applicable, and specific remediation guidance. After fixes, we verify each remediation and publish the final status per finding. You receive the report as PDF and Markdown, plus the findings register as JSON.</p></div></div></div>
           <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-4">Do you provide a proof of concept for findings?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-4"><div><p>Yes. Every Critical and High finding ships with a runnable proof of concept, usually a Foundry test against a fork, so your team can reproduce the issue and confirm the fix. If we cannot demonstrate an issue, we say so and downgrade it.</p></div></div></div>
-          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-5">Which chains and languages do you cover?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-5"><div><p>Core in-house strength is Solidity and the EVM across Ethereum and L2s such as Arbitrum, Optimism, Base and Polygon. Vyper, Rust (Solana), Move (Aptos, Sui) and Cairo (Starknet) engagements are delivered with vetted partner researchers, and we tell you up front who is on the engagement.</p></div></div></div>
+          <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-5">Which chains and languages do you cover?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-5"><div><p>Solidity on Ethereum and EVM L2s (Arbitrum, Optimism, Base, Polygon and others). We do not take Rust, Move, Cairo or other non-EVM work today; if that is what you need, we will tell you so and point you to someone who does.</p></div></div></div>
           <div class="acc-item"><h3><button class="acc-trigger" aria-expanded="false" aria-controls="faq-6">Is an audit a guarantee the code is safe?<span class="acc-icon" aria-hidden="true"></span></button></h3><div class="acc-panel" id="faq-6"><div><p>No audit can guarantee the absence of bugs. An audit is a time-boxed adversarial review that materially reduces risk. We recommend layering it with an invariant suite in CI, a bug bounty programme and on-chain monitoring, and re-auditing after any significant change — which is what the retainer is for.</p></div></div></div>
         </div>
       </div>

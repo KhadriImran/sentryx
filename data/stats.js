@@ -13,6 +13,6 @@ window.SENTRYX_STATS = {
     { label: "Findings reported",      value: null, placeholder: "—", unit: "",  note: "Placeholder — populate from published reports" },
     { label: "Critical / High resolved", value: null, placeholder: "—", unit: "",  note: "Placeholder — count of C/H findings verified fixed" },
     { label: "Protocols reviewed",      value: null, placeholder: "—", unit: "",  note: "Placeholder — public engagements only" },
-    { label: "Chains covered",          value: 11,   placeholder: "—", unit: "+", note: "EVM L1/L2s, Solana, Aptos, Sui, Starknet (see Services)" }
+    { label: "Chains covered",          value: null, placeholder: "EVM", unit: "", note: "Ethereum + EVM L2s only" }
   ]
 };

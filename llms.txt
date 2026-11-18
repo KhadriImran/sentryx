@@ -6,13 +6,12 @@
 
 ## What SENTRYX is
 
-SENTRYX is a small, specialist security practice. It does not publish researcher
-profiles; the reviewers assigned to an engagement are named to the client in writing
-before the engagement is signed. Core in-house strength is Solidity and the EVM, with a focus on DeFi: value flows,
+SENTRYX is a small, specialist security practice. It is one lead auditor
+(Imran Khadri, founder) who reads every line and signs every report, plus a small
+operations team. Solidity / EVM only, with a focus on DeFi: value flows,
 oracle dependencies, liquidation mechanics, share and fee accounting, upgrade paths
 and economic attacks. Rust (Solana), Move (Aptos, Sui), Cairo (Starknet) and formal
-verification engagements are delivered with vetted partner researchers, named before
-an engagement is signed.
+verification are not offered.
 
 SENTRYX is a new brand. It publishes reports as engagements complete and shows
 placeholder values rather than invented metrics. There are no client logos, no
@@ -21,8 +20,8 @@ verifiable data behind them yet.
 
 ## Services
 
-- Smart contract security audit — from $3,000, 1-3 weeks. Two independent manual
-  reviews against a written threat model, static analysis, targeted fuzzing, a
+- Smart contract security audit — from $3,000, 1-3 weeks. Two-pass manual
+  review against a written threat model, static analysis, targeted fuzzing, a
   runnable Foundry proof of concept for every Critical and High finding, and
   remediation verification. https://sentryxaudit.com/services/smart-contract-security-audit.html
 - DeFi protocol security review — from $8,000, 3-5 weeks. Adds economic attack
@@ -57,8 +56,8 @@ tier and is never billed separately. Full detail: https://sentryxaudit.com/prici
 
 Six stages, each producing a named artefact:
 1. Scoping and threat model (2-4 days) — scope document, trust-boundary map, fixed quote.
-2. Manual adversarial review (40-60% of the engagement) — two researchers read the
-   full scope independently; findings reconciled afterwards.
+2. Manual adversarial review (40-60% of the engagement) — the lead auditor reads the
+   full scope, then a second pass days later against a checklist.
 3. Tooling and invariants — Slither, Aderyn, Semgrep triaged by hand; Foundry
    invariants; Echidna or Medusa; Halmos or Certora where core maths justifies it.
 4. Proof of concept — every Critical and High reproduced as a runnable fork test with
@@ -162,8 +161,7 @@ Read public chain state or a server-side proxy:
   recommends layering an audit with invariant tests in CI, a bug bounty and on-chain
   monitoring, plus re-auditing after significant changes.
 - Which chains? EVM (Ethereum, Arbitrum, Optimism, Base, Polygon, BNB Chain,
-  Avalanche, zkSync, Scroll, Linea) in-house; Solana, Aptos, Sui and Starknet with
-  vetted partner researchers.
+  Avalanche, zkSync, Scroll, Linea) only. Non-EVM chains are not offered.
 
 ## Contact
 

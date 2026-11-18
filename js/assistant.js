@@ -46,11 +46,11 @@
     { k: ["scope", "scoping", "what do you need", "prepare", "before we start", "requirements", "loc", "lines of code"], a:
       "To scope we need: the repository (or a commit hash), which contracts are in scope, your docs or spec, the list of external integrations (oracles, AMMs, bridges), who holds privileged roles, and your target date. Scoping is free and takes under two working days — you get a written scope, a fixed quote and a review plan, including who is assigned to it." },
     { k: ["process", "methodology", "how do you work", "steps", "stages"], a:
-      "Six stages: <b>1)</b> scoping &amp; threat model, <b>2)</b> two independent manual reviews, <b>3)</b> tooling and invariants (Slither, Aderyn, Foundry, Echidna, Medusa), <b>4)</b> proof-of-concept development, <b>5)</b> report &amp; walkthrough, <b>6)</b> remediation verification. Details on the <a href='process.html'>methodology page</a>." },
+      "Six stages: <b>1)</b> scoping &amp; threat model, <b>2)</b> a two-pass manual review, <b>3)</b> tooling and invariants (Slither, Aderyn, Foundry, Echidna, Medusa), <b>4)</b> proof-of-concept development, <b>5)</b> report &amp; walkthrough, <b>6)</b> remediation verification. Details on the <a href='process.html'>methodology page</a>." },
     { k: ["poc", "proof of concept", "exploit", "reproduce", "demonstrate"], a:
       "Every Critical and High ships with a runnable proof of concept — usually a Foundry test against a fork — so your team can reproduce the issue and confirm the fix. If we cannot demonstrate an issue, we downgrade it and say so in the report." },
     { k: ["chain", "chains", "solana", "rust", "move", "aptos", "sui", "cairo", "starknet", "vyper", "language", "l2", "layer 2"], a:
-      "Core in-house strength is <b>Solidity / EVM</b> — Ethereum and L2s including Arbitrum, Optimism, Base, Polygon, zkSync, Scroll and Linea — plus Vyper. Rust (Solana), Move (Aptos, Sui) and Cairo (Starknet) engagements are delivered <b>with vetted partner researchers</b>, and we name who is on the engagement before you sign. See <a href='services.html'>services</a>." },
+      "We audit <b>Solidity / EVM only</b>: Ethereum and EVM L2s such as Arbitrum, Optimism, Base and Polygon. We don't take Rust, Move or Cairo work today. See <a href='services.html'>services</a>." },
     { k: ["guarantee", "safe", "insurance", "warranty", "certif"], a:
       "No audit can guarantee the absence of bugs, and we will not claim otherwise. An audit is a time-boxed adversarial review that materially reduces risk. We recommend layering it: invariant tests in CI, a bug bounty, on-chain monitoring, and a re-audit after any significant change — which is what the retainer covers." },
     { k: ["reentrancy", "reentrant"], a:
@@ -66,7 +66,7 @@
     { k: ["retainer", "continuous", "ongoing", "monthly", "subscription"], a:
       "The retainer puts a dedicated reviewer on your team from $3,000/month: review of every PR that touches value flows, invariant-suite maintenance, dependency and upgrade monitoring, priority incident response and a quarterly threat-model refresh. Built for teams shipping weekly." },
     { k: ["who", "team", "researcher", "founder", "experience", "background", "staffing"], a:
-      "SENTRYX is a small, specialist practice operating under Avanteia Private Limited (Goa, India). We do not publish researcher profiles — but before you sign, you get in writing exactly who is assigned to your engagement, what they have worked on, and the named partner specialists if any are involved. Every standard audit gets two independent reads of the full scope. More on <a href='about.html'>how we staff</a>." },
+      "SENTRYX is a small, specialist practice operating under Avanteia Private Limited (Goa, India). One lead auditor, Imran Khadri, reads every line of every engagement and signs the report; no subcontracting. Every High needs a working PoC before it is reported. More on <a href='about.html'>how we staff</a>." },
     { k: ["nda", "confidential", "private", "disclosure", "publish"], a:
       "We sign NDAs and run private engagements as standard. Nothing is published without your written approval — you decide whether the final report becomes public. Unfixed Critical findings are never disclosed publicly." },
     { k: ["start", "book", "hire", "engage", "contact", "get started", "talk"], a:
