@@ -75,7 +75,7 @@ function init(mount) {
   block.add(core);
 
   /* ---------- code particles inside the block ---------- */
-  const N = 900;
+  const N = window.innerWidth < 600 ? 900 : 1400;
   const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), base = new Float32Array(N);
   for (let i = 0; i < N; i++) {
     // random point inside the hexagon (rejection sample on a disc)
@@ -87,7 +87,7 @@ function init(mount) {
   const pGeo = new THREE.BufferGeometry();
   pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   pGeo.setAttribute("color", new THREE.BufferAttribute(col, 3));
-  const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.028, vertexColors: true, transparent: true, opacity: 0.95, depthWrite: false }));
+  const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.032, vertexColors: true, transparent: true, opacity: 0.95, depthWrite: false }));
   block.add(particles);
 
   /* ---------- findings ---------- */
@@ -97,14 +97,18 @@ function init(mount) {
     { id: "M-01", sev: "medium", p: new THREE.Vector3(0.35, -0.85, -0.75) }
   ].map((f) => {
     const g = new THREE.Group(); g.position.copy(f.p);
-    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 16), new THREE.MeshBasicMaterial({ color: SEV[f.sev], transparent: true, opacity: 0.15 }));
-    const halo = new THREE.Mesh(new THREE.RingGeometry(0.13, 0.15, 32), new THREE.MeshBasicMaterial({ color: SEV[f.sev], transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 16), new THREE.MeshBasicMaterial({ color: SEV[f.sev], transparent: true, opacity: 0.15 }));
+    const halo = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.185, 32), new THREE.MeshBasicMaterial({ color: SEV[f.sev], transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
     g.add(dot, halo); block.add(g);
-    // a leader line from the finding out to the shell, like a redline callout
-    const out = f.p.clone().setY(0).normalize().multiplyScalar(R + 0.55).setY(f.p.y);
+    // a leader line from the finding out past the shell, like a redline callout
+    const out = f.p.clone().setY(0).normalize().multiplyScalar(R + 0.75).setY(f.p.y + 0.25);
     const leader = new THREE.Line(new THREE.BufferGeometry().setFromPoints([f.p, out]), new THREE.LineBasicMaterial({ color: SEV[f.sev], transparent: true, opacity: 0 }));
     block.add(leader);
-    return { ...f, dot, halo, leader, lit: 0, hit: false };
+    // finding ID label at the end of the callout
+    const label = makeLabel(f.id, "#" + SEV[f.sev].getHexString());
+    label.position.copy(out).add(new THREE.Vector3(0, 0.14, 0));
+    block.add(label);
+    return { ...f, dot, halo, leader, label, lit: 0, hit: false };
   });
 
   /* ---------- scan ring ---------- */
@@ -113,7 +117,28 @@ function init(mount) {
   const scanPlane = new THREE.Mesh(new THREE.CircleGeometry(R * 1.02, 6), new THREE.MeshBasicMaterial({ color: AMBER, transparent: true, opacity: 0.07, side: THREE.DoubleSide, depthWrite: false }));
   scanPlane.rotation.x = -Math.PI / 2; scanPlane.rotation.z = Math.PI / 6;
   scan.add(scanPlane);
+  // afterglow: fading rings trailing above the scan line
+  const trail = [0.07, 0.14, 0.22, 0.32].map((dy, i) => {
+    const t = new THREE.Line(hexRing(R * 1.02), new THREE.LineBasicMaterial({ color: AMBER, transparent: true, opacity: 0.45 - i * 0.1 }));
+    t.position.y = dy; scan.add(t); return t;
+  });
   block.add(scan);
+
+  /* ---------- outer orbit: a tilted ring with nodes, like a radar sweep ---------- */
+  const orbit = new THREE.Group();
+  const orbitPts = [];
+  for (let i = 0; i <= 128; i++) { const a = (i / 128) * Math.PI * 2; orbitPts.push(new THREE.Vector3(Math.cos(a) * 3.1, 0, Math.sin(a) * 3.1)); }
+  const orbitLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(orbitPts), new THREE.LineDashedMaterial({ color: INK, transparent: true, opacity: 0.35, dashSize: 0.08, gapSize: 0.1 }));
+  orbitLine.computeLineDistances();
+  orbit.add(orbitLine);
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    const node = new THREE.Mesh(new THREE.OctahedronGeometry(i === 0 ? 0.07 : 0.04), new THREE.MeshBasicMaterial({ color: i === 0 ? AMBER : INK }));
+    node.position.set(Math.cos(a) * 3.1, 0, Math.sin(a) * 3.1);
+    orbit.add(node);
+  }
+  orbit.rotation.x = 0.32; orbit.rotation.z = -0.12;
+  rig.add(orbit);
 
   /* ---------- ground grid (fades out) ---------- */
   const grid = new THREE.PolarGridHelper(4.2, 6, 6, 64, 0x2a2a2a, 0x1c1c1c);
@@ -134,7 +159,7 @@ function init(mount) {
     renderer.setSize(w, h, false);
     composer.setSize(w, h);
     camera.aspect = w / h;
-    camera.position.z = w < 520 ? 12.5 : 10.5;
+    camera.position.z = w < 520 ? 12 : 9.6;
     camera.updateProjectionMatrix();
   };
   new ResizeObserver(resize).observe(mount);
@@ -150,7 +175,7 @@ function init(mount) {
 
   /* ---------- loop ---------- */
   const clock = new THREE.Clock();
-  const CYCLE = 7;            // seconds per sweep (down then idle)
+  const CYCLE = 6;            // seconds per sweep (down then idle)
   let prevY = H / 2, running = false, raf = 0;
 
   function frame() {
@@ -158,6 +183,7 @@ function init(mount) {
     const t = clock.elapsedTime;
 
     block.rotation.y = t * 0.12;
+    orbit.rotation.y = -t * 0.18;
     core.rotation.y = -t * 0.6; core.rotation.x = Math.sin(t * 0.4) * 0.3;
     coreCage.rotation.y = t * 0.25;
     rig.rotation.y += (tx - rig.rotation.y) * 0.04;
@@ -195,6 +221,7 @@ function init(mount) {
       f.halo.scale.setScalar(1 + pulse * 0.9);
       f.halo.lookAt(camera.position);
       f.leader.material.opacity = f.hit ? 0.7 * f.lit + 0.2 : 0;
+      f.label.material.opacity = f.hit ? Math.min(1, 0.6 + f.lit) : 0;
     });
     prevY = y;
 
@@ -216,6 +243,22 @@ function init(mount) {
   new IntersectionObserver((en) => (en[0].isIntersecting ? start() : stop()), { threshold: 0.05 }).observe(mount);
   document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
   mount.classList.add("is-live");
+}
+
+function makeLabel(text, color) {
+  const c = document.createElement("canvas"); c.width = 256; c.height = 96;
+  const g = c.getContext("2d");
+  g.font = "500 44px 'JetBrains Mono', ui-monospace, monospace";
+  g.textBaseline = "middle";
+  const w = g.measureText(text).width + 36;
+  g.fillStyle = "rgba(8,9,11,0.85)"; g.strokeStyle = color; g.lineWidth = 3;
+  g.beginPath(); g.roundRect(4, 14, w, 68, 10); g.fill(); g.stroke();
+  g.fillStyle = color; g.fillText(text, 22, 49);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, depthTest: false }));
+  s.scale.set(0.8, 0.3, 1);
+  s.center.set(0.1, 0.5);
+  return s;
 }
 
 function inHex(x, z, r) {
