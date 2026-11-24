@@ -126,14 +126,15 @@
           </div>
         </div>
         <div class="hero-side">
+          <div class="hero-3d" data-hero3d aria-hidden="true"></div>
           <!-- ILLUSTRATIVE: constructed example of a findings register, not a client engagement -->
           <figure class="register" aria-label="Illustrative findings register" style="margin:0">
             <div class="register-head"><span>Findings register · vault-router</span><span>Illustrative</span></div>
             <div class="register-scope"><span>Scope <b>Vault.sol, Router.sol</b></span><span><b>1,184</b> LoC</span><span>solc <b>0.8.24</b></span></div>
             <ul class="register-rows">
-              <li class="register-row" data-sev="critical"><span class="rid">C-01</span><span class="rsev">Critical</span><span class="rtitle">Shares burned after the ETH transfer in <code>Vault.withdraw()</code></span><span class="rpoc ok">PoC passes</span></li>
-              <li class="register-row" data-sev="high"><span class="rid">H-01</span><span class="rsev">High</span><span class="rtitle">Price read from one AMM pool, movable inside a single block</span><span class="rpoc ok">PoC passes</span></li>
-              <li class="register-row" data-sev="medium"><span class="rid">M-01</span><span class="rsev">Medium</span><span class="rtitle">Fee-on-transfer tokens break share accounting</span><span class="rpoc">Test added</span></li>
+              <li class="register-row" data-sev="critical" data-id="C-01"><span class="rid">C-01</span><span class="rsev">Critical</span><span class="rtitle">Shares burned after the ETH transfer in <code>Vault.withdraw()</code></span><span class="rpoc ok">PoC passes</span></li>
+              <li class="register-row" data-sev="high" data-id="H-01"><span class="rid">H-01</span><span class="rsev">High</span><span class="rtitle">Price read from one AMM pool, movable inside a single block</span><span class="rpoc ok">PoC passes</span></li>
+              <li class="register-row" data-sev="medium" data-id="M-01"><span class="rid">M-01</span><span class="rsev">Medium</span><span class="rtitle">Fee-on-transfer tokens break share accounting</span><span class="rpoc">Test added</span></li>
             </ul>
 <pre class="register-run"><span class="dim">$ forge test --match-test test_drain</span>
 <span class="pass">[PASS]</span> test_drain()
@@ -467,5 +468,7 @@
   <script src="data/severity.js"></script>
   <!-- Site behaviour -->
   <script src="js/main.js" defer></script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+  <script type="module" src="js/hero3d.js"></script>
 </body>
 </html>

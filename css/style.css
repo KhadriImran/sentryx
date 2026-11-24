@@ -1219,3 +1219,30 @@ body.is-ready .load-seq > * { animation: none; }
   .coverage dl { grid-template-columns: 1fr; gap: 4px; }
   .coverage dd + dt { margin-top: 8px; }
 }
+
+/* ---------- Home hero: Three.js scan scene (js/hero3d.js) ---------- */
+.hero-side { position: relative; }
+.hero-3d { position: relative; height: 420px; margin: -24px -24px 0; pointer-events: none; }
+.hero-3d canvas { display: block; width: 100% !important; height: 100% !important;
+  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, #000 65%, transparent 100%);
+  mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, #000 65%, transparent 100%); }
+.hero-3d.no-webgl { display: none; }
+.hero-side .register { position: relative; z-index: 1; margin-top: -56px !important; background: rgba(13,15,18,0.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.hero-inner { align-items: end; }
+
+/* a row flashes when the scan ring crosses its finding */
+.register-row { position: relative; transition: background-color 600ms var(--ease-out); }
+.register-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--sev); opacity: 0; transition: opacity 600ms var(--ease-out); }
+.register-row.is-hit { animation: rowHit 1600ms var(--ease-out); }
+.register-row.is-hit::before { opacity: 1; }
+@keyframes rowHit { 0% { background-color: var(--sev-soft); } 100% { background-color: transparent; } }
+
+
+@media (max-width: 1023px) {
+  .hero-3d { height: 340px; margin: -24px 0 0; }
+  .hero-side .register { margin-top: -48px !important; }
+}
+@media (max-width: 599px) {
+  .hero-3d { height: 280px; }
+  .hero-side .register { margin-top: -32px !important; }
+}
