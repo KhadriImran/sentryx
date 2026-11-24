@@ -1379,3 +1379,51 @@ h3, h4 { font-family: var(--font-display); font-weight: 700; font-variation-sett
   .hx-tag { left: auto; right: 28px; top: 14%; }
 }
 .team-intro h2, .vuln-sticky h2, .faq-layout h2 { font-size: clamp(1.8rem, 1.1rem + 1.8vw, 2.6rem); }
+
+/* ---------- Hover effects (js/hover-fx.js sets --mx/--my) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  /* pointer spotlight on cards and rows */
+  .card, .vuln-item, .process-step, .acc-item, .sev-cell { background-image: radial-gradient(260px circle at var(--mx, -500px) var(--my, -500px), rgba(255,130,40,0.12), transparent 65%); }
+  .card:hover, .process-step:hover { border-color: rgba(255,166,26,0.35); }
+
+  /* vulnerability rows: severity bar slides in, title shifts */
+  .vuln-item { position: relative; }
+  .vuln-item::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--grad); transform: scaleY(0); transform-origin: top; transition: transform 260ms var(--ease-out); }
+  .vuln-item:hover::before { transform: scaleY(1); }
+  .vuln-item h3 { transition: transform 260ms var(--ease-out), color 200ms; }
+  .vuln-item:hover h3 { transform: translateX(6px); color: var(--accent); }
+
+  /* buttons: light sweep */
+  .hx-btn, .btn { position: relative; overflow: hidden; }
+  .hx-btn::after, .btn::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent); transform: skewX(-20deg); pointer-events: none; }
+  .hx-btn:hover::after, .btn:hover::after { animation: hxShine 650ms var(--ease-out); }
+  @keyframes hxShine { to { left: 130%; } }
+  .hx-btn:hover svg, .btn:hover .arrow { transform: translateX(4px); transition: transform 200ms var(--ease-out); }
+
+  /* nav: bracket marks appear around the hovered link */
+  .nav a::before, .nav a::after { display: inline-block !important; position: static !important; content: "[" !important; width: auto !important; height: auto !important; background: none !important; transform: none !important; color: var(--accent); opacity: 0; margin-right: 4px; transition: opacity 150ms, margin 150ms; }
+  .nav a::after { content: "]" !important; margin: 0 0 0 4px; }
+  .nav a:hover::before, .nav a:hover::after { opacity: 1; }
+  .nav a:hover { color: var(--ink-0); }
+
+  /* hero frame: slight 3D tilt toward the cursor, corners close in */
+  .hx-visual { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 300ms var(--ease-out); cursor: crosshair; }
+  .hx-corner { transition: inset 250ms var(--ease-out), width 250ms, height 250ms; }
+  .hx-visual:hover .hx-corner { width: 32px; height: 32px; }
+  .hx-visual:hover .hx-corner.tl { top: 20px; left: 20px; } .hx-visual:hover .hx-corner.tr { top: 20px; right: 20px; }
+  .hx-visual:hover .hx-corner.bl { bottom: 20px; left: 20px; } .hx-visual:hover .hx-corner.br { bottom: 20px; right: 20px; }
+  .hx-cross { transition: width 200ms, height 200ms; }
+  .hx-visual:hover .hx-cross { width: 96px; height: 96px; background:
+      linear-gradient(var(--accent), var(--accent)) center / 1px 100% no-repeat,
+      linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat; }
+  .hx-visual:hover .hx-tag { border-color: #ff3355; box-shadow: 0 0 0 4px rgba(255,51,85,0.12); }
+
+  /* chain strip: hovered chain lights up, strip slows */
+  .hx-strip:hover .hx-strip-track { animation-duration: 90s; }
+  .hx-strip-track span { transition: color 200ms; }
+  .hx-strip-track span:hover { color: transparent; background: var(--grad); -webkit-background-clip: text; background-clip: text; }
+
+  /* footer and inline links */
+  .footer-grid a { transition: color 150ms, padding 150ms; }
+  .footer-grid a:hover { color: var(--accent); padding-left: 6px; }
+}

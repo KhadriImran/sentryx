@@ -73,6 +73,24 @@ function init(out) {
   let tx = 0, ty = 0;
   window.addEventListener("pointermove", (e) => { tx = (e.clientX / innerWidth - 0.5) * 0.6; ty = (e.clientY / innerHeight - 0.5) * 0.4; }, { passive: true });
 
+  // cursor lens: glyphs under the pointer decode to hex and burn white
+  const frame = out.closest(".hx-visual");
+  const cross = frame?.querySelector(".hx-cross");
+  let mx = -999, my = -999, hover = 0, hoverTarget = 0, spin = 0;
+  frame?.addEventListener("pointermove", (e) => {
+    const r = out.getBoundingClientRect();
+    const px = e.clientX - r.left, py = e.clientY - r.top;
+    mx = (px * dpr) / cw; my = (py * dpr) / ch; hoverTarget = 1;
+    if (cross) { cross.style.left = px + "px"; cross.style.top = py + "px"; }
+    frame.style.setProperty("--rx", ((py / r.height - 0.5) * -6).toFixed(2) + "deg");
+    frame.style.setProperty("--ry", ((px / r.width - 0.5) * 6).toFixed(2) + "deg");
+  });
+  frame?.addEventListener("pointerleave", () => {
+    hoverTarget = 0;
+    if (cross) { cross.style.left = ""; cross.style.top = ""; }
+    frame.style.setProperty("--rx", "0deg"); frame.style.setProperty("--ry", "0deg");
+  });
+
   const statusEl = document.querySelector("[data-status]");
   const t0 = performance.now();
   let last = 0, running = false, raf = 0, lastHit = -1;
@@ -84,7 +102,9 @@ function init(out) {
     if (!rt) return;
     const t = (now - t0) / 1000;
 
-    gem.rotation.y = t * 0.5; gem.rotation.x = Math.sin(t * 0.35) * 0.25;
+    hover += (hoverTarget - hover) * 0.12;
+    spin += 0.017 * (1 + hover * 2.5);          // spins up while hovered
+    gem.rotation.y = spin; gem.rotation.x = Math.sin(t * 0.35) * 0.25;
     ring1.rotation.z = t * 0.35; ring2.rotation.z = -t * 0.25;
     hex.rotation.y = Math.sin(t * 0.3) * 0.2 + tx * 0.5;
     scene.rotation.y += (tx - scene.rotation.y) * 0.05;
@@ -114,6 +134,21 @@ function init(out) {
         const i = (srcY * cols + x) * 4;
         const lum = (buf[i] * 0.3 + buf[i + 1] * 0.59 + buf[i + 2] * 0.11) / 255;
         let g;
+        // cursor lens
+        if (hover > 0.05) {
+          const dx = x - mx, dy = (y - my) * 1.6, d = Math.sqrt(dx * dx + dy * dy);
+          const R = 9;
+          if (d < R) {
+            const k = (1 - d / R) * hover;
+            if (Math.random() < 0.35 + k * 0.5) {
+              g = HEX[(Math.random() * 16) | 0];
+              const w = Math.min(1, k * 1.4 + lum * 0.4);
+              ctx.fillStyle = `rgba(${(cr + (255 - cr) * w)|0},${(cg + (255 - cg) * w)|0},${(cb + (255 - cb) * w)|0},${Math.min(1, 0.35 + k + lum)})`;
+              ctx.fillText(g, x * cw, y * ch);
+              continue;
+            }
+          }
+        }
         if (lum < 0.04) {
           // faint background noise so the frame reads as a screen
           if (((x * 73856093) ^ (y * 19349663) ^ (cycle * 83492791)) % 97 !== 0 && band < 0.5) continue;
