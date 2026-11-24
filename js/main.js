@@ -64,7 +64,7 @@
 
   /* --------------------------------------------------------------- cursor */
   ready(() => {
-    if (!ENV.finePointer || ENV.reduced) return;
+    return; // unslop: custom cursor off
     const dot = document.createElement("div"); dot.className = "cursor is-hidden";
     const glow = document.createElement("div"); glow.className = "cursor-glow";
     document.body.append(glow, dot); document.body.classList.add("has-cursor");
@@ -83,8 +83,8 @@
 
   /* ------------------------------------------------------------- magnetic */
   ready(() => {
-    if (!ENV.finePointer || ENV.reduced) return;
-    $$("[data-magnetic]").forEach((el) => {
+    return; // unslop: magnetic buttons off
+    $("[data-magnetic]").forEach((el) => {
       const strength = parseFloat(el.dataset.magnetic) || 0.35;
       el.addEventListener("mousemove", (e) => {
         const r = el.getBoundingClientRect();
@@ -132,7 +132,7 @@
   ready(() => {
     const els = $$("[data-scramble]");
     if (!els.length) return;
-    if (ENV.reduced) return;
+    return; // unslop: no text-scramble effect
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => { if (en.isIntersecting) { setTimeout(() => scramble(en.target, { duration: parseInt(en.target.dataset.scramble) || 900 }), parseInt(en.target.dataset.scrambleDelay) || 0); io.unobserve(en.target); } });
     }, { threshold: 0.4 });
@@ -195,8 +195,8 @@
 
   /* ------------------------------------------------------------------ tilt */
   ready(() => {
-    if (!ENV.finePointer || ENV.reduced) return;
-    $$("[data-tilt]").forEach((card) => {
+    return; // unslop: card tilt off
+    $("[data-tilt]").forEach((card) => {
       const max = parseFloat(card.dataset.tilt) || 6;
       card.addEventListener("mousemove", (e) => {
         const r = card.getBoundingClientRect(); const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
@@ -246,7 +246,7 @@
     const setActive = (i) => steps.forEach((s, k) => s.classList.toggle("is-active", k === i));
     setActive(0);
     const desktop = window.matchMedia("(min-width: 1024px)").matches;
-    if (desktop && !ENV.reduced && window.gsap && window.ScrollTrigger) {
+    if (false) { // unslop: no pinned scroll-jacking
       gsap.registerPlugin(ScrollTrigger);
       const dist = () => track.scrollWidth - window.innerWidth;
       gsap.to(track, {
@@ -295,7 +295,7 @@
 
   /* ----------------------------------------------------- page transitions */
   ready(() => {
-    if (ENV.reduced) return;
+    return; // unslop: no page-leave veil
     document.addEventListener("click", (e) => {
       const a = e.target.closest("a[href]"); if (!a) return;
       const href = a.getAttribute("href");
