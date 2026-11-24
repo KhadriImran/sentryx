@@ -28,7 +28,7 @@
   <!-- Fonts: preconnect + swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
 
   <!-- Critical CSS: paint the base and the veil before the stylesheet arrives (no CLS, no white flash) -->
   <style>
@@ -87,6 +87,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <a class="hx-topbar" href="pre-audit.html"><b>New</b> 48h pre-audit for $499 · up to 500 nSLOC, Foundry PoC for every High <span>→</span></a>
 
   <!-- ===================================================== HEADER ===== -->
   <header class="site-header">
@@ -114,51 +115,48 @@
 
   <main id="main">
     <!-- ===================================================== HERO ===== -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="container hero-inner">
-        <div>
-          <p class="eyebrow">Solidity audits for Ethereum and EVM L2s</p>
-          <h1 id="hero-title">Find the exploit before the attacker does</h1>
-          <p class="lede">Two named auditors read every line of your Solidity. Every Critical and High ships with a Foundry test that runs the exploit, and we verify your fixes before the final report.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="contact.html">Request an audit</a>
-            <a class="btn btn-ghost btn-lg" href="pre-audit.html">48h pre-audit for $499</a>
+    <section class="hx-hero" aria-labelledby="hero-title">
+      <div class="hx-guides" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="container hx-hero-inner">
+        <div class="hx-copy">
+          <p class="hx-label"><b></b>Smart contract security · Solidity · EVM</p>
+          <h1 id="hero-title" class="hx-title"><span>Find the exploit.</span><span class="hx-grad">Before they do.</span></h1>
+          <p class="hx-lede">Two named auditors read every line of your Solidity. Every Critical and High ships with a Foundry test that runs the exploit, and we verify your fixes before the final report.</p>
+          <div class="hx-actions">
+            <a class="hx-btn hx-btn-grad" href="contact.html">Request an audit <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="hx-btn hx-btn-line" href="pre-audit.html">48h pre-audit · $499</a>
           </div>
+          <p class="hx-proof"><b></b>Foundry PoC with every Critical &amp; High</p>
         </div>
-        <div class="hero-side">
-          <div class="hero-3d" data-hero3d aria-hidden="true"></div>
-          <!-- ILLUSTRATIVE: constructed example of a findings register, not a client engagement -->
-          <figure class="register" aria-label="Illustrative findings register" style="margin:0">
-            <div class="register-head"><span>Findings register · vault-router</span><span>Illustrative</span></div>
-            <div class="register-scope"><span>Scope <b>Vault.sol, Router.sol</b></span><span><b>1,184</b> LoC</span><span>solc <b>0.8.24</b></span></div>
-            <ul class="register-rows">
-              <li class="register-row" data-sev="critical" data-id="C-01"><span class="rid">C-01</span><span class="rsev">Critical</span><span class="rtitle">Shares burned after the ETH transfer in <code>Vault.withdraw()</code></span><span class="rpoc ok">PoC passes</span></li>
-              <li class="register-row" data-sev="high" data-id="H-01"><span class="rid">H-01</span><span class="rsev">High</span><span class="rtitle">Price read from one AMM pool, movable inside a single block</span><span class="rpoc ok">PoC passes</span></li>
-              <li class="register-row" data-sev="medium" data-id="M-01"><span class="rid">M-01</span><span class="rsev">Medium</span><span class="rtitle">Fee-on-transfer tokens break share accounting</span><span class="rpoc">Test added</span></li>
-            </ul>
-<pre class="register-run"><span class="dim">$ forge test --match-test test_drain</span>
-<span class="pass">[PASS]</span> test_drain()
-<span class="dim">vault balance</span>  1.00 ETH → 0.00 ETH <span class="dim">in one transaction</span></pre>
-          </figure>
+
+        <!-- ILLUSTRATIVE: animated target, not a client engagement -->
+        <div class="hx-visual" aria-hidden="true">
+          <canvas class="hx-ascii" data-ascii></canvas>
+          <div class="hx-scanlines"></div>
+          <span class="hx-corner tl"></span><span class="hx-corner tr"></span><span class="hx-corner bl"></span><span class="hx-corner br"></span>
+          <span class="hx-cross"></span>
+          <div class="hx-read hx-read-tl"><b></b>Target <em>Vault.withdraw()</em></div>
+          <div class="hx-read hx-read-tr">01 / 03</div>
+          <div class="hx-tag"><span>C-01</span>Reentrancy · Critical</div>
+          <div class="hx-read hx-read-bl">Status <em class="crit" data-status>Exploitable</em></div>
+          <div class="hx-read hx-read-br">PoC <em class="ok">[PASS] test_drain()</em></div>
         </div>
       </div>
     </section>
 
-    <!-- ================================================== COVERAGE ===== -->
-    <section class="coverage" aria-label="Coverage">
-      <div class="container">
-        <dl>
-          <dt>Chains</dt><dd>Ethereum, Arbitrum, Optimism, Base, Polygon and other EVM L2s. Solidity only, no Rust, Move or Cairo</dd>
-          <dt>Tooling</dt><dd>Foundry, Slither, Aderyn, Semgrep, Echidna, Medusa, Halmos</dd>
-        </dl>
+    <!-- ================================================== CHAIN STRIP ===== -->
+    <div class="hx-strip" aria-label="Chains we audit">
+      <div class="hx-strip-track">
+        <span>Ethereum</span><span>Arbitrum</span><span>Optimism</span><span>Base</span><span>Polygon</span><span>Linea</span><span>Scroll</span><span>zkSync Era</span>
+        <span aria-hidden="true">Ethereum</span><span aria-hidden="true">Arbitrum</span><span aria-hidden="true">Optimism</span><span aria-hidden="true">Base</span><span aria-hidden="true">Polygon</span><span aria-hidden="true">Linea</span><span aria-hidden="true">Scroll</span><span aria-hidden="true">zkSync Era</span>
       </div>
-    </section>
+    </div>
 
     <!-- ========================================= VULNERABILITY CLASSES ===== -->
     <section class="section section-raised" aria-labelledby="vuln-title">
       <div class="container vuln-layout">
         <div class="vuln-sticky" data-reveal="left">
-          <p class="eyebrow">Threat classes</p>
+          <p class="eyebrow"><span class="hx-num">01</span>Threat classes</p>
           <h2 id="vuln-title">The bugs that drain protocols</h2>
           <p class="lede">Most losses in DeFi come from a short list of well-understood flaw classes, applied to code that had never been read adversarially. We start every review with a threat model of your trust boundaries, then hunt these classes by hand before any tooling runs.</p>
           <p><a class="link-arrow" href="blog/index.html">Read our research on each class <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
@@ -203,7 +201,7 @@
       <div class="container">
         <div class="section-head split" data-reveal>
           <div>
-            <p class="eyebrow">Services</p>
+            <p class="eyebrow"><span class="hx-num">02</span>Services</p>
             <h2 id="services-title">Six engagements, one standard of evidence</h2>
           </div>
           <div>
@@ -264,7 +262,7 @@
         <div class="container" style="margin-bottom:var(--s-6)">
           <div class="section-head split" data-reveal>
             <div>
-              <p class="eyebrow">Methodology</p>
+              <p class="eyebrow"><span class="hx-num">03</span>Methodology</p>
               <h2 id="process-title">How an engagement runs</h2>
             </div>
             <p class="lede">Six stages, each with a defined output. The full methodology, including our severity matrix and what we need from you before day one, is on the <a href="process.html" class="u-line" style="color:var(--ink-0)">process page</a>.</p>
@@ -286,7 +284,7 @@
     <section class="section" aria-labelledby="sev-title" style="padding-bottom:0">
       <div class="container" style="margin-bottom:var(--s-6)">
         <div class="section-head" data-reveal>
-          <p class="eyebrow">Severity</p>
+          <p class="eyebrow"><span class="hx-num">04</span>Severity</p>
           <h2 id="sev-title">Five severity levels, defined by impact and likelihood</h2>
           <p class="lede">Severity is a function of impact and likelihood, not of how clever the bug is. Select a level to see how we define it, the finding classes that usually land there, and what remediation typically involves.</p>
         </div>
@@ -309,7 +307,7 @@
       <div class="container finding-layout">
         <div data-reveal="left">
           <!-- ILLUSTRATIVE FINDING: constructed example for demonstration, not from a client engagement -->
-          <p class="eyebrow">What a finding looks like · illustrative example</p>
+          <p class="eyebrow"><span class="hx-num">05</span>What a finding looks like · illustrative example</p>
           <h2 id="finding-title" style="font-size:var(--text-xl)">Reentrancy in <code style="font-size:0.8em;color:var(--accent-2)">Vault.withdraw()</code> lets one caller drain all deposits</h2>
           <dl class="finding-meta">
             <dt>ID</dt><dd class="mono">SNTX-EX-001</dd>
@@ -338,7 +336,7 @@
     <section class="section section-raised" aria-labelledby="engage-title">
       <div class="container team-layout">
         <div class="team-intro" data-reveal="left">
-          <p class="eyebrow">How engagements run</p>
+          <p class="eyebrow"><span class="hx-num">06</span>How engagements run</p>
           <h2 id="engage-title">You are buying attention, not a logo</h2>
           <p class="lede">An audit is only as good as the reading behind it, and from the outside every report looks the same. So we make the reading inspectable before you pay: the full methodology is public, the sample report is complete, and the scope document says exactly who is assigned to your code.</p>
           <p style="margin-top:var(--s-4)"><a class="link-arrow" href="about.html">How we staff engagements <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
@@ -363,7 +361,7 @@
       <div class="container">
         <div class="cta-band" data-reveal="scale">
           <div>
-            <p class="eyebrow">Fixed price</p>
+            <p class="eyebrow"><span class="hx-num">07</span>Fixed price</p>
             <h2 id="pa-strip-t">48h pre-audit for $499</h2>
             <p class="lede" style="margin-top:var(--s-3)">Up to 500 nSLOC of Solidity, reviewed in 48 hours. Every High comes with a Foundry PoC, and we re-check your fixes once. Built for teams that can't fund a full audit yet.</p>
           </div>
@@ -378,7 +376,7 @@
     <section class="section" aria-labelledby="faq-title">
       <div class="container faq-layout" data-reveal>
         <div>
-          <p class="eyebrow">Questions buyers ask</p>
+          <p class="eyebrow"><span class="hx-num">08</span>Questions buyers ask</p>
           <h2 id="faq-title" style="font-size:var(--text-xl)">Before you request a quote</h2>
           <p class="muted" style="margin-top:var(--s-3)">More on the <a href="pricing.html" class="u-line" style="color:var(--ink-0)">pricing page</a> and in each service's FAQ.</p>
         </div>
@@ -398,7 +396,7 @@
       <div class="container">
         <div class="cta-band" data-reveal="scale">
           <div>
-            <p class="eyebrow">Request an audit</p>
+            <p class="eyebrow"><span class="hx-num">09</span>Request an audit</p>
             <h2 id="cta-title">Send us the repo, we will tell you what it needs</h2>
             <p class="lede" style="margin-top:var(--s-3)">Scoping is free and takes under two working days. You get a written scope, a fixed quote and a review plan for your codebase.</p>
           </div>
@@ -468,7 +466,7 @@
   <script src="data/severity.js"></script>
   <!-- Site behaviour -->
   <script src="js/main.js" defer></script>
-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-  <script type="module" src="js/hero3d.js"></script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+  <script type="module" src="js/ascii-hero.js"></script>
 </body>
 </html>
