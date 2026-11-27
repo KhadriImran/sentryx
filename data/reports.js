@@ -37,6 +37,20 @@ window.SENTRYX_REPORTS = [
     tags: ["Staking", "Reward accounting", "Pre-audit"],
     illustrative: true
   }
+  ,{
+    id: "SNTX-PA-PRACTICE-01",
+    title: "PasswordStore: Practice Pre-Audit (training contract)",
+    client: "Cyfrin PasswordStore (public training code, not a client)",
+    chain: "Ethereum",
+    type: "Practice",
+    date: "2026-11-27",
+    severities: { critical: 0, high: 2, medium: 0, low: 0, info: 1 },
+    summary: "Real review of Cyfrin's public training contract in our $499 pre-audit format: two Highs (no access control on setPassword, password readable from storage), each with a passing Foundry PoC, plus fix verification. Practice work, not a client engagement.",
+    url: "https://github.com/sentryxaudit/audit-reports/blob/main/practice/03-passwordstore/REPORT.md",
+    repo: "https://github.com/sentryxaudit/audit-reports",
+    tags: ["Access control", "Storage visibility", "Pre-audit", "Practice"],
+    illustrative: false
+  }
   // Real reports go here. Example (delete when adding real ones):
   // { id: "SNTX-2026-001", title: "Protocol X — Lending Market Audit", client: "Protocol X", chain: "Arbitrum", type: "DeFi", date: "2026-03-15",
   //   severities: { critical: 0, high: 1, medium: 3, low: 4, info: 6 }, summary: "...", url: "https://github.com/ORG/audits/blob/main/protocol-x.pdf", repo: "https://github.com/ORG/audits", tags: ["Lending", "Liquidations"], illustrative: false }
